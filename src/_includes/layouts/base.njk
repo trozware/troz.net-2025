@@ -1,0 +1,28 @@
+{% set pageTitle = site.name + ': ' + title %}
+
+{# We don't want any duplication. This is likely for the home page. #}
+{% if site.name === title %} 
+  {% set pageTitle = title %}
+{% endif %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <header>
+        <h1>{{ pageTitle }}</h1>
+        {% include "partials/nav.njk" %}
+    </header>
+	<main>
+        {{ content | safe }}
+    </main>
+    <footer>
+        {% include "partials/links.njk" %}
+        <p>Copyright &copy; 2025 TrozWare</p>
+    </footer>
+</body>
+</html>

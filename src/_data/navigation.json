@@ -1,0 +1,28 @@
+{
+	"items": [
+		{
+			"text": "Home",
+			"url": "/"
+		},
+		{
+			"text": "Books",
+			"url": "/books/"
+		},
+		{
+			"text": "Apps",
+			"url": "/apps/"
+		},
+		{
+			"text": "Archives",
+			"url": "/archives/"
+		},
+		{
+			"text": "Tags",
+			"url": "/tags/"
+		},
+		{
+			"text": "Contact",
+			"url": "/contact/"
+		}
+	]
+}
