@@ -1,6 +1,13 @@
 ---
 title: 'TrozWare'
-layout: 'layouts/base.njk'
+layout: 'layouts/home.njk'
+pagination:
+    data: collections.posts
+    size: 5
+paginationPrevText: 'Newer posts'
+paginationNextText: 'Older posts'
+paginationAnchor: '#post-list'
 ---
 
-Welcome to TrozWare's new site using eleventy.
+
+

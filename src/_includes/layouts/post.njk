@@ -1,0 +1,15 @@
+{% extends "layouts/base.njk" %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+
+    <p>
+        {{ date | longDate }} • {{ content | postInfo }}
+    </p>
+
+    {% for tag in categories %}
+        <a href="/tags/{{ tag | slugify }}">{{ '#' + tag }}</a>
+    {% endfor %}
+
+    {{ content | safe }}
+{% endblock %}

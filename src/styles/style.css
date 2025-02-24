@@ -1,0 +1,25 @@
+body {
+  background-color: #fcfcfc;
+  font-family: 'Arial', sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #333;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.header {
+  background-color: #fff;
+  padding: 20px 0;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-link {
+  color: #333;
+  text-decoration: none;
+}

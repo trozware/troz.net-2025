@@ -1,0 +1,11 @@
+{% extends "layouts/base.njk" %}
+
+{% block content %}
+    <ul>
+        {% for tag in collections.categories %}
+            <span>
+               <a href="{{ tag.href | slugify }}">#{{ tag.title }} ({{ tag.count }})</a>
+            </span>
+        {% endfor %}
+    </ul>
+{% endblock %}

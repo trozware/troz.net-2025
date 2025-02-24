@@ -1,6 +1,6 @@
 ---
 title: 'Tags'
-layout: 'layouts/base.njk'
+layout: 'layouts/tags.njk'
 ---
 
 # Tags
