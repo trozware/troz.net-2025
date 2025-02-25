@@ -1,17 +1,17 @@
 {
   "items": [
     {
-      "icon": "ManReader36.png",
+      "icon": "/images/apps/man_reader.png",
       "name": "Man Reader",
-      "webpage": "/manreader/",
+      "link": "/manreader/",
       "version": "2.0",
       "updated": "13 Oct 2023",
       "app_id": "522583774"
     },
     {
-      "icon": "to_day_36.png",
+      "icon": "/images/apps/today.png",
       "name": "To-Day",
-      "webpage": "/post/2023/to-day/",
+      "link": "/post/2023/to-day/",
       "version": "1.9.4",
       "updated": "22 Jan 2024",
       "download": "https://github.com/trozware/To-Day/raw/main/Releases/To-Day.dmg"

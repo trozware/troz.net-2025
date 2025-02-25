@@ -9,12 +9,14 @@ My year folder split may not be ideal, but I like it so I'll keep trying for a b
 I can make my tags look good - the urls will be lower-cased and spaces will be replaced with hyphens.
 Tags page not quite how I wanted it, but that will do for now.
 
+Apps - switch App Store badges depending on scheme.
+
+
 ## Next up
 
-- App page
+- App pages
 - Contact page
 - Rss feeds
-
 
 
 ## Code

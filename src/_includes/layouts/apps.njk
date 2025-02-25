@@ -1,0 +1,41 @@
+{% extends "layouts/base.njk" %}
+
+{% block content %}
+<section>
+    <h2>macOS Apps</h2>
+    <ul>
+        {% for app in mac_apps.items %}
+            <article>
+              <h3>{{ app.name }}</h3>
+              <a href="{{ app.link }}"><img src="{{ app.icon }}" alt="{{ app.name }}" width="200px"></a>
+              <p>Version {{ app.version }}, updated {{ app.updated }}.</p>
+              {% if app.download %}
+                <p><a href="{{ app.download }}">Download</a></p>
+              {% elif app.app_id %}
+                <a href="https://apps.apple.com/app/id{{ app.app_id }}">
+                  <img src="/images/apps/Mac_App_Store_Badge_white.svg" alt="Download on the App Store">
+                </a>
+              {% endif %}
+              <hr>
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+
+<section>
+    <h2>iOS Apps</h2>
+    <ul>
+        {% for app in ios_apps.items %}
+            <article>
+              <h3>{{ app.name }}</h3>
+              <a href="{{ app.link }}"><img src="{{ app.icon }}" alt="{{ app.name }}" width="200px"></a>
+              <p>Version {{ app.version }}, updated {{ app.updated }}.</p>
+              <a href="https://apps.apple.com/app/id{{ app.app_id }}">
+                <img src="/images/apps/App_Store_Badge_white.svg" alt="Download on the App Store">
+              </a>
+              <hr>
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

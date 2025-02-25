@@ -1,41 +1,41 @@
 {
   "items": [
     {
-      "icon": "Berio_36.png",
+      "icon": "/images/apps/berio.png",
       "name": "Berio's Sequenza VII",
-      "webpage": "/berio/",
+      "link": "/berio/",
       "version": "2.0",
       "updated": "1 Aug 2024",
       "app_id": "730234638"
     },
     {
-      "icon": "Crossfix36.png",
+      "icon": "/images/apps/crossfix.png",
       "name": "Crossfix",
-      "webpage": "/crossfix/",
+      "link": "/crossfix/",
       "version": "1.1",
       "updated": "2 Jan 2024",
       "app_id": "1526235954"
     },
     {
-      "icon": "CrossfixLite36.png",
+      "icon": "/images/apps/crossfix_lite.png",
       "name": "Crossfix Lite",
-      "webpage": "/crossfix/",
+      "link": "/crossfix/",
       "version": "1.1",
       "updated": "2 Jan 2024",
       "app_id": "1526236100"
     },
     {
-      "icon": "MarkTime36.jpg",
+      "icon": "/images/apps/mark_time.png",
       "name": "Mark Time",
-      "webpage": "/marktime/",
+      "link": "/marktime/",
       "version": "1.2",
       "updated": "1 Aug 2023",
       "app_id": "1305580742"
     },
     {
-      "icon": "Speed_36.jpeg",
+      "icon": "/images/apps/speed.png",
       "name": "What Is My Speed?",
-      "webpage": "/what-is-my-speed/",
+      "link": "/what-is-my-speed/",
       "version": "2.0",
       "updated": "4 Jun 2021",
       "app_id": "1091394524"

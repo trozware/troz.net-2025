@@ -1,6 +1,6 @@
 ---
 title: 'Apps'
-layout: 'layouts/base.njk'
+layout: 'layouts/apps.njk'
 ---
 
 # Apps
