@@ -9,7 +9,6 @@ export default async function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy("./src/images")
 	eleventyConfig.addPassthroughCopy("./src/styles")
 	eleventyConfig.addPassthroughCopy("./src/books/*_sample.html")
-	eleventyConfig.addPassthroughCopy("./src/js")
 	eleventyConfig.addPassthroughCopy("./src/favicon.ico")
 	eleventyConfig.addPassthroughCopy("./src/icon.svg")
 	eleventyConfig.addPassthroughCopy("./src/apple-touch-icon.png")

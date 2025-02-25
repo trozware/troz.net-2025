@@ -2,11 +2,7 @@
   <ul>
     {% for item in links.items %}
       <li>
-        <a href="{{ item.url }}"
-          {% if item.alt == 'Email' %}
-            class="mailtoui"
-          {% endif %}
-        >
+        <a href="{{ item.url }}">
           <img src="{{ item.icon }}" alt="{{ item.alt }}" title="{{ item.alt }}" height="30px" />
         </a>
       </li>

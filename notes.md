@@ -11,6 +11,10 @@ Tags page not quite how I wanted it, but that will do for now.
 
 Apps - switch App Store badges depending on scheme.
 
+## Questions
+
+Can I paginate the tags?
+
 
 ## Styling
 
