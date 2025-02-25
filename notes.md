@@ -12,12 +12,6 @@ Tags page not quite how I wanted it, but that will do for now.
 Apps - switch App Store badges depending on scheme.
 
 
-## Next up
-
-- favicon - test
-- Add a sitemap
-- Add a robots.txt file
-
 ## Styling
 
 

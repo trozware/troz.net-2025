@@ -13,6 +13,8 @@ export default async function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy("./src/favicon.ico")
 	eleventyConfig.addPassthroughCopy("./src/icon.svg")
 	eleventyConfig.addPassthroughCopy("./src/apple-touch-icon.png")
+	eleventyConfig.addPassthroughCopy({ 'src/robots.txt': '/robots.txt' });
+
 	
 	eleventyConfig.addFilter("longDate", longDate)
 	eleventyConfig.addFilter("shortDate", shortDate)
