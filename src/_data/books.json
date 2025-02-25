@@ -1,0 +1,40 @@
+{
+  "items": [
+    {
+      "title": "macOS by Tutorials",
+      "link": "/books/macos_tutorials",
+      "image": "/images/mos_cover.png",
+      "description": "If you're an iOS developer who wants to branch out into creating native macOS apps, this is the book for you!",
+      "authors": "Sarah Reichelt",
+      "edition": "Edition 3.0",
+      "published": "Dec 23 2024",
+      "publisher": "Gumroad",
+      "purchase_link": "https://sarahreichelt.gumroad.com/l/oximx",
+      "requirements": "macOS 15 & Xcode 16"
+    },
+    {
+      "title": "macOS Apprentice",
+      "link": "https://www.kodeco.com/books/macos-apprentice",
+      "image": "/images/maca_cover.png",
+      "description": "If you've always wanted to write your own native macOS apps, this is a great place to start. Learn to build beautiful and functional native apps.",
+      "authors": "Sarah Reichelt",
+      "edition": "First Edition",
+      "published": "May 30 2023",
+      "publisher": "Kodeco",
+      "purchase_link": "https://www.kodeco.com/books/macos-apprentice",
+      "requirements": "Swift 5.7, macOS 13, Xcode 14.2"
+    },
+    {
+      "title": "SwiftUI by Tutorials",
+      "link": "https://www.kodeco.com/books/swiftui-by-tutorials",
+      "image": "/images/sui_cover.png",
+      "description": "Build fluid and engaging declarative UI for your apps with way less coding with SwiftUI! SwiftUI by Tutorials, the complete guide to building fluid and engaging declarative UI for your apps — using less code — with SwiftUI!",
+      "authors": "Antonio Bello, Bill Morefield, Sarah Reichelt & Audrey Tam",
+      "edition": "Fifth Edition",
+      "published": "Jun 14 2023",
+      "publisher": "Kodeco",
+      "purchase_link": "https://www.kodeco.com/books/macos-apprentice",
+      "requirements": "Swift 5.8, iOS 16, macOS 13, Xcode 14.2"
+    }
+  ]
+}

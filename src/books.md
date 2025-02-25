@@ -1,6 +1,6 @@
 ---
 title: 'Books'
-layout: 'layouts/base.njk'
+layout: 'layouts/books.njk'
 ---
 
 # Books

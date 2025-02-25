@@ -1,11 +1,13 @@
-import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
-import { longDate, shortDate, longYear, postInfo } from "./src/filters/filters.js";
-import { getPosts, getAllUniqueCategories } from './src/filters/collections.js';
+import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight"
+import { longDate, shortDate, longYear, postInfo } from "./src/filters/filters.js"
+import { getPosts, getAllUniqueCategories } from './src/filters/collections.js'
 import { execSync } from "child_process"
+import externalLinks from "@aloskutov/eleventy-plugin-external-links"
 
 export default async function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy("./src/images")
 	eleventyConfig.addPassthroughCopy("./src/styles")
+	eleventyConfig.addPassthroughCopy("./src/books/*_sample.html")
 	
 	eleventyConfig.addFilter("longDate", longDate)
 	eleventyConfig.addFilter("shortDate", shortDate)
@@ -13,7 +15,7 @@ export default async function(eleventyConfig) {
 	eleventyConfig.addFilter("postInfo", postInfo)
 
 	eleventyConfig.addPlugin(syntaxHighlight)
-
+	eleventyConfig.addPlugin(externalLinks, {'url': 'https://troz.net'})
 	eleventyConfig.addShortcode("year", () => `${new Date().getFullYear()}`);
 
 	eleventyConfig.addCollection("posts", getPosts)

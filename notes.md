@@ -11,7 +11,6 @@ Tags page not quite how I wanted it, but that will do for now.
 
 ## Next up
 
-- Books page
 - App page
 - Contact page
 - Rss feeds

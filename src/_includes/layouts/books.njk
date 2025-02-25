@@ -1,0 +1,17 @@
+{% extends "layouts/base.njk" %}
+
+{% block content %}
+    <ul>
+        {% for book in books.items %}
+            <article>
+              <h2>{{ book.title }}</h2>
+              <a href="{{ book.link }}"><img src="{{ book.image }}" alt="{{ book.title }}" width="200px"></a>
+
+              <p>{{ book.description }}</p>
+              <p>Written by {{ book.authors }}.</p>
+              <p>Available from: <a href="{{ book.purchase_link }}">{{ book.publisher }}</a>.</p>
+              <p>{{ book.edition }} published {{ book.published }} for {{ book.requirements }}.</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
