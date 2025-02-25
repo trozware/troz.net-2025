@@ -7,11 +7,16 @@ Can't work out how to set a layout for all the posts in all the years folders.
 
 My year folder split may not be ideal, but I like it so I'll keep trying for a bit.
 I can make my tags look good - the urls will be lower-cased and spaces will be replaced with hyphens.
-
+Tags page not quite how I wanted it, but that will do for now.
 
 ## Next up
 
- - Tags list -> Tag page -> Posts
+- Add a search box
+- Books page
+- App page
+- Contact page
+- Rss feeds
+
 
 
 ## Code

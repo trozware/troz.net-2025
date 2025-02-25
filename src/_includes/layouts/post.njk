@@ -7,7 +7,7 @@
         {{ date | longDate }} • {{ content | postInfo }}
     </p>
 
-    {% for tag in categories %}
+    {% for tag in categories.sort() %}
         <a href="/tags/{{ tag | slugify }}">{{ '#' + tag }}</a>
     {% endfor %}
 

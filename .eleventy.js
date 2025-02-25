@@ -1,6 +1,6 @@
 import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 import { longDate, shortDate, longYear, postInfo } from "./src/filters/filters.js";
-import { getAllUniqueCategories, getPostsByCategory } from './src/filters/categories.js';
+import { getPosts, getAllUniqueCategories } from './src/filters/collections.js';
 
 export default async function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy("./src/images")
@@ -15,15 +15,8 @@ export default async function(eleventyConfig) {
 
 	eleventyConfig.addShortcode("year", () => `${new Date().getFullYear()}`);
 
-	eleventyConfig.addCollection("posts", (collection) => {
-		let posts = collection.getFilteredByGlob("./src/post/*/*.md")
-			.filter((item) => !item.data.draft)
-			.sort((a, b) => new Date(b.date) - new Date(a.date))
-		return posts
-	})
-
+	eleventyConfig.addCollection("posts", getPosts)
 	eleventyConfig.addCollection('categories', getAllUniqueCategories);
-  eleventyConfig.addCollection('postsByCategory', getPostsByCategory);
 
 	return {
 		dir: {

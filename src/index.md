@@ -6,7 +6,6 @@ pagination:
     size: 5
 paginationPrevText: 'Newer posts'
 paginationNextText: 'Older posts'
-paginationAnchor: '#post-list'
 ---
 
 

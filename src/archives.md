@@ -9,5 +9,3 @@ paginationNextText: 'Older posts'
 paginationAnchor: '#post-list'
 ---
 
-
-

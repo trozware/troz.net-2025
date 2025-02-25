@@ -1,20 +1,8 @@
-// Blog posts by category, for pagination
-// Adapted for use from: https://www.webstoemp.com/blog/basic-custom-taxonomies-with-eleventy/
-export function getPostsByCategory(collection) {
-  const allPosts = collection
-    .getFilteredByGlob("./src/post/*/*.md")
-    .filter((item) => !item.data.draft)
-  const allUniqueCategories = getAllUniqueCategories(collection)
-
-  // Massage the data into a format that 11ty's pagination will like
-  // https://github.com/11ty/eleventy/issues/332#issuecomment-445236776
-  const blogPostsByCategory = allUniqueCategories.map((category) => ({
-    title: category.title,
-    href: getCategoryHref(category.title),
-    posts: allPosts.filter((post) => !!post.data.categories?.includes(category.title)),
-  }))
-  console.log(blogPostsByCategory)
-  return blogPostsByCategory;
+export function getPosts(collection) {
+  let posts = collection.getFilteredByGlob("./src/post/*/*.md")
+  .filter((item) => !item.data.draft)
+  .sort((a, b) => new Date(b.date) - new Date(a.date))
+return posts
 }
 
 /** Returns all unique categories as a collection.
