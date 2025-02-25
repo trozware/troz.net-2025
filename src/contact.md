@@ -1,6 +1,6 @@
 ---
 title: 'Contact'
-layout: 'layouts/base.njk'
+layout: 'layouts/contact.njk'
 ---
 
 # Contact

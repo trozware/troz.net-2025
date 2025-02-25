@@ -5,9 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
     <link href="/styles/style.css" rel="stylesheet" />
+
     {% if layout == "layouts/post.njk" %}
         <link href="/styles/prism.css" rel="stylesheet" />
     {% endif %}
+    {% if layout == "layouts/contact.njk" %}
+        <link rel="stylesheet" href="/styles/contact.css" />
+    {% endif %}
+
     <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
     <script src="/pagefind/pagefind-ui.js"></script>
     <style>

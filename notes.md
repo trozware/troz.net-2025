@@ -14,8 +14,6 @@ Apps - switch App Store badges depending on scheme.
 
 ## Next up
 
-- App pages
-- Contact page
 - Rss feeds
 
 
