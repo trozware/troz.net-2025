@@ -3,6 +3,8 @@
 {% set lastUsedYear = '' %}
 
 {% block content %}
+    <div id="search" class="search"></div>
+
     <ul>
         {% for post in pagination.items %}
             {% set postYear = post.data.date | longYear %}

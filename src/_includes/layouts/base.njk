@@ -8,6 +8,19 @@
     {% if layout == "layouts/post.njk" %}
         <link href="/styles/prism.css" rel="stylesheet" />
     {% endif %}
+    <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+    <script src="/pagefind/pagefind-ui.js"></script>
+    <style>
+    @media (prefers-color-scheme: dark) {
+        :root {
+        --pagefind-ui-primary: #eeeeee;
+        --pagefind-ui-text: #eeeeee;
+        --pagefind-ui-background: #152028;
+        --pagefind-ui-border: #152028;
+        --pagefind-ui-tag: #152028;
+        }
+    }
+    </style>
 </head>
 <body>
     <header>
@@ -20,5 +33,10 @@
         {% include "partials/links.njk" %}
         <p>Copyright &copy; {% year %} TrozWare</p>
     </footer>
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            new PagefindUI({ element: "#search", showSubResults: true });
+        });
+    </script>
 </body>
 </html>

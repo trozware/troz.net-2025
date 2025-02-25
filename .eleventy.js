@@ -1,6 +1,7 @@
 import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 import { longDate, shortDate, longYear, postInfo } from "./src/filters/filters.js";
 import { getPosts, getAllUniqueCategories } from './src/filters/collections.js';
+import { execSync } from "child_process"
 
 export default async function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy("./src/images")
@@ -17,6 +18,10 @@ export default async function(eleventyConfig) {
 
 	eleventyConfig.addCollection("posts", getPosts)
 	eleventyConfig.addCollection('categories', getAllUniqueCategories);
+
+	eleventyConfig.on('eleventy.after', () => {
+    execSync(`npx pagefind --site public --glob \"**/*.html\"`, { encoding: 'utf-8' })
+  })
 
 	return {
 		dir: {
