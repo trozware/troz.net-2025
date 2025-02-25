@@ -3,6 +3,7 @@ import { longDate, shortDate, longYear, postInfo } from "./src/filters/filters.j
 import { getPosts, getAllUniqueCategories } from './src/filters/collections.js'
 import { execSync } from "child_process"
 import externalLinks from "@aloskutov/eleventy-plugin-external-links"
+import rssPlugin from '@11ty/eleventy-plugin-rss'
 
 export default async function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy("./src/images")
@@ -16,6 +17,8 @@ export default async function(eleventyConfig) {
 
 	eleventyConfig.addPlugin(syntaxHighlight)
 	eleventyConfig.addPlugin(externalLinks, {'url': 'https://troz.net'})
+	eleventyConfig.addPlugin(rssPlugin)
+	
 	eleventyConfig.addShortcode("year", () => `${new Date().getFullYear()}`);
 
 	eleventyConfig.addCollection("posts", getPosts)

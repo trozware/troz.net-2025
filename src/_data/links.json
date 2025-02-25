@@ -3,55 +3,61 @@
 		{
 			"text": "Email",
 			"url": "mailto:info@troz.net",
-			"icon": "/images/envelope.svg",
+			"icon": "/images/links/envelope.svg",
 			"alt": "Email"
 		},
 		{
 			"text": "Mastodon",
 			"url": "https://mastodon.social/@troz",
-			"icon": "/images/mastodon.png",
+			"icon": "/images/links/mastodon.png",
 			"alt": "Mastodon"
 		},
 		{
 			"text": "Linktree",
 			"url": "https://linktr.ee/trozware",
-			"icon": "/images/tree.svg",
+			"icon": "/images/links/tree.svg",
 			"alt": "Linktree"
 		},
 		{
 			"text": "GitHub",
 			"url": "https://github.com/trozware",
-			"icon": "/images/github.svg",
+			"icon": "/images/links/github.svg",
 			"alt": "GitHub"
 		},
 		{
 			"text": "Stack Overflow",
 			"url": "https://stackoverflow.com/users/1082632",
-			"icon": "/images/stack-overflow.svg",
+			"icon": "/images/links/stack-overflow.svg",
 			"alt": "Stack Overflow"
 		},
 		{
 			"text": "Dev To ",
 			"url": "https://dev.to/trozware",
-			"icon": "/images/dev-badge.svg",
+			"icon": "/images/links/dev-badge.svg",
 			"alt": "Dev To"
 		},
 		{
 			"text": "RSS Feed",
 			"url": "/index.xml",
-			"icon": "/images/rss.svg",
+			"icon": "/images/links/rss.svg",
 			"alt": "RSS Feed"
+		},
+		{
+			"text": "Atom Feed",
+			"url": "/atom.xml",
+			"icon": "/images/links/atom.svg",
+			"alt": "Atom Feed"
 		},
 		{
 			"text": "JSON Feed",
 			"url": "/feed.json",
-			"icon": "/images/json.png",
+			"icon": "/images/links/json.png",
 			"alt": "JSON Feed"
 		},
 		{
 			"text": "Buy Me a Coffee",
 			"url": "https://ko-fi.com/trozware",
-			"icon": "/images/kofi1.png.webp",
+			"icon": "/images/links/kofi1.png.webp",
 			"alt": "Buy Me a Coffee"
 		}
 	]

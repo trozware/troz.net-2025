@@ -14,7 +14,7 @@ Apps - switch App Store badges depending on scheme.
 
 ## Next up
 
-- Rss feeds
+- Site meta data
 
 
 ## Code
