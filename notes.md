@@ -14,7 +14,11 @@ Apps - switch App Store badges depending on scheme.
 
 ## Next up
 
-- Site meta data
+- favicon - test
+- Add a sitemap
+- Add a robots.txt file
+
+## Styling
 
 
 ## Code

@@ -26,6 +26,11 @@
         }
     }
     </style>
+    {% include "partials/meta_info.njk" %}
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 </head>
 <body>
     <header>
@@ -38,10 +43,13 @@
         {% include "partials/links.njk" %}
         <p>Copyright &copy; {% year %} TrozWare</p>
     </footer>
+
     <script>
         window.addEventListener('DOMContentLoaded', (event) => {
             new PagefindUI({ element: "#search", showSubResults: true });
         });
     </script>
+
+    <script src="/js/mailtoui.js"></script>
 </body>
 </html>

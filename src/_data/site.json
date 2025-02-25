@@ -2,5 +2,7 @@
   "name": "TrozWare",
   "url": "https://troz.net",
   "authorName": "Sarah Reichelt",
-  "authorEmail": "sarah@troz.net"
+  "authorEmail": "sarah@troz.net",
+  "description": "Crazy Mac lady. Mac author & developer. Lover of Apple computers and devices. Swift & SwiftUI enthusiast. Unofficial Mac app dev evangelist",
+  "keywords": "Mac app development, Apple Mac, Xcode, Swift, SwiftUI, Apple macOS, books, articles, blog, apps, developer, author, Sarah Reichelt"
 }
