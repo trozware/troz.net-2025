@@ -21,3 +21,12 @@ function toggleTheme() {
      setTheme('theme-light');
  }
 })();
+
+// Add a listener for changes to the dark mode media query and set the theme accordingly
+const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)').onchange = (e) => {
+    if (e.matches) {
+        setTheme('theme-dark');
+    } else {
+        setTheme('theme-light');
+    }
+}

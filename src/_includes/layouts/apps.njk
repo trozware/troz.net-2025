@@ -12,8 +12,7 @@
               {% if app.download %}
                 <p><a href="{{ app.download }}">Download</a></p>
               {% elif app.app_id %}
-                <a href="https://apps.apple.com/app/id{{ app.app_id }}">
-                  <img src="/images/apps/Mac_App_Store_Badge_white.svg" alt="Download on the App Store">
+                <a href="https://apps.apple.com/app/id{{ app.app_id }}" class="mac_app_button" title="Download on the Mac App Store">
                 </a>
               {% endif %}
               <hr>
@@ -30,8 +29,7 @@
               <h3>{{ app.name }}</h3>
               <a href="{{ app.link }}"><img src="{{ app.icon }}" alt="{{ app.name }}" width="200px"></a>
               <p>Version {{ app.version }}, updated {{ app.updated }}.</p>
-              <a href="https://apps.apple.com/app/id{{ app.app_id }}">
-                <img src="/images/apps/App_Store_Badge_white.svg" alt="Download on the App Store">
+              <a href="https://apps.apple.com/app/id{{ app.app_id }}" class="ios_app_button" title="Download on the App Store">
               </a>
               <hr>
             </li>

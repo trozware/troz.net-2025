@@ -1,18 +1,15 @@
 ## Notes
 
-
 Tags page not quite how I wanted it, but that will do for now, maybe only show recent tags?
-
-Apps - switch App Store badges depending on scheme.
 
 ## Questions
 
 Can I paginate the tags?
 I keep getting errors with multiple input files writing to the same output file.
 
-
 ## Styling
 
+Added SCSS - now to style everything.
 
 ## Code
 

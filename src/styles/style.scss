@@ -4,8 +4,22 @@
 
   h1 {
     background-color: #fff;
-    color: #de5959;
+    color: #0a0a0a;
     padding: 20px 0;
+  }
+
+  .nav-link {
+    color: #0a0a0a;
+  }
+
+  .mac_app_button {
+    background: url(../images/apps/Mac_App_Store_Badge_white.svg)
+    no-repeat;
+  }
+
+  .ios_app_button {
+    background: url(../images/apps/App_Store_Badge_white.svg)
+    no-repeat;
   }
 }
 
@@ -15,7 +29,17 @@
 
   h1 {
     background-color: #111;
-    color: #f5ff32;
+    color: #ffffff;
+  }
+
+  .mac_app_button {
+    background: url(../images/apps/Mac_App_Store_Badge.svg)
+    no-repeat;
+  }
+
+  .ios_app_button {
+    background: url(../images/apps/App_Store_Badge.svg)
+    no-repeat;
   }
 }
 
@@ -32,12 +56,31 @@ body {
   padding: 0 20px;
 }
 
-.nav {
+nav {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+  list-style: none;
+
+  a {
+    text-decoration: none;
+    padding: 0 10px;
+  }
+
+  ul {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }
 
-.nav-link {
-  color: #333;
-  text-decoration: none;
+
+.mac_app_button, .ios_app_button {
+  display: inline-block;
+  overflow: hidden;
+  width: 165px;
+  height: 40px;
+  background-size: contain;
 }
