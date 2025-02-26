@@ -2,9 +2,8 @@
 title: 'App Permissions on macOS Sequoia'
 date: 2024-10-02T11:33:26+10:00
 description: 'How to open unsigned apps in macOS Sequoia'
-categories: ['macos', 'gatekeeper']
+categories: ['macOS', 'Gatekeeper']
 layout: 'layouts/post.njk'
-tags: [2024]
 ---
 
 In 2012, with OS X Mountain Lion, Apple added a feature called [Gatekeeper][1]. It had been available earlier as a command line utility, but this was the first time they made it accessible through System Preferences. Gatekeeper allowed users to control which apps could be installed on their Macs by offering three options: allow apps from **App Store**, **App Store and identified developers** or **Anywhere**. This was the start of Apple trying to lock Macs down, similarly to how iOS devices are locked down, but it allowed power users to install any apps they wanted.

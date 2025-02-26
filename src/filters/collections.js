@@ -1,8 +1,17 @@
 export function getPosts(collection) {
   let posts = collection.getFilteredByGlob("./src/post/*/*.md")
-  .filter((item) => !item.data.draft)
-  .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .filter((item) => !item.data.draft)
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
 return posts
+}
+
+export function getRecentPosts(collection) {
+  let year = new Date().getFullYear()
+  let posts = collection.getFilteredByGlob("./src/post/*/*.md")
+    .filter((item) => !item.data.draft)
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .filter((item) => item.data.date.getFullYear() >= year - 5)
+  return posts
 }
 
 /** Returns all unique categories as a collection.
@@ -11,8 +20,7 @@ return posts
  * @returns {({ title: string; href: string; count: string })[]}
  */
 export function getAllUniqueCategories(collection) {
-  const allPosts = collection.getFilteredByGlob("./src/post/*/*.md")
-    .filter((item) => !item.data.draft)
+  const allPosts = getRecentPosts(collection)
 
   /** @type {Map<string, number>} */
   const categoryCounts = allPosts.reduce((categoryCounts, post) => {
@@ -38,6 +46,11 @@ export function getAllUniqueCategories(collection) {
 
   // Sample:  { title: 'man reader', href: '/man-reader/', count: 1 },
   return categories
+}
+
+export function getCategoriesByName(collection) {
+  const categories = getAllUniqueCategories(collection)
+  return categories.sort((a, b) => a.title.localeCompare(b.title))
 }
 
 /** Given a category name, returns the root-relative URL to that category's page.

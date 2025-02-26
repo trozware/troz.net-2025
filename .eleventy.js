@@ -1,9 +1,11 @@
 import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight"
-import { longDate, shortDate, longYear, postInfo } from "./src/filters/filters.js"
-import { getPosts, getAllUniqueCategories } from './src/filters/collections.js'
-import { execSync } from "child_process"
 import externalLinks from "@aloskutov/eleventy-plugin-external-links"
 import rssPlugin from '@11ty/eleventy-plugin-rss'
+import { execSync } from "child_process"
+
+import { longDate, shortDate, longYear } from "./src/filters/dates.js"
+import { postInfo } from "./src/filters/filters.js"
+import { getPosts, getRecentPosts, getAllUniqueCategories, getCategoriesByName } from './src/filters/collections.js'
 
 export default async function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy("./src/images")
@@ -27,8 +29,9 @@ export default async function(eleventyConfig) {
 	eleventyConfig.addShortcode("year", () => `${new Date().getFullYear()}`);
 
 	eleventyConfig.addCollection("posts", getPosts)
+	eleventyConfig.addCollection("recentPosts", getRecentPosts)
 	eleventyConfig.addCollection('categories', getAllUniqueCategories);
-
+	eleventyConfig.addCollection('categoriesByName', getCategoriesByName);
 	eleventyConfig.on('eleventy.after', () => {
     execSync(`npx pagefind --site public --glob \"**/*.html\"`, { encoding: 'utf-8' })
   })

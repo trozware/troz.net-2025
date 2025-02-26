@@ -2,9 +2,8 @@
 title: 'Converting an App from Obj-C'
 date: 2024-09-12T10:28:24+10:00
 description: 'Converting an iphone app from Objective-C to Swift and SwiftUI'
-categories: ['objective-c', 'swift', 'swiftui', 'ios', 'berio']
+categories: ['Objective-C', 'Swift', 'SwiftUI', 'iOS', 'Berio']
 layout: 'layouts/post.njk'
-tags: [2024]
 ---
 
 A couple of months ago, I got a message from App Store Connect pointing out that one of my iPhone apps - [Berio’s Sequenza VII][3] - had not been updated in 3 years and so would be removed from the App Store unless I updated it within 90 days. I disagree with this policy, but small developers like me can't fight Apple. Since I want the app to remain available, I then had to consider how to update it. Once I opened the app project, I realized that the app was written in Objective-C, so I decided to take the plunge and convert it to Swift and SwiftUI.

@@ -2,9 +2,8 @@
 title: 'SwiftUI for Mac 2024'
 date: 2024-08-22T17:21:54+10:00
 description: 'Mac app development using SwiftUI on macOS Sequoia'
-categories: ['swift', 'swiftui', 'mac']
+categories: ['Swift', 'SwiftUI', 'macOS']
 layout: 'layouts/post.njk'
-tags: [2024]
 ---
 
 Over the years, I have written articles and sample apps to demonstrate the new features of each year's SwiftUI updates with particular emphasis on macOS app development. Last year, the major update to SwiftUI was the new data flow system using the Observation framework. I covered that in my article [SwiftUI Data Flow 2023][1] but I didn't feel there were sufficient UI changes to warrant an update to my usual sample app.

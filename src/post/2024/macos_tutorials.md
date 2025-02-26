@@ -2,9 +2,8 @@
 title: 'macOS by Tutorials'
 date: 2024-07-23T19:49:12+10:00
 description: 'New edition of macOS by Tutorials is coming soon.'
-categories: ['mac', 'book', 'swift', 'swiftui']
+categories: ['macOS', 'Book', 'Swift', 'SwiftUI', 'AppKit']
 layout: 'layouts/post.njk'
-tags: [2024]
 ---
 
 In April 2022, Kodeco published the first edition of [macOS by Tutorials][1]. Nothing stays the same in the world of Apple development, so I started to plan an update after WWDC 2023. At around that time, Kodceo was going through a transformation from being like a library to being more of an educational institution. Their focus is now on multi-modal courses and they are no longer interested in publishing books.

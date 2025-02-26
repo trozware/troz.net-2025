@@ -3,9 +3,8 @@ title: "Black Friday Sale"
 date: 2024-11-28T09:22:54+10:00
 draft: true
 description: "macOS by Tutorials on sale"
-categories: ['mac', 'book', 'swift', 'swiftui', 'sale']
+categories: ['Mac', 'Book', 'Swift', 'SwiftUI', 'Sale']
 layout: 'layouts/post.njk'
-tags: [2024]
 ---
 
 For Black Friday weekend 2024, [macOS by Tutorials is on sale for 30% off][1].

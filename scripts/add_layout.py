@@ -1,6 +1,6 @@
 import os
 
-posts_folder = "src/posts"
+posts_folder = "src/post"
 
 for year in os.listdir(posts_folder):
     # skip hidden files
@@ -21,12 +21,6 @@ for year in os.listdir(posts_folder):
             if "categories:" not in content:
                 # replace 'tags:' with 'categories:'
                 content = content.replace("tags:", "categories:")
-
-            if "tags:" not in content:
-                # add tags: [] before the second instance of "---"
-                start = content.find("---", content.find("---") + 1)
-                end = content.find("---", start + 3)
-                content = content[:start] + "tags: [" + year + "]\n" + content[start:end] + content[end:]
 
             with open(os.path.join(posts_folder, year, post), "w") as f:
                 f.write(content)

@@ -4,18 +4,17 @@ date: 2024-08-06T11:29:44+10:00
 description: 'How I constructed all the versions of macOS by Tutorials'
 categories:
   [
-    'mac',
-    'book',
-    'ebook',
-    'asciidoc',
-    'markdown',
-    'pandoc',
-    'pdf',
-    'epub',
-    'html',
+    'macOS',
+    'Book',
+    'Ebook',
+    'AsciiDoc',
+    'Markdown',
+    'Pandoc',
+    'PDF',
+    'ePub',
+    'HTML',
   ]
 layout: 'layouts/post.njk'
-tags: [2024]
 ---
 
 I started writing books for Kodeco when I was asked to contribute some Mac content to [SwiftUI by Tutorials][5]. I quickly learned that I really enjoyed long form technical writing but I wanted to create more Mac-specific content. After some negotiations, Kodeco agreed to my plan to write [macOS by Tutorials][6] and the first edition was published in April 2022.

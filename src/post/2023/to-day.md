@@ -2,9 +2,8 @@
 title: 'To-Day'
 date: 2023-03-08T14:58:01+10:00
 description: 'Creating my own minimalist todo application.'
-categories: ['mac', 'app', 'swiftui', 'app store', 'menu bar']
+categories: ['macOS', 'Apps', 'SwiftUI', 'App Store', 'Menu Bar']
 layout: 'layouts/post.njk'
-tags: [2023]
 ---
 
 When I sit down at my computer at the start of a work day, I typically like to plan out the broad outline of my work. This is the three or four major tasks for my day. I don't want a minute-by-minute plan, just a list of the major items, so that I can check them off as I work, and get to the end of the day without feeling like I've forgotten anything.

@@ -2,11 +2,9 @@
 title: 'SwiftUI Data Flow 2023'
 date: 2023-07-10T09:22:54+10:00
 description: 'Various ways to pass data around your SwiftUI apps, after WWDC 2023.'
-categories: ['swift', 'swiftui']
+categories: ['Swift', 'SwiftUI']
 toc: true
-
 layout: 'layouts/post.njk'
-tags: [2023]
 ---
 
 SwiftUI is a reactive framework where the data drives the UI. In 2019, I wrote a [post][1] detailing how I manage the various forms of data flow through a SwiftUI app, and with the help of others in the community, I iterated over this until I had a good understanding of the concepts and which methods you should use when. In 2021, I updated the post to cover the minor changes, but there have been no major modifications since then.

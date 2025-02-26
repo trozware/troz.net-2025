@@ -2,9 +2,8 @@
 title: 'Man Reader 2'
 date: 2023-10-13T15:46:38+10:00
 description: 'Man Reader 2 is now available from the Mac App Store.'
-categories: ['man reader', 'mac']
+categories: ['Man Reader', 'macOS']
 layout: 'layouts/post.njk'
-tags: [2023]
 ---
 
 Several years after I started planning it, Man Reader version 2 is now available.

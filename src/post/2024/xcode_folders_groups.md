@@ -2,9 +2,8 @@
 title: 'Xcode Folders & Groups'
 date: 2024-09-17T14:12:42+10:00
 description: 'Xcode 16 uses folders instead of groups. What does this change and which should you use?'
-categories: ['swift', 'xcode']
+categories: ['Swift', 'Xcode']
 layout: 'layouts/post.njk'
-tags: [2024]
 ---
 
 In Xcode 16, project files and folders are arranged differently in the Project navigator. What used to be a **group** is now a **folder**, and this simple change has some interesting effects. At first, I was against the new scheme - in fact in my [SwiftUI for Mac 2024][1] article, I specifically recommended reverting back to the old group method. But after doing some more reading and testing, I think the answer is not so clear cut.

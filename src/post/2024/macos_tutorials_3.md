@@ -2,9 +2,8 @@
 title: 'macOS by Tutorials 3.0'
 date: 2024-12-23T14:22:15+10:00
 description: "macOS by Tutorials has just been updated to version 3 for macOS 15 and Xcode 16"
-categories: ['mac', 'book', 'swift', 'swiftui']
+categories: ['macOS', 'Book', 'Swift', 'SwiftUI', 'AppKit']
 layout: 'layouts/post.njk'
-tags: [2024]
 ---
 
 macOS by Tutorials Edition 3.0 is now available!

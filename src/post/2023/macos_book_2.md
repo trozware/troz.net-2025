@@ -2,9 +2,8 @@
 title: "macOS Apprentice"
 date: 2023-06-29T09:48:37+10:00
 description: "I've written another book for macOS developers."
-categories: ['Mac', 'macOS', 'swift', 'swiftui', 'appkit', 'book']
+categories: ['macOS', 'Swift', 'SwiftUI', 'AppKit', 'Book']
 layout: 'layouts/post.njk'
-tags: [2023]
 ---
 
 I've written another book! This one is for people who want to get started in macOS development and here it is: [macOS Apprentice][1], published by [kodeco.com][5] (formerly raywenderlich.com).

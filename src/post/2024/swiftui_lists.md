@@ -3,9 +3,8 @@ title: 'SwiftUI Lists'
 date: 2024-11-01T13:26:26+10:00
 draft: true
 description: 'Performance of lists on macOS sequoia has improved, if you set them up right.'
-categories: ['swift', 'swiftui', 'mac']
+categories: ['Swift', 'SwiftUI', 'macOS']
 layout: 'layouts/post.njk'
-tags: [2024]
 ---
 
 In SwiftUI Mac apps, the performance of lists with a lot of data has always been a problem. iOS apps appeared to load list rows lazily, but Mac apps did not. In my [Man Reader][1] app, I follow a very common pattern of having a list of selectable `man` pages in the sidebar with a detail view that shows the selected page. The problem was that the list probably had at least 10,000 items and it could have nearly 30,000. Performance was terrible when I tried to do this in SwiftUI - the list took ages to display and both scrolling and selection were unusably unresponsive. I worked-around this by using AppKit's `NSTableView` instead and got great performance, although I do see a few crashes appearing with the table view trying to draw non-existent rows.

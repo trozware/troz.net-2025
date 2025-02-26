@@ -2,9 +2,8 @@
 title: 'Sparkle'
 date: 2023-04-11T11:48:38+10:00
 description: 'Set up your Mac app for updating using the Sparkle framework'
-categories: ['mac', 'sparkle', 'app', 'distribution']
+categories: ['macOS', 'Sparkle', 'Apps', 'Distribution']
 layout: 'layouts/post.njk'
-tags: [2023]
 ---
 
 Last month, I posted about writing my new todo app called [To-Day][1]: why I wrote it and how I wrote it. At the time, I mentioned that I had set it up to install updates using [Sparkle][2] but there was too much detail to include in the initial post. So here, as promised, is the article about implementing Sparkle.

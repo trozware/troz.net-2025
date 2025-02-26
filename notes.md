@@ -1,19 +1,14 @@
 ## Notes
 
-Can't work out how to set a layout for all the posts in all the years folders.
- - write a Python script to do it
- - and a script to change tags to categories.
- - And add year as tag - maybe
 
-My year folder split may not be ideal, but I like it so I'll keep trying for a bit.
-I can make my tags look good - the urls will be lower-cased and spaces will be replaced with hyphens.
-Tags page not quite how I wanted it, but that will do for now.
+Tags page not quite how I wanted it, but that will do for now, maybe only show recent tags?
 
 Apps - switch App Store badges depending on scheme.
 
 ## Questions
 
 Can I paginate the tags?
+I keep getting errors with multiple input files writing to the same output file.
 
 
 ## Styling

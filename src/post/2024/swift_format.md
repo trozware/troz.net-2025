@@ -2,9 +2,8 @@
 title: 'Swift Format in Xcode'
 date: 2024-11-06T16:29:20+10:00
 description: 'With Xcode 16, Apple has included Swift Format for code formatting.'
-categories: ['swift', 'xcode', 'swiftlint', 'swiftformat']
+categories: ['Swift', 'Xcode', 'SwiftLint', 'SwiftFormat']
 layout: 'layouts/post.njk'
-tags: [2024]
 ---
 
 In Xcode 16, Apple quietly introduced the ability to format your Swift files using Swift Format. I'm a long-time user of SwiftLint, but having such a tool built into Xcode would be a great convenience, so I decided to give it a try. Here is my description of why I use such a tool, how well it works compared to the alternatives, and how I configured it for my own purposes.
