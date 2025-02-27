@@ -1,5 +1,5 @@
 ---
-title: 'Tags'
+title: 'TrozWare - Tags'
 layout: 'layouts/tags.njk'
 ---
 

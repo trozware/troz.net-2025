@@ -1,5 +1,5 @@
 ---
-title: 'Contact'
+title: 'TrozWare - Contact'
 layout: 'layouts/contact.njk'
 ---
 

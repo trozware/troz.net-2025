@@ -15,6 +15,7 @@
                 {% else %}
                     <p>{{ post.data.description | safe }}</p>
                 {% endif %}
+                <a href="{{ post.url }}" class="read-more">Read More &raquo;</a>
             </li>
         {% endfor %}
     </ul>

@@ -1,5 +1,5 @@
 ---
-title: 'Archives'
+title: 'TrozWare - Archives'
 layout: 'layouts/archives.njk'
 pagination:
     data: collections.posts
