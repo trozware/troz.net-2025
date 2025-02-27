@@ -3,11 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start-11ty": "npx eleventy --serve",
-    "build": "npx eleventy",
-    "watch:sass": "npx sass ./src/styles/style.scss ./public/styles/style.css --watch",
-    "watch:prism": "npx sass ./src/styles/prism.scss ./public/styles/prism.css --watch",
-    "start": "npm run watch:sass & npm run watch:prism & npx eleventy --serve"
+    "start": "npx eleventy --serve",
+    "build": "npx eleventy"
   },
   "keywords": [],
   "author": "",
