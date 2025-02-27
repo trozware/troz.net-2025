@@ -1,18 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const codeBlocks = document.querySelectorAll('pre');
+  const codeBlocks = document.querySelectorAll('pre')
   
   codeBlocks.forEach((codeBlock) => {
-    const copyButton = document.createElement('button');
-    copyButton.className = 'copy-button';
-    copyButton.innerHTML = 'Copy';
+    const copyButton = document.createElement('button')
+    copyButton.className = 'copy-button'
+    copyButton.innerHTML = 'Copy'
     
     // Add button to code block container
-    codeBlock.style.position = 'relative';
-    codeBlock.appendChild(copyButton);
+    codeBlock.style.position = 'relative'
+    codeBlock.appendChild(copyButton)
     
     copyButton.addEventListener('click', async () => {
-      const code = codeBlock.querySelector('code').innerText;
-      
+      const code = codeBlock.querySelector('code').innerText
+
       try {
         await navigator.clipboard.writeText(code);
         copyButton.innerHTML = 'Copied!';
@@ -20,9 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
           copyButton.innerHTML = 'Copy';
         }, 2000);
       } catch (err) {
-        console.error('Failed to copy: ', err);
-        copyButton.innerHTML = 'Error';
+        copyButton.innerHTML = 'Error'
       }
-    });
-  });
-}); 
+    })
+  })
+})

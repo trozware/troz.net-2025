@@ -6,12 +6,12 @@ export const wordCount = (content) => {
   const regExpCode = /<pre class=(.|\n)*?<\/pre>/gm
   const fixedContent = content.replace(regExpCode, "")
   const wordCount = fixedContent.split(/\s+/).length
-  return wordCount
+  return wordCount.toLocaleString()
 }
 
 export const readingTime = (content) => {
   const time = timeToRead(content)
-  return time > 1 ? `${time} minutes` : `${time} minute`
+  return time > 1 ? `${time} minutes  reading time.` : `${time} minute  reading time.`
 }
 
 export const timeToRead = (content) => {

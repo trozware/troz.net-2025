@@ -118,17 +118,16 @@ textarea {
 .logo__cursor {
   width: 2px;
 }
-a:any-link {
-  text-decoration: underline;
-}
 .post-title a {
   text-decoration: none;
 }
 .content {
   margin: 0;
 }
-
 .contact-header {
   background-color: transparent !important;
   color: var(--text-primary);
+  padding-bottom: 0;
+  margin-bottom: 0;
+  margin-top: 0;
 }
