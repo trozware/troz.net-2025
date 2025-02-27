@@ -1,20 +1,46 @@
-export const postInfo = (content) => {
-  return `${wordCount(content)} words • ${readingTime(content)}`
+export const postSummary = (post) => {
+  if (post.content) {
+    const excerpt = post.content.toString()
+    if (excerpt.includes('<!--more-->')) {
+        const parts = excerpt.split('<!--more-->')
+        return parts[0]
+    } else {
+        let summary = ''
+        let numChars = 0
+
+        const lines = excerpt.split('</p>')
+        for (const line of lines) {
+            summary += line + '</p>'
+            numChars += line.length
+
+          if (numChars > 500) {
+            break
+          }
+        }
+        return summary
+    }
+  } else {
+    return post.data.description
+  }
 }
 
-export const wordCount = (content) => {
+export const postInfo = (content) => {
+    return `${wordCount(content)} words • ${readingTime(content)}`
+}
+
+const wordCount = (content) => {
   const regExpCode = /<pre class=(.|\n)*?<\/pre>/gm
   const fixedContent = content.replace(regExpCode, "")
   const wordCount = fixedContent.split(/\s+/).length
   return wordCount.toLocaleString()
 }
 
-export const readingTime = (content) => {
+const readingTime = (content) => {
   const time = timeToRead(content)
   return time > 1 ? `${time} minutes  reading time.` : `${time} minute  reading time.`
 }
 
-export const timeToRead = (content) => {
+const timeToRead = (content) => {
   const getPlainText = content => {
     const html = content.templateContent || content
     if (typeof html !== "string") {

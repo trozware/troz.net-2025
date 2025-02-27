@@ -4,7 +4,7 @@ import rssPlugin from '@11ty/eleventy-plugin-rss'
 import { execSync } from "child_process"
 
 import { longDate, shortDate, longYear } from "./src/filters/dates.js"
-import { postInfo } from "./src/filters/posts.js"
+import { postSummary, postInfo } from "./src/filters/posts.js"
 import { getPosts, getRecentPosts, getCategoriesByCount, getCategoriesByName } from './src/filters/collections.js'
 
 export default async function(eleventyConfig) {
@@ -20,8 +20,9 @@ export default async function(eleventyConfig) {
 	eleventyConfig.addFilter("longDate", longDate)
 	eleventyConfig.addFilter("shortDate", shortDate)
 	eleventyConfig.addFilter("longYear", longYear)
+	eleventyConfig.addFilter("postSummary", postSummary)
 	eleventyConfig.addFilter("postInfo", postInfo)
-
+	
 	eleventyConfig.addPlugin(syntaxHighlight)
 	eleventyConfig.addPlugin(externalLinks, {'url': 'https://troz.net'})
 	eleventyConfig.addPlugin(rssPlugin)
