@@ -9,7 +9,7 @@ import { getPosts, getRecentPosts, getCategoriesByCount, getCategoriesByName } f
 
 export default async function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy("./src/images")
-	eleventyConfig.addPassthroughCopy("./src/styles/contact.css")
+	eleventyConfig.addPassthroughCopy("./src/styles/*")
 	eleventyConfig.addPassthroughCopy("./src/books/*_sample.html")
 	eleventyConfig.addPassthroughCopy("./src/favicon.ico")
 	eleventyConfig.addPassthroughCopy("./src/icon.svg")
