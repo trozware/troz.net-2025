@@ -11,22 +11,28 @@
 </head>
 
 <body>
-    <header>
-        {% include "partials/nav.njk" %}
-    </header>
+    {% include "partials/nav.njk" %}
+    
 	<main>
         {% block content %}{% endblock %}
     </main>
     <footer>
         {% include "partials/links.njk" %}
-        <p>Copyright &copy; {% year %} TrozWare</p>
+        <div class="copyright">
+            <p>Copyright &copy; {% year %} Sarah Reichelt, TrozWare</p>
+        </div>
     </footer>
 
     <script>
         window.addEventListener('DOMContentLoaded', (event) => {
-            new PagefindUI({ element: "#search", showSubResults: true });
+            let searchElement = document.getElementById('search');
+            if (searchElement) {
+                new PagefindUI({ element: searchElement, showSubResults: true });
+            }
         });
     </script>
     <script src="/js/theme_switcher.js"></script>
+    <script src="/js/clipboard.js"></script>
+    <script src="/js/menu.js"></script>
 </body>
 </html>

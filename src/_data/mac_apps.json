@@ -4,6 +4,7 @@
       "icon": "/images/apps/man_reader.png",
       "name": "Man Reader",
       "link": "/manreader/",
+      "description": "A GUI for reading your Mac's man pages.",
       "version": "2.0",
       "updated": "13 Oct 2023",
       "app_id": "522583774"
@@ -12,6 +13,7 @@
       "icon": "/images/apps/today.png",
       "name": "To-Day",
       "link": "/post/2023/to-day/",
+      "description": "A simple todo app that runs in the Mac menubar and tracks a short list of tasks for the day.",
       "version": "1.9.4",
       "updated": "22 Jan 2024",
       "download": "https://github.com/trozware/To-Day/raw/main/Releases/To-Day.dmg"

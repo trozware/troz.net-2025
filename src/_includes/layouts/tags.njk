@@ -5,37 +5,40 @@
 
     <h2>Tags: {{ collections.categories | length }}</h2>
     <h3>By count:</h3>
-    <ul>
+    <ul class="tag-list">
         {% for tag in collections.categories %}
-            <span>
-               <a href="#{{ tag.title | slugify }}">#{{ tag.title }} ({{ tag.count }})</a>
-            </span>
+            <li class="tag-item">
+               <a href="#{{ tag.title | slugify }}" class="tag-button">{{ tag.title }} ({{ tag.count }})</a>
+            </li>
         {% endfor %}
     </ul>
 
     <h3>By name:</h3>
-    <ul>
+    <ul class="tag-list">
         {% for tag in collections.categoriesByName %}
-            <span>
-               <a href="#{{ tag.title | slugify }}">#{{ tag.title }} ({{ tag.count }})</a>
-            </span>
+            <li class="tag-item">
+               <a href="#{{ tag.title | slugify }}" class="tag-button">{{ tag.title }} ({{ tag.count }})</a>
+            </li>
         {% endfor %}
     </ul>
 
-    <p>This list shows posts from the last 5 years. For older posts, see the <a href="/archives/">archives</a> or use the search above.</p>
+    <p class="tag-description">This list shows posts from the last 5 years. For older posts, see the <a href="/archives/">archives</a> or use the search above.</p>
 
-    <ul>
+    <ul class="archive-list">
         {% for tag in collections.categories %}
-            <a id="{{ tag.title | slugify }}"></a>
-            <h3>{{ tag.title }}</h3>
-            {% for post in collections.recentPosts %}
-                {% if post.data.categories.includes(tag.title) %}
-                    <li>
-                        {{ post.data.date | shortDate }} <a href="{{ post.url }}">{{ post.data.title }}</a>
-                    </li>
-                {% endif %}
-            {% endfor %}
-            <a href="#top">Back to top</a>
+            <div class="tag-section">
+                <a id="{{ tag.title | slugify }}" class="tag-anchor"></a>
+                <h3>{{ tag.title }}</h3>
+                {% for post in collections.recentPosts %}
+                    {% if post.data.categories.includes(tag.title) %}
+                        <li class="archive-item">
+                            <span class="archive-date">{{ post.data.date | shortDate }}</span>
+                            <a href="{{ post.url }}" class="archive-link">{{ post.data.title }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                <a href="#top" class="tag-button">Back to top</a>
+            </div>
         {% endfor %}
     </ul>
 {% endblock %}

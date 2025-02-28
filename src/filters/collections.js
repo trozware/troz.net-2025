@@ -14,54 +14,28 @@ export function getRecentPosts(collection) {
   return posts
 }
 
-/** Returns all unique categories as a collection.
- * NOTE: I'm calling these "categories" to distinguish them from 11ty's built-in "tags." However,
- * these are still referred to as tags in the UI since that's what's most common.
- * @returns {({ title: string; href: string; count: string })[]}
- */
-export function getAllUniqueCategories(collection) {
+export function getCategoriesByCount(collection) {
   const allPosts = getRecentPosts(collection)
 
-  /** @type {Map<string, number>} */
-  const categoryCounts = allPosts.reduce((categoryCounts, post) => {
+  let categoryCounts = {}
+  for (const post of allPosts) {
     post.data.categories?.forEach((category) => {
-      const count = categoryCounts.get(category) ?? 0
-      categoryCounts.set(category, count + 1)
-    });
-    return categoryCounts
-  }, new Map())
+      categoryCounts[category] = (categoryCounts[category] ?? 0) + 1
+    })
+  }
 
-  let categories = (
-    Array.from(categoryCounts.entries())
-      .map(([category, count]) => ({
-        title: category,
-        href: getCategoryHref(category),
-        count,
-      }))
-      // Sort by name first
-      .sort((a, b) => a.title.localeCompare(b.title))
-      // And then by popular categories first
-      .sort((a, b) => b.count - a.count)
-  )
+  let categories = Object.entries(categoryCounts).map(([category, count]) => ({
+    title: category,
+    count,
+  }))
+  categories.sort((a, b) => a.title.localeCompare(b.title))
+  categories.sort((a, b) => b.count - a.count)
 
-  // Sample:  { title: 'man reader', href: '/man-reader/', count: 1 },
+  // Sample:  { title: 'man reader', count: 1 },
   return categories
 }
 
 export function getCategoriesByName(collection) {
-  const categories = getAllUniqueCategories(collection)
+  const categories = getCategoriesByCount(collection)
   return categories.sort((a, b) => a.title.localeCompare(b.title))
 }
-
-/** Given a category name, returns the root-relative URL to that category's page.
- * @param {string} category
- */
-function getCategoryHref(category) {
-  const slug = slugifyString(category);
-  return `/tags/${slug}/`
-}
-
-/** Converts the given string to a slug form. */
-export const slugifyString = (str) => {
-  return str.toLowerCase().replace(/ /g, '-');
-};

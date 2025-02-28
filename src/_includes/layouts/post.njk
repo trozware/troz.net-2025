@@ -1,17 +1,21 @@
 {% extends "layouts/base.njk" %}
 
 {% block content %}
-    <h1 data-pagefind-meta="title">{{ title }}</h1>
+    <section class="post">
+        <h1 data-pagefind-meta="title">{{ title }}</h1>
 
-    <p>
-        {{ date | longDate }} • {{ content | postInfo }}
-    </p>
+        <p>
+            {{ date | longDate }} • {{ content | postInfo }}
+        </p>
 
-    {% for tag in categories.sort() %}
-        <a href="/tags/#{{ tag | slugify }}">{{ '#' + tag }}</a>
-    {% endfor %}
+        <div class="tag-list">
+            {% for tag in categories.sort() %}
+                <a href="/tags/#{{ tag | slugify }}" class="tag-button">{{ '#' + tag }}</a>
+            {% endfor %}
+        </div>
 
-    <article data-pagefind-body>
-        {{ content | safe }}
-    </article>
+        <article data-pagefind-body>
+            {{ content | safe }}
+        </article>
+    </section>
 {% endblock %}

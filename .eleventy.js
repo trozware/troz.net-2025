@@ -4,8 +4,8 @@ import rssPlugin from '@11ty/eleventy-plugin-rss'
 import { execSync } from "child_process"
 
 import { longDate, shortDate, longYear } from "./src/filters/dates.js"
-import { postInfo } from "./src/filters/filters.js"
-import { getPosts, getRecentPosts, getAllUniqueCategories, getCategoriesByName } from './src/filters/collections.js'
+import { postSummary, postInfo } from "./src/filters/posts.js"
+import { getPosts, getRecentPosts, getCategoriesByCount, getCategoriesByName } from './src/filters/collections.js'
 
 export default async function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy("./src/images")
@@ -15,13 +15,14 @@ export default async function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy("./src/icon.svg")
 	eleventyConfig.addPassthroughCopy("./src/apple-touch-icon.png")
 	eleventyConfig.addPassthroughCopy({ 'src/robots.txt': '/robots.txt' });
-	eleventyConfig.addPassthroughCopy({ 'src/js/theme_switcher.js': '/js/theme_switcher.js' });
+	eleventyConfig.addPassthroughCopy({ 'src/js/': '/js/' });
 	
 	eleventyConfig.addFilter("longDate", longDate)
 	eleventyConfig.addFilter("shortDate", shortDate)
 	eleventyConfig.addFilter("longYear", longYear)
+	eleventyConfig.addFilter("postSummary", postSummary)
 	eleventyConfig.addFilter("postInfo", postInfo)
-
+	
 	eleventyConfig.addPlugin(syntaxHighlight)
 	eleventyConfig.addPlugin(externalLinks, {'url': 'https://troz.net'})
 	eleventyConfig.addPlugin(rssPlugin)
@@ -30,7 +31,7 @@ export default async function(eleventyConfig) {
 
 	eleventyConfig.addCollection("posts", getPosts)
 	eleventyConfig.addCollection("recentPosts", getRecentPosts)
-	eleventyConfig.addCollection('categories', getAllUniqueCategories);
+	eleventyConfig.addCollection('categories', getCategoriesByCount);
 	eleventyConfig.addCollection('categoriesByName', getCategoriesByName);
 	eleventyConfig.on('eleventy.after', () => {
     execSync(`npx pagefind --site public --glob \"**/*.html\"`, { encoding: 'utf-8' })

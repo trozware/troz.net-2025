@@ -5,15 +5,16 @@
 {% block content %}
     <div id="search" class="search"></div>
 
-    <ul>
+    <ul class="archive-list">
         {% for post in pagination.items %}
             {% set postYear = post.data.date | longYear %}
             {% if postYear != lastUsedYear %}
                 <h3>{{ postYear }}</h3>
                 {% set lastUsedYear = postYear %}
             {% endif %}
-            <li>
-               {{ post.data.date | shortDate }} <a href="{{ post.url }}">{{ post.data.title }}</a>
+            <li class="archive-item">
+                <span class="archive-date">{{ post.data.date | shortDate }}</span>
+                <a href="{{ post.url }}" class="archive-link">{{ post.data.title }}</a>
             </li>
         {% endfor %}
     </ul>

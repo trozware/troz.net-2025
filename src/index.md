@@ -7,6 +7,3 @@ pagination:
 paginationPrevText: 'Newer posts'
 paginationNextText: 'Older posts'
 ---
-
-
-

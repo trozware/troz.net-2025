@@ -1,11 +1,13 @@
-<nav>
-  <ul>
-    {% for item in links.items %}
-      <li>
-        <a href="{{ item.url }}">
-          <img src="{{ item.icon }}" alt="{{ item.alt }}" title="{{ item.alt }}" height="30px" />
-        </a>
-      </li>
-    {% endfor %}
-  </ul>
-</nav>
+<div class="footer-content">
+  <nav>
+    <ul class="footer-links">
+      {% for item in links.items %}
+        <li>
+          <a href="{{ item.url }}">
+            <img src="{{ item.icon }}" alt="{{ item.alt }}" title="{{ item.alt }}" height="30px" />
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+</div>

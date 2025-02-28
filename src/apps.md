@@ -1,5 +1,5 @@
 ---
-title: 'Apps'
+title: 'TrozWare - Apps'
 layout: 'layouts/apps.njk'
 ---
 

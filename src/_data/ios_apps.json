@@ -4,6 +4,7 @@
       "icon": "/images/apps/berio.png",
       "name": "Berio's Sequenza VII",
       "link": "/berio/",
+      "description": "An app to help oboists practice Berio's Sequenza VII.",
       "version": "2.0",
       "updated": "1 Aug 2024",
       "app_id": "730234638"
@@ -12,6 +13,7 @@
       "icon": "/images/apps/crossfix.png",
       "name": "Crossfix",
       "link": "/crossfix/",
+      "description": "A crossword puzzle assistant which helps you work out anagrams.",
       "version": "1.1",
       "updated": "2 Jan 2024",
       "app_id": "1526235954"
@@ -20,6 +22,7 @@
       "icon": "/images/apps/crossfix_lite.png",
       "name": "Crossfix Lite",
       "link": "/crossfix/",
+      "description": "A free version of Crossfix which limits you to 3 anagrams per day.",
       "version": "1.1",
       "updated": "2 Jan 2024",
       "app_id": "1526236100"
@@ -28,6 +31,7 @@
       "icon": "/images/apps/mark_time.png",
       "name": "Mark Time",
       "link": "/marktime/",
+      "description": "An app for celestial navigation, that records an accurate time stamp and optional photo for each sextant reading.",
       "version": "1.2",
       "updated": "1 Aug 2023",
       "app_id": "1305580742"
@@ -36,6 +40,7 @@
       "icon": "/images/apps/speed.png",
       "name": "What Is My Speed?",
       "link": "/what-is-my-speed/",
+      "description": "An app to display your speed with optional speed limit warnings and full location data.",
       "version": "2.0",
       "updated": "4 Jun 2021",
       "app_id": "1091394524"

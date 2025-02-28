@@ -1,10 +1,10 @@
-// function to set a given theme/color-scheme
+// Apply a given theme/color-scheme
 function setTheme(themeName) {
   localStorage.setItem('theme', themeName);
   document.documentElement.className = themeName;
 }
 
-// function to toggle between light and dark theme
+// Toggle between light and dark theme
 function toggleTheme() {
  if (localStorage.getItem('theme') === 'theme-dark'){
      setTheme('theme-light');
@@ -13,7 +13,7 @@ function toggleTheme() {
  }
 }
 
-// Immediately invoked function to set the theme on initial load
+// Set the theme on initial load
 (function () {
  if (localStorage.getItem('theme') === 'theme-dark') {
      setTheme('theme-dark');
@@ -22,7 +22,7 @@ function toggleTheme() {
  }
 })();
 
-// Add a listener for changes to the dark mode media query and set the theme accordingly
+// Listen for changes to the dark mode media query and set the theme to match
 const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)').onchange = (e) => {
     if (e.matches) {
         setTheme('theme-dark');
