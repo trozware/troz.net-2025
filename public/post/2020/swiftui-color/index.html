@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftUI Color</title>
+    
+    <link href="/styles/style.css" rel="stylesheet" >
+
+
+    <link href="/styles/prism.css" rel="stylesheet" >
+
+
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+<style>
+@media (prefers-color-scheme: dark) {
+    :root {
+    --pagefind-ui-primary: #eeeeee;
+    --pagefind-ui-text: #eeeeee;
+    --pagefind-ui-background: #152028;
+    --pagefind-ui-border: #152028;
+    --pagefind-ui-tag: #152028;
+    }
+}
+</style>
+    
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<meta property="og:site_name" content="TrozWare" >
+<meta property="og:title" content="SwiftUI Color - TrozWare" >
+<meta property="og:type" content="website" >
+<meta property="og:url" content="https://troz.net/post/2020/swiftui-color/" >
+<meta name="keywords" content="Mac app development, Apple Mac, Xcode, Swift, SwiftUI, Apple macOS, books, articles, blog, apps, developer, author, Sarah Reichelt">
+
+
+
+
+  <meta name="description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+  <meta property="og:description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+
+
+
+<link rel="alternate" type="application/rss+xml" href="/index.xml" title="TrozWare">
+<link rel="alternate" type="application/atom+xml" href="/atom.xml" title="TrozWare">
+<link rel="alternate" type="application/json" href="/feed.json" title="TrozWare">
+
+
+<link rel="icon" type="image/png" href="/images/favicon.png">
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+
+<body>
+    <header>
+  <nav class="container">
+    <div class="nav-brand">
+      <a href="/" class="site-title">TrozWare</a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+
+    <ul class="nav-links">
+      
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+      
+        <li>
+          <a href="/books/" class="nav-link">Books</a>
+        </li>
+      
+        <li>
+          <a href="/apps/" class="nav-link">Apps</a>
+        </li>
+      
+        <li>
+          <a href="/archives/" class="nav-link">Archives</a>
+        </li>
+      
+        <li>
+          <a href="/tags/" class="nav-link">Tags</a>
+        </li>
+      
+        <li>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </li>
+      
+
+      <li>
+        <button           class="theme-toggle"
+          type="button"
+          title="Toggle theme"
+          aria-label="Toggle theme"
+          onclick="toggleTheme()"
+        >
+          <svg             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            width="1em"
+            height="1em"
+            class="theme-toggle__dark-side"
+            fill="currentColor"
+            viewBox="0 0 32 32"
+          >
+            <path d="M16 .5C7.4.5.5 7.4.5 16S7.4 31.5 16 31.5 31.5 24.6 31.5 16 24.6.5 16 .5zm0 28.1V3.4C23 3.4 28.6 9 28.6 16S23 28.6 16 28.6z" ></path>
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+    
+	<main>
+        
+    <section class="post">
+        <h1 data-pagefind-meta="title">SwiftUI Color</h1>
+
+        <p>
+            9th May 2020 • 1,410 words • 7 minutes  reading time.
+        </p>
+
+        <div class="tag-list">
+            
+                <a href="/tags/#color" class="tag-button">#Color</a>
+            
+                <a href="/tags/#swift" class="tag-button">#Swift</a>
+            
+                <a href="/tags/#swiftui" class="tag-button">#SwiftUI</a>
+            
+        </div>
+
+        <article data-pagefind-body>
+            <p>As developers, we are used to thinking of color as a numeric way to specify a particular tint. But in SwiftUI, <code>Color</code> - like almost everything else - is actually a <code>View</code> in its own right. This leads us to two very interesting questions: how do we use a view to specify a color and how can we use the fact that <code>Color</code> is <code>View</code>?</p>
+
+<hr>
+<h2>Specifying a Color</h2>
+<p>To start my investigations of <code>Color</code>, I created a new iOS single view app in Xcode. Regular followers will know that I am a passionate advocate of macOS programming, but when experimenting with SwiftUI, I prefer to use an iPhone app as the preview canvas fits very neatly into the main Xcode window.</p>
+<p>The default <code>ContentView</code> contains a single <code>Text</code> view. To change the color of the text in this view, I added a modifier:</p>
+<pre class="language-swift"><code class="language-swift">  <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Hello, World!"</span></span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">foregroundColor</span><span class="token punctuation">(</span><span class="token punctuation">.</span>red<span class="token punctuation">)</span></code></pre>
+<p>The <code>foregroundColor</code> modifier expects a <code>Color</code> so there was no need to tell it that the parameter is a <code>Color</code> and I was able to use the short way of describing one of the standard colors.</p>
+<p>Adding a background color is a bit different because a background can be any view, not just a color. So the modifier needs to specify that this is a <code>Color</code> view, as well as setting the actual color.</p>
+<pre class="language-swift"><code class="language-swift">    <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Hello, World!"</span></span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">padding</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">foregroundColor</span><span class="token punctuation">(</span><span class="token punctuation">.</span>red<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">background</span><span class="token punctuation">(</span><span class="token class-name">Color</span><span class="token punctuation">.</span>yellow<span class="token punctuation">)</span></code></pre>
+<p><em>I added the padding to make the overall size bigger so that the background color was more obvious.</em></p>
+<p>Command-click on <code>.red</code> or <code>.yellow</code> in the code and select &quot;Jump to Definition&quot;. This lists the available pre-defined colors. As well a set of basic colors and a clear option, there are two extra entries: primary &amp; secondary. And if you scroll back up the page a bit, you will see another one: accentColor.</p>
+<p>Choosing one of the preset options is the easiest way to select a color. But try this:</p>
+<p>In your code, type <code>let uiColor = UIColor.</code> and have a look at the auto-complete suggestions that appear after you type the period. Scrolling past the various <code>init</code> methods, you will see that <code>UIColor</code> has a lot more options than <code>Color</code>. There are a bunch of colors, a section of system colors and a lot of semantic colors like placeholderText, secondarySystemBackground.</p>
+<p>Why does UIColor get these other useful looking options and Color does not?</p>
+<p>Well, I don't have an answer to that except that I hope they will appear over time. But in the meantime, it is easy enough to create a SwiftUI <code>Color</code> from a <code>UIColor</code>.</p>
+<pre class="language-swift"><code class="language-swift">    <span class="token keyword">let</span> backgroundColor <span class="token operator">=</span> <span class="token class-name">Color</span><span class="token punctuation">(</span><span class="token class-name">UIColor</span><span class="token punctuation">.</span>secondarySystemBackground<span class="token punctuation">)</span>
+
+    <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+      <span class="token class-name">VStack</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Hello, World!"</span></span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+      <span class="token punctuation">.</span><span class="token function">background</span><span class="token punctuation">(</span>backgroundColor<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span></code></pre>
+<p>If you know the RGB values of the color you want to use, it is possible to create a <code>Color</code> directly by various methods like this one for setting the color using the RGB values.</p>
+<pre class="language-swift"><code class="language-swift">    <span class="token keyword">let</span> rgbColor <span class="token operator">=</span> <span class="token class-name">Color</span><span class="token punctuation">(</span>red<span class="token punctuation">:</span> <span class="token number">1.0</span><span class="token punctuation">,</span> green<span class="token punctuation">:</span> <span class="token number">0.5</span><span class="token punctuation">,</span> blue<span class="token punctuation">:</span> <span class="token number">0.5</span><span class="token punctuation">)</span></code></pre>
+<p>But when you get to this stage, I strongly suggest that you start using color assets instead.</p>
+<hr>
+<h2>Using Color Assets</h2>
+<p>Go to Assets.xcassets and click the plus button at the bottom of the list of assets. Select &quot;New Color Set&quot; and you will get a new asset called &quot;Color&quot;. You can double-click the name to edit it to something that makes sense to you.</p>
+<p>false</p>
+<p><img src="/images/2020/swiftui-colors-add-set.png" alt="Add Color Set"></p>
+<p>While naming it after the color may seem logical, I prefer to think about the use cases for this color and set the name to something like &quot;cardBackground&quot; or &quot;alertText&quot;.</p>
+<p>By default, your new color set will contains a single color block. Click in the color block itself and then you will be able to edit the color in the Attributes Inspector. If you click the &quot;Content&quot; popup, you will get access to all the system colors, and you can also select any color space and create a custom color using that color space. Click &quot;Color Panel&quot; to access a standard color picker if you need it. And change the input method to whatever suits the color information you have.</p>
+<p><img src="/images/2020/swiftui-colors-set.png" alt="Edit Color Set"></p>
+<p>Modern apps need to be able to handle light and dark modes, and this is where using a color set really shines. Set the color to what you want to use for light mode and then choose &quot;Any, Dark&quot; from the Appearances popup menu in the Attributes Inspector.</p>
+<p>Now your color set has two blocks and you can change the Dark one to whatever color this should be in dark mode. This feature of Color Sets is a very strong argument for using them instead of defining colors using their RGB values.</p>
+<p><img src="/images/2020/swiftui-colors-multi-set.png" alt="Light &amp; Dark Color Set"></p>
+<p>And now for the really neat part. To use any of these color sets in your code, add a modifier like <code>foregroundColor</code> just the same as usual, but when the placeholder for the color is selected, press Shift-Command-L to bring up the Library palette and choose the Color icon at the right. You will see all your color sets there and you can insert them easily and accurately.</p>
+<p><img src="/images/2020/swiftui-colors-use-color-set.webp" alt="Using a Color Set"></p>
+<p>Here is the code for my <code>AlertView</code> using two color sets.</p>
+<p>Some people may object to using &quot;magic strings&quot; to specify the color sets but I feel that so long as the Library is used to insert the color names automatically, there is very little chance of error. But you could always make an enum or struct of color name constants and use these instead.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">AlertView</span><span class="token punctuation">:</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> alertText <span class="token operator">=</span> <span class="token string-literal"><span class="token string">"Something went wrong!"</span></span>
+
+    <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Text</span><span class="token punctuation">(</span>alertText<span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">padding</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">background</span><span class="token punctuation">(</span><span class="token class-name">Color</span><span class="token punctuation">(</span><span class="token class-name">UIColor</span><span class="token punctuation">.</span>secondarySystemBackground<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">cornerRadius</span><span class="token punctuation">(</span><span class="token number">15</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">shadow</span><span class="token punctuation">(</span>color<span class="token punctuation">:</span> <span class="token class-name">Color</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"alertShadow"</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> radius<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span> x<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> y<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">foregroundColor</span><span class="token punctuation">(</span><span class="token class-name">Color</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"alertText"</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">struct</span> <span class="token class-name">AlertView_Previews</span><span class="token punctuation">:</span> <span class="token class-name">PreviewProvider</span> <span class="token punctuation">{</span>
+    <span class="token keyword">static</span> <span class="token keyword">var</span> previews<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Group</span> <span class="token punctuation">{</span>
+            <span class="token class-name">AlertView</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">preferredColorScheme</span><span class="token punctuation">(</span><span class="token punctuation">.</span>light<span class="token punctuation">)</span>
+            <span class="token class-name">AlertView</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">preferredColorScheme</span><span class="token punctuation">(</span><span class="token punctuation">.</span>dark<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        <span class="token punctuation">.</span><span class="token function">previewLayout</span><span class="token punctuation">(</span><span class="token punctuation">.</span>sizeThatFits<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>And here is a composite image showing the two versions of the alert with the colors specified by two color sets:</p>
+<p><img src="/images/2020/swiftui-colors-alerts.png" alt="Alerts Using Color Set"></p>
+<hr>
+<h2>Light &amp; Dark Mode System Colors</h2>
+<p>Color's preset colors adapt automatically to the environment so that they work with dark mode or light mode just like your own Color Sets can.</p>
+<p>I wrote a test view to loop through all the preset colors (except clear) and display their descriptions in their own color.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">ContentView</span><span class="token punctuation">:</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> standardColors<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token class-name">Color</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">.</span>black<span class="token punctuation">,</span> <span class="token punctuation">.</span>white<span class="token punctuation">,</span> <span class="token punctuation">.</span>gray<span class="token punctuation">,</span> <span class="token punctuation">.</span>red<span class="token punctuation">,</span> <span class="token punctuation">.</span>green<span class="token punctuation">,</span> <span class="token punctuation">.</span>blue<span class="token punctuation">,</span> <span class="token punctuation">.</span>orange<span class="token punctuation">,</span>
+        <span class="token punctuation">.</span>yellow<span class="token punctuation">,</span> <span class="token punctuation">.</span>pink<span class="token punctuation">,</span> <span class="token punctuation">.</span>purple<span class="token punctuation">,</span> <span class="token punctuation">.</span>primary<span class="token punctuation">,</span> <span class="token punctuation">.</span>secondary<span class="token punctuation">,</span> <span class="token punctuation">.</span>accentColor
+    <span class="token punctuation">]</span>
+
+    <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+        <span class="token class-name">VStack</span><span class="token punctuation">(</span>alignment<span class="token punctuation">:</span> <span class="token punctuation">.</span>leading<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">ForEach</span><span class="token punctuation">(</span>standardColors<span class="token punctuation">,</span> id<span class="token punctuation">:</span> <span class="token punctuation">\</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> color <span class="token keyword">in</span>
+                <span class="token class-name">Text</span><span class="token punctuation">(</span>color<span class="token punctuation">.</span>description<span class="token punctuation">)</span>
+                    <span class="token punctuation">.</span><span class="token function">bold</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                    <span class="token punctuation">.</span><span class="token function">foregroundColor</span><span class="token punctuation">(</span>color<span class="token punctuation">)</span>
+            <span class="token punctuation">}</span>
+            <span class="token punctuation">.</span><span class="token function">font</span><span class="token punctuation">(</span><span class="token punctuation">.</span>title<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        <span class="token punctuation">.</span><span class="token function">padding</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">struct</span> <span class="token class-name">ContentView_Previews</span><span class="token punctuation">:</span> <span class="token class-name">PreviewProvider</span> <span class="token punctuation">{</span>
+    <span class="token keyword">static</span> <span class="token keyword">var</span> previews<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Group</span> <span class="token punctuation">{</span>
+            <span class="token class-name">ContentView</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">preferredColorScheme</span><span class="token punctuation">(</span><span class="token punctuation">.</span>light<span class="token punctuation">)</span>
+            <span class="token class-name">ContentView</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">preferredColorScheme</span><span class="token punctuation">(</span><span class="token punctuation">.</span>dark<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>The canvas shows two previews: one for light mode and one for dark mode.</p>
+<p>If you have a color picker app (I use <a href="https://github.com/Toinane/colorpicker/releases/tag/2.0.3" rel="noreferrer nofollow noopener external" target="_blank">Colorpicker</a>), you can detect the RGB values in the two previews. I made the font bold to make this easier. Red is <code>rgb(232, 77, 61)</code> in light mode but <code>rgb(233, 85, 69)</code> in dark mode. And the others have similar modifications to make them look their best in each environment.</p>
+<p>Take particular note of the three at the bottom of the list: primary, secondary and accentColor. These are incredibly useful when making a layout that works in both light and dark modes.</p>
+<p><img src="/images/2020/swiftui-colors-light-dark.png" alt="Color previews"></p>
+<p>When choosing a UIColor or NSColor, it is best to use the system versions, so <code>.systemBlue</code> instead of <code>.blue</code> as this gives the dark/light variants that we just saw. And the other semantic colors like <code>UIColor.secondarySystemBackground</code> also have dark/light variants automatically.</p>
+<hr>
+<h3>Color as a View</h3>
+<p>Now let's consider the effect of <code>Color</code> being a view and not just a description of a tint. Imagine you wanted to draw a colored box on the screen. Using UIKit, you would probably think of using a <code>UIView</code>. With AppKit, maybe an <code>NSBox</code>. Or perhaps you would have jumped straight to a Bezier path.</p>
+<p>Create a new SwiftUI view and replace the default <code>Text</code> with a <code>Color</code>, like this:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">BoxView</span><span class="token punctuation">:</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Color</span><span class="token punctuation">.</span>blue
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Resume the canvas preview and you will see the color fill the preview iPhone screen, except for the safe areas top and bottom.</p>
+<p>To make this into a box, add a <code>frame</code> modifier with the required height and width. And now you have a box, far more easily than you could in either UIKit or AppKit.</p>
+<p>To be honest, in SwiftUI, you would probably use a <code>Rectangle</code> instead of a plain <code>Color</code> if you wanted a box of a set size but it is interesting to consider how <code>Color</code> could be made to work.</p>
+<p>A more valuable use of <code>Color</code> is to set the background.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">BackgroundView</span><span class="token punctuation">:</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+        <span class="token class-name">ZStack</span> <span class="token punctuation">{</span>
+            <span class="token class-name">Color</span><span class="token punctuation">.</span>green
+
+            <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Hello, green background"</span></span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>This makes the entire background green and shows the text centered on it.</p>
+<p>And to make the color extend into the safe areas:</p>
+<pre class="language-swift"><code class="language-swift">  <span class="token class-name">Color</span><span class="token punctuation">.</span>green<span class="token punctuation">.</span><span class="token function">edgesIgnoringSafeArea</span><span class="token punctuation">(</span><span class="token punctuation">.</span>all<span class="token punctuation">)</span></code></pre>
+<p>I prefer to put the <code>edgesIgnoringSafeArea</code> modifier on the <code>Color</code> only and not on the entire <code>ZStack</code>. That way the other contents of the <code>ZStack</code> will all stay inside the safe area.</p>
+<hr>
+<p>So in summary, use preset colors or color assets to set your colors. And use the <code>Color</code> view to set a background color for a view.</p>
+<p>I hope you found this article useful, and if you have any suggestions, corrections or improvements, please contact me using one of the links below or through the <a href="/contact/">Contact</a> page.</p>
+
+        </article>
+    </section>
+
+    </main>
+    <footer>
+        <div class="footer-content">
+  <nav>
+    <ul class="footer-links">
+      
+        <li>
+          <a href="mailto:info@troz.net">
+            <img src="/images/links/envelope.svg" alt="Email" title="Email" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://mastodon.social/@troz" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/mastodon.png" alt="Mastodon" title="Mastodon" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://linktr.ee/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/tree.svg" alt="Linktree" title="Linktree" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://github.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/github.svg" alt="GitHub" title="GitHub" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://stackoverflow.com/users/1082632" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/stack-overflow.svg" alt="Stack Overflow" title="Stack Overflow" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://dev.to/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/dev-badge.svg" alt="Dev To" title="Dev To" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/index.xml">
+            <img src="/images/links/rss.svg" alt="RSS Feed" title="RSS Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/atom.xml">
+            <img src="/images/links/atom.svg" alt="Atom Feed" title="Atom Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/feed.json">
+            <img src="/images/links/json.png" alt="JSON Feed" title="JSON Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://ko-fi.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/kofi1.png.webp" alt="Buy Me a Coffee" title="Buy Me a Coffee" height="30px" >
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+
+        <div class="copyright">
+            <p>Copyright &copy; 2025 Sarah Reichelt, TrozWare</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            let searchElement = document.getElementById('search');
+            if (searchElement) {
+                new PagefindUI({ element: searchElement, showSubResults: true });
+            }
+        });
+    </script>
+    <script src="/js/theme_switcher.js"></script>
+    <script src="/js/clipboard.js"></script>
+    <script src="/js/menu.js"></script>
+</body>
+</html>

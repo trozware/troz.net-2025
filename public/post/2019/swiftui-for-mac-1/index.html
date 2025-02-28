@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftUI for Mac - Part 1</title>
+    
+    <link href="/styles/style.css" rel="stylesheet" >
+
+
+    <link href="/styles/prism.css" rel="stylesheet" >
+
+
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+<style>
+@media (prefers-color-scheme: dark) {
+    :root {
+    --pagefind-ui-primary: #eeeeee;
+    --pagefind-ui-text: #eeeeee;
+    --pagefind-ui-background: #152028;
+    --pagefind-ui-border: #152028;
+    --pagefind-ui-tag: #152028;
+    }
+}
+</style>
+    
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<meta property="og:site_name" content="TrozWare" >
+<meta property="og:title" content="SwiftUI for Mac - Part 1 - TrozWare" >
+<meta property="og:type" content="website" >
+<meta property="og:url" content="https://troz.net/post/2019/swiftui-for-mac-1/" >
+<meta name="keywords" content="Mac app development, Apple Mac, Xcode, Swift, SwiftUI, Apple macOS, books, articles, blog, apps, developer, author, Sarah Reichelt">
+
+
+
+
+  <meta name="description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+  <meta property="og:description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+
+
+
+<link rel="alternate" type="application/rss+xml" href="/index.xml" title="TrozWare">
+<link rel="alternate" type="application/atom+xml" href="/atom.xml" title="TrozWare">
+<link rel="alternate" type="application/json" href="/feed.json" title="TrozWare">
+
+
+<link rel="icon" type="image/png" href="/images/favicon.png">
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+
+<body>
+    <header>
+  <nav class="container">
+    <div class="nav-brand">
+      <a href="/" class="site-title">TrozWare</a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+
+    <ul class="nav-links">
+      
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+      
+        <li>
+          <a href="/books/" class="nav-link">Books</a>
+        </li>
+      
+        <li>
+          <a href="/apps/" class="nav-link">Apps</a>
+        </li>
+      
+        <li>
+          <a href="/archives/" class="nav-link">Archives</a>
+        </li>
+      
+        <li>
+          <a href="/tags/" class="nav-link">Tags</a>
+        </li>
+      
+        <li>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </li>
+      
+
+      <li>
+        <button           class="theme-toggle"
+          type="button"
+          title="Toggle theme"
+          aria-label="Toggle theme"
+          onclick="toggleTheme()"
+        >
+          <svg             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            width="1em"
+            height="1em"
+            class="theme-toggle__dark-side"
+            fill="currentColor"
+            viewBox="0 0 32 32"
+          >
+            <path d="M16 .5C7.4.5.5 7.4.5 16S7.4 31.5 16 31.5 31.5 24.6 31.5 16 24.6.5 16 .5zm0 28.1V3.4C23 3.4 28.6 9 28.6 16S23 28.6 16 28.6z" ></path>
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+    
+	<main>
+        
+    <section class="post">
+        <h1 data-pagefind-meta="title">SwiftUI for Mac - Part 1</h1>
+
+        <p>
+            15th December 2019 • 1,544 words • 8 minutes  reading time.
+        </p>
+
+        <div class="tag-list">
+            
+                <a href="/tags/#swift" class="tag-button">#Swift</a>
+            
+                <a href="/tags/#swiftui" class="tag-button">#SwiftUI</a>
+            
+                <a href="/tags/#macos" class="tag-button">#macOS</a>
+            
+        </div>
+
+        <article data-pagefind-body>
+            <p>So far, nearly all the articles I have seen about SwiftUI show it being used for iOS, more particularly for iPhone.
+But SwiftUI works on all Apple's platforms, and as I am primarily a Mac developer, I decided to try out a Mac app and see what happened.</p>
+
+<p>false</p>
+<h2>Setup</h2>
+<p>I opened up Xcode and created a new project selecting the macOS App template. The project opened at the usual ContentView.swift but there were a few differences in the project structure as well as one in the ContentView struct.</p>
+<p><img src="/images/2019/SwiftUI-Mac-project.png" alt="New Mac project"></p>
+<p>The first thing to notice is that the default &quot;Hello, World!&quot; Text view has a frame set:</p>
+<pre class="language-swift"><code class="language-swift">  <span class="token punctuation">.</span><span class="token function">frame</span><span class="token punctuation">(</span>maxWidth<span class="token punctuation">:</span> <span class="token punctuation">.</span>infinity<span class="token punctuation">,</span> maxHeight<span class="token punctuation">:</span> <span class="token punctuation">.</span>infinity<span class="token punctuation">)</span></code></pre>
+<p>If I removed this frame modifier, the preview display in the Canvas changed so that the view was only the size of the text instead of being a standard window size. I guess an iOS device always knows what size it is, but a Mac window can be any size, so you have to be more explicit to stop SwiftUI shrinking the container view to the minimum size possible.</p>
+<p>The next thing is to look at the files that are included in the project. There is no SceneDelegate.swift as you would see in an iOS project. And to my surprise, there was still a Main.storyboard file! And going to the General settings for the app target, I could see that this storyboard was selected as the Main Interface.</p>
+<p>Opening it up reveals that this is where the application menu is configured. I had wondered where the menus were configured in Mac SwiftUI apps.</p>
+<p><img src="/images/2019/SwiftUI-Mac-Storyboard.png" alt="Main storyboard"></p>
+<p>The AppDelegate was the next thing I looked at and here I found some of the code that I would have expected to find in a SceneDelegate. The <code>applicationDidFinishLaunching(_:)</code> method creates an instance of ContentView, creates an NSWindow and uses an NSHostingView to display the ContentView inside the window. At this stage, running the app gives me what I would expect: a fully-fledged Mac app with a window and a menu, both with all the functions you would expect in any standard Mac app.</p>
+<h2>The Canvas</h2>
+<p>I was not expecting the Canvas to be much use when it came to previewing a Mac app. It works so well with an iPhone app because the iPhone is tall and thin and fits neatly into one side of the code window. But a Mac view is likely to be much bigger, so it would have to be scaled down a lot to avoid talking up too much precious space in my Xcode window.</p>
+<p>But it works as expected, and even scaled down, you get a good idea of the layout while still getting the live reloading that is part of what makes developing in SwiftUI so much fun.</p>
+<p><img src="/images/2019/SwiftUI-Mac-Canvas.png" alt="Canvas"></p>
+<p>But here is where I got my first real surprise, with a feature that I had not seen yet in any SwiftUI tutorial or article. Click the Live Preview button and see what happens...</p>
+<p><img src="/images/2019/SwiftUI-Mac-LivePreview.png" alt="Live Preview"></p>
+<p>Of course I clicked &quot;Bring Forward&quot; and there was my app running in a window called &quot;Xcode Preview&quot;. There was an app in my Dock and when I chose &quot;Show in Finder&quot;, I found that the app is buried deep in DerivedData. Positioning my windows so I could type in Xcode while watching this preview window, I saw that it instantly updated my view as I typed, just like an iPhone in the Canvas.</p>
+<p>If I changed the structure of the view, the app closed and re-opened immediately with the new content. This is amazing and shows that the Xcode &amp; SwiftUI teams really thought about how to use these new features in Mac apps as well as iOS.</p>
+<blockquote>
+<p>In Xcode 11.3, I found that I was having trouble with the previews. They would not display and above the Canvas, I got the super helpful message &quot;Cannot preview in this file --- SwiftUI-Mac.app may have crashed.&quot;. It turned out that this was a signing issue. If you go to the app target and look in the Signing and Capabilities section, check that Signing Certificate is not set to &quot;Sign to Run Locally&quot;. If it is, switch to &quot;Development&quot; and the previews will start working again.</p>
+<p><img src="/images/2019/SwiftUI-Mac-signing.png" alt="Code signing"></p>
+</blockquote>
+<h2>Laying out the View</h2>
+<p>Now that I have the project and I know how to preview it, it's time to work out what to display in the app. The next real app I want to work on will use a master-detail layout, so that is what I decided to try here.</p>
+<p>Before worrying about the data, I decided to try populating the master view with a static list and using that to navigate to a detail view that was simply a Text view.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">ContentView</span><span class="token punctuation">:</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+        <span class="token class-name">NavigationView</span> <span class="token punctuation">{</span>
+             <span class="token class-name">List</span> <span class="token punctuation">{</span>
+                 <span class="token class-name">ForEach</span><span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">...</span> <span class="token number">10</span><span class="token punctuation">,</span> id<span class="token punctuation">:</span> <span class="token punctuation">\</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> index <span class="token keyword">in</span>
+                     <span class="token class-name">NavigationLink</span><span class="token punctuation">(</span>destination<span class="token punctuation">:</span> <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"</span><span class="token interpolation-punctuation punctuation">\(</span><span class="token interpolation">index</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string">"</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                         <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Link </span><span class="token interpolation-punctuation punctuation">\(</span><span class="token interpolation">index</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string">"</span></span><span class="token punctuation">)</span>
+                     <span class="token punctuation">}</span>
+                 <span class="token punctuation">}</span>
+             <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>This worked, except that the left column was only about 20 pixels wide. But I was able to use the mouse to drag it wider and there were my List entries. Clicking on one did indeed show the detail I wanted, but it shrunk the window to one line high!</p>
+<p>The first thing I did was to apply a <code>listStyle</code> modifier to make it show the semi-transparent Mac sidebar. This fixed the width of the sidebar. But the whole window still shrunk when I selected an item.</p>
+<pre class="language-swift"><code class="language-swift">  <span class="token punctuation">.</span><span class="token function">listStyle</span><span class="token punctuation">(</span><span class="token class-name">SidebarListStyle</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
+<p>I tried applying the frame modifier to the NavigationView and that made the window stay the same size, but the content still shrunk into a tiny section in the middle. It looks like I need to apply that frame modifier to the detail view as well.</p>
+<pre class="language-swift"><code class="language-swift">  <span class="token punctuation">.</span><span class="token function">frame</span><span class="token punctuation">(</span>maxWidth<span class="token punctuation">:</span> <span class="token punctuation">.</span>infinity<span class="token punctuation">,</span> maxHeight<span class="token punctuation">:</span> <span class="token punctuation">.</span>infinity<span class="token punctuation">)</span></code></pre>
+<p>And as you can see from this gif, I then had a full functional master-detail view with a collapsible and expandable semi-transparent sidebar.</p>
+<p><img src="/images/2019/SwiftUI-Mac-master-detail.gif" alt="Master detail view"></p>
+<h2>Adding Data</h2>
+<p>After some scouting around for a free API that I could hook into, I came across <a href="https://http.cat" rel="noreferrer nofollow noopener external" target="_blank">HTTP Cats</a> which is a site that serves up a cat image to match almost every HTTP status code.</p>
+<p>This sounded ideal: I can list the codes in the master view on the left and display the image in the detail view on the right.</p>
+<p>First I created a JSON file to list all the HTTP status codes so that I could put them into a List view. This was a very simple array with each entry having a code and a title:</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    <span class="token property">"code"</span><span class="token operator">:</span> <span class="token string">"100"</span><span class="token punctuation">,</span>
+    <span class="token property">"title"</span><span class="token operator">:</span> <span class="token string">"Continue"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>
+    <span class="token property">"code"</span><span class="token operator">:</span> <span class="token string">"101"</span><span class="token punctuation">,</span>
+    <span class="token property">"title"</span><span class="token operator">:</span> <span class="token string">"Switching Protocols"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  ...
+<span class="token punctuation">]</span></code></pre>
+<p>I created an HttpStatus struct with these 2 properties and I borrowed <a href="https://www.hackingwithswift.com/example-code/system/how-to-decode-json-from-your-app-bundle-the-easy-way" rel="noreferrer nofollow noopener external" target="_blank">Paul Hudson's excellent Helper Bundle extension</a> to decode the JSON file. For a first attempt, I used the numeric codes to build the list and showed the title of the selected one in the detail view. But one of the best things about SwiftUI is that it makes it so easy to configure table rows, so it is time to create a new View to do this.</p>
+<p>After some experimentation, I had a TableRowView that I liked the look of, but the default sidebar width was too narrow and truncated the status code titles, so I added a frame modifier to the List to set a minimum and maximum width for the sidebar.</p>
+<p><img src="/images/2019/SwiftUI-Mac-Master.png" alt="Master view"></p>
+<h2>Outline List</h2>
+<p>At this point I decided that it would be more useful to have a outline list with the status codes grouped by their category.</p>
+<p>So I re-did the JSON file to show this, added an HttpSection struct and a SectionHeaderView and modified the data loading method and @State variable.</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    <span class="token property">"headerCode"</span><span class="token operator">:</span> <span class="token string">"1xx"</span><span class="token punctuation">,</span>
+    <span class="token property">"headerText"</span><span class="token operator">:</span> <span class="token string">"Informational"</span><span class="token punctuation">,</span>
+    <span class="token property">"statuses"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        <span class="token property">"code"</span><span class="token operator">:</span> <span class="token string">"100"</span><span class="token punctuation">,</span>
+        <span class="token property">"title"</span><span class="token operator">:</span> <span class="token string">"Continue"</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        <span class="token property">"code"</span><span class="token operator">:</span> <span class="token string">"101"</span><span class="token punctuation">,</span>
+        <span class="token property">"title"</span><span class="token operator">:</span> <span class="token string">"Switching Protocols"</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>
+    <span class="token property">"headerCode"</span><span class="token operator">:</span> <span class="token string">"2xx"</span><span class="token punctuation">,</span>
+    <span class="token property">"headerText"</span><span class="token operator">:</span> <span class="token string">"Success"</span><span class="token punctuation">,</span>
+    <span class="token property">"statuses"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        <span class="token property">"code"</span><span class="token operator">:</span> <span class="token string">"200"</span><span class="token punctuation">,</span>
+        <span class="token property">"title"</span><span class="token operator">:</span> <span class="token string">"OK"</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
+<p>This worked really well and I was thrilled to find that the sections automatically had Show/Hide toggles!</p>
+<p><img src="/images/2019/SwiftUI-Mac-outline.png" alt="Outline view"></p>
+<h2>Detail View</h2>
+<p>Up until now, I had been using a standard Text view as the destination for my navigation. This is a really useful technique as you can build the interface gradually but have it work from the beginning. But now it was time to create a new view for the details.</p>
+<p>I set up the view and added a method that would download the correct cat image when the view appeared but there was no image. After some digging, I realised that sand-boxed Mac apps do not allow network access by default. I went to the Signing &amp; Capabilities section of the target settings and turned on &quot;Outgoing Connections (Client)&quot;. And then I had my cat pictures.</p>
+<p><img src="/images/2019/SwiftUI-Mac-detail.png" alt="Detail view"></p>
+<p>It really should have a loading image to display while the cat image is being downloaded, but to my disappointment, I found that the SF Symbols are not available to a Mac app! But I added a Text view to say &quot;Loading...&quot;.</p>
+<p>Now that I have a functioning Mac app with a Master-Detail view, the next thing is to explore some more of the challenges that will need to be solved before I can write a Mac app completely using SwiftUI.</p>
+<p>If you want to check out the project at this stage, here is a link to the <a href="https://github.com/trozware/swiftui-mac/tree/8ebeb615db81f9d7b6489a1920ebb08d07131ebb" rel="noreferrer nofollow noopener external" target="_blank">relevant GitHub commit</a>. Or if you would prefer, here is a link to the <a href="https://github.com/trozware/swiftui-mac" rel="noreferrer nofollow noopener external" target="_blank">final version</a> of the project.</p>
+<hr>
+<p>In <a href="/post/2019/swiftui-for-mac-2/">part 2 of this series</a>, I will look into:</p>
+<ul>
+<li>how to interact with the menus</li>
+<li>how to open a secondary window</li>
+<li>more user interface controls</li>
+<li>how to pass data around between windows</li>
+</ul>
+
+        </article>
+    </section>
+
+    </main>
+    <footer>
+        <div class="footer-content">
+  <nav>
+    <ul class="footer-links">
+      
+        <li>
+          <a href="mailto:info@troz.net">
+            <img src="/images/links/envelope.svg" alt="Email" title="Email" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://mastodon.social/@troz" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/mastodon.png" alt="Mastodon" title="Mastodon" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://linktr.ee/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/tree.svg" alt="Linktree" title="Linktree" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://github.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/github.svg" alt="GitHub" title="GitHub" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://stackoverflow.com/users/1082632" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/stack-overflow.svg" alt="Stack Overflow" title="Stack Overflow" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://dev.to/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/dev-badge.svg" alt="Dev To" title="Dev To" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/index.xml">
+            <img src="/images/links/rss.svg" alt="RSS Feed" title="RSS Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/atom.xml">
+            <img src="/images/links/atom.svg" alt="Atom Feed" title="Atom Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/feed.json">
+            <img src="/images/links/json.png" alt="JSON Feed" title="JSON Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://ko-fi.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/kofi1.png.webp" alt="Buy Me a Coffee" title="Buy Me a Coffee" height="30px" >
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+
+        <div class="copyright">
+            <p>Copyright &copy; 2025 Sarah Reichelt, TrozWare</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            let searchElement = document.getElementById('search');
+            if (searchElement) {
+                new PagefindUI({ element: searchElement, showSubResults: true });
+            }
+        });
+    </script>
+    <script src="/js/theme_switcher.js"></script>
+    <script src="/js/clipboard.js"></script>
+    <script src="/js/menu.js"></script>
+</body>
+</html>

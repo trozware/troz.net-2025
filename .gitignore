@@ -10,6 +10,5 @@ Thumbs.db
 .cache
 .specstory
 
-# Node modules and output
+# Node modules
 node_modules
-public

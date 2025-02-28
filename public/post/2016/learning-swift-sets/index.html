@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Swift - Sets</title>
+    
+    <link href="/styles/style.css" rel="stylesheet" >
+
+
+    <link href="/styles/prism.css" rel="stylesheet" >
+
+
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+<style>
+@media (prefers-color-scheme: dark) {
+    :root {
+    --pagefind-ui-primary: #eeeeee;
+    --pagefind-ui-text: #eeeeee;
+    --pagefind-ui-background: #152028;
+    --pagefind-ui-border: #152028;
+    --pagefind-ui-tag: #152028;
+    }
+}
+</style>
+    
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<meta property="og:site_name" content="TrozWare" >
+<meta property="og:title" content="Learning Swift - Sets - TrozWare" >
+<meta property="og:type" content="website" >
+<meta property="og:url" content="https://troz.net/post/2016/learning-swift-sets/" >
+<meta name="keywords" content="Mac app development, Apple Mac, Xcode, Swift, SwiftUI, Apple macOS, books, articles, blog, apps, developer, author, Sarah Reichelt">
+
+
+
+
+  <meta name="description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+  <meta property="og:description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+
+
+
+<link rel="alternate" type="application/rss+xml" href="/index.xml" title="TrozWare">
+<link rel="alternate" type="application/atom+xml" href="/atom.xml" title="TrozWare">
+<link rel="alternate" type="application/json" href="/feed.json" title="TrozWare">
+
+
+<link rel="icon" type="image/png" href="/images/favicon.png">
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+
+<body>
+    <header>
+  <nav class="container">
+    <div class="nav-brand">
+      <a href="/" class="site-title">TrozWare</a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+
+    <ul class="nav-links">
+      
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+      
+        <li>
+          <a href="/books/" class="nav-link">Books</a>
+        </li>
+      
+        <li>
+          <a href="/apps/" class="nav-link">Apps</a>
+        </li>
+      
+        <li>
+          <a href="/archives/" class="nav-link">Archives</a>
+        </li>
+      
+        <li>
+          <a href="/tags/" class="nav-link">Tags</a>
+        </li>
+      
+        <li>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </li>
+      
+
+      <li>
+        <button           class="theme-toggle"
+          type="button"
+          title="Toggle theme"
+          aria-label="Toggle theme"
+          onclick="toggleTheme()"
+        >
+          <svg             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            width="1em"
+            height="1em"
+            class="theme-toggle__dark-side"
+            fill="currentColor"
+            viewBox="0 0 32 32"
+          >
+            <path d="M16 .5C7.4.5.5 7.4.5 16S7.4 31.5 16 31.5 31.5 24.6 31.5 16 24.6.5 16 .5zm0 28.1V3.4C23 3.4 28.6 9 28.6 16S23 28.6 16 28.6z" ></path>
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+    
+	<main>
+        
+    <section class="post">
+        <h1 data-pagefind-meta="title">Learning Swift - Sets</h1>
+
+        <p>
+            28th May 2016 • 947 words • 6 minutes  reading time.
+        </p>
+
+        <div class="tag-list">
+            
+                <a href="/tags/#learning-swift" class="tag-button">#Learning Swift</a>
+            
+                <a href="/tags/#swift" class="tag-button">#Swift</a>
+            
+        </div>
+
+        <article data-pagefind-body>
+            <p>Sets are the forgotten collection type in many languages, including Swift. I
+think most developers use Arrays without really considering the advantages of
+using a Set but they have some amazingly useful features that should make them a
+part of any programmer's toolkit.</p>
+<p>If you want to follow along with a playground, you can download it <a href="https://github.com/trozware/sets" rel="noreferrer nofollow noopener external" target="_blank">here</a>.</p>
+<h2>What is a Set?</h2>
+<p><strong>A Set is an un-ordered collection of unique items.</strong> That's it - nothing more
+than that. So it is very similar to an Array, but it is not indexed like an
+Array and it cannot contain more than one of each entry.</p>
+<h2>Creating a Set</h2>
+<p>Creating a Set is as easy as creating an Array:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">var</span> myArray <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"dog"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"cat"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"hamster"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"dog"</span></span><span class="token punctuation">]</span>
+<span class="token keyword">var</span> mySet<span class="token punctuation">:</span> <span class="token class-name">Set</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"dog"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"cat"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"hamster"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"dog"</span></span><span class="token punctuation">]</span></code></pre>
+<p>If you are running these commands in a playground, notice that the differences
+between the 2 results:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"dog"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"cat"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"hamster"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"dog"</span></span><span class="token punctuation">]</span>    <span class="token comment">// myArray</span>
+<span class="token punctuation">{</span><span class="token string-literal"><span class="token string">"hamster"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"cat"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"dog"</span></span><span class="token punctuation">}</span>           <span class="token comment">// mySet</span></code></pre>
+<ol>
+<li>The Array is shown wrapped in square brackets, the Set is shown wrapped in
+curly braces. This is just a visual clue and doesn't really mean anything.
+You cannot initialize a set using curly braces.</li>
+<li>All the supplied elements of the Array are listed, but the Set has removed
+the duplicate &quot;dog&quot; element. This did not cause an error or warning, it just
+happened quietly.</li>
+</ol>
+<p>When initializing a Set, you must add <code>: Set</code> to distinguish it from an array
+initialization. In the example above, I did not specify the data type of the
+elements in the Set as the Swift compiler was able to infer this from the
+contents. But if initializing an empty array, the data type must be specified.
+To check how to do this, I option-clicked on <code>mySet</code> to see what the Swift
+compiler thought it was.</p>
+<p><img src="/images/2016/set_types.png" alt="Sets"></p>
+<p>So mySet is actually <code>Set&lt;String&gt;</code>. This means that to create an empty Set, you
+need to use something like this:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">var</span> emptySetOfStrings<span class="token punctuation">:</span> <span class="token class-name">Set</span><span class="token operator">&lt;</span><span class="token class-name">String</span><span class="token operator">></span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token keyword">var</span>
+emptySetOfInts<span class="token punctuation">:</span> <span class="token class-name">Set</span><span class="token operator">&lt;</span><span class="token class-name">Int</span><span class="token operator">></span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
+<h2>Adding and removing elements</h2>
+<p>If you have been using an Array to store unique values, then you have probably
+written code like this:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">if</span> <span class="token operator">!</span>myArray<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"cat"</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  myArray<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"cat"</span></span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>With Sets, you don't have to care. Just use <code>insert()</code> and let the Set work out
+whether to add the item or not.</p>
+<pre class="language-swift"><code class="language-swift">mySet<span class="token punctuation">.</span><span class="token function">insert</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"goldfish"</span></span><span class="token punctuation">)</span>
+<span class="token comment">// goldfish added: {"hamster", "cat", "dog", "goldfish"}</span>
+mySet<span class="token punctuation">.</span><span class="token function">insert</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"dog"</span></span><span class="token punctuation">)</span>
+<span class="token comment">// dog already there: {"hamster", "cat", "dog", "goldfish"}</span></code></pre>
+<p>Removing elements is also easier than in Arrays. For an Array, you first have to
+find the index of the element and remove it by index:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token comment">// myArray.remove("hamster") // will not compile</span>
+<span class="token keyword">if</span> <span class="token keyword">let</span> index <span class="token operator">=</span> myArray<span class="token punctuation">.</span><span class="token function">index</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">"hamster"</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  myArray<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>at<span class="token punctuation">:</span> index<span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>But in a Set, you can remove any element easily and trying to remove an element
+that doesn't exist will fail without an error.</p>
+<pre class="language-swift"><code class="language-swift">mySet<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"hamster"</span></span><span class="token punctuation">)</span>   <span class="token comment">// returns "hamster"</span>
+mySet<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"canary"</span></span><span class="token punctuation">)</span>    <span class="token comment">// returns nil</span></code></pre>
+<h2>Converting between Sets and Arrays</h2>
+<p>Sometimes you need to be able to switch between the two. My most recent example
+was when I wanted to store data from a Set in a plist. Sets are not property
+list types but Arrays are, so I converted the Set to an Array before storing it
+in the plist. When reading the data in from the plist, I converted it back to a
+Set.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">let</span> myArrayAsSet <span class="token operator">=</span> <span class="token class-name">Set</span><span class="token punctuation">(</span>myArray<span class="token punctuation">)</span>
+<span class="token keyword">let</span> mySetAsArray <span class="token operator">=</span> <span class="token class-name">Array</span><span class="token punctuation">(</span>mySet<span class="token punctuation">)</span></code></pre>
+<p>One useful side-effect of these easy conversions is the ability to 'unique' an
+Array in a single line. This may be inefficient for large arrays, but works very
+well for small ones. Just be careful if the order of the elements is important
+as you cannot guarantee the order of elements in a Set.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">let</span> myArrayUniqued <span class="token operator">=</span> <span class="token class-name">Array</span><span class="token punctuation">(</span><span class="token class-name">Set</span><span class="token punctuation">(</span>myArray<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment">// ["cat", "dog"]</span></code></pre>
+<h2>Iterating over elements in a Set</h2>
+<p>As with an Array, you can use a <code>for element in set</code> structure, or you can use
+<code>enumerated()</code>. But you cannot subscript a Set.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">for</span> animal <span class="token keyword">in</span> mySet <span class="token punctuation">{</span>
+  <span class="token function">print</span><span class="token punctuation">(</span>animal<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">for</span> <span class="token punctuation">(</span>index<span class="token punctuation">,</span> animal<span class="token punctuation">)</span> <span class="token keyword">in</span> mySet<span class="token punctuation">.</span><span class="token function">enumerated</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">print</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"</span><span class="token interpolation-punctuation punctuation">\(</span><span class="token interpolation">index</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string"> = </span><span class="token interpolation-punctuation punctuation">\(</span><span class="token interpolation">animal</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string">"</span></span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// will not compile</span>
+<span class="token comment">// for index in 0 ..&lt; mySet.count {</span>
+<span class="token comment">//   print("\(index) = \(mySet[index])")</span>
+<span class="token comment">// }</span></code></pre>
+<hr>
+<h2>Where Sets get really interesting</h2>
+<p>Remember in school when you learnt about Venn diagrams with pretty interlocking
+circles? Sets can do the same things, although you will have to do your own
+pretty drawings :-)</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">let</span> set1<span class="token punctuation">:</span> <span class="token class-name">Set</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"dog"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"cat"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"pig"</span></span><span class="token punctuation">]</span>
+<span class="token keyword">let</span> set2<span class="token punctuation">:</span> <span class="token class-name">Set</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"cow"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"horse"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"pig"</span></span><span class="token punctuation">]</span>
+
+<span class="token keyword">let</span> intersect <span class="token operator">=</span> set1<span class="token punctuation">.</span><span class="token function">intersection</span><span class="token punctuation">(</span>set2<span class="token punctuation">)</span>
+<span class="token comment">// {"pig"}</span>
+
+<span class="token keyword">let</span> subtract <span class="token operator">=</span> set1<span class="token punctuation">.</span><span class="token function">subtracting</span><span class="token punctuation">(</span>set2<span class="token punctuation">)</span>
+<span class="token comment">// {"cat", "dog"}</span>
+
+<span class="token keyword">let</span> union <span class="token operator">=</span> set1<span class="token punctuation">.</span><span class="token function">union</span><span class="token punctuation">(</span>set2<span class="token punctuation">)</span>
+<span class="token comment">// {"pig", "cat", "dog", "cow" "horse"}</span>
+
+<span class="token keyword">let</span> xor <span class="token operator">=</span> set1<span class="token punctuation">.</span><span class="token function">symmetricDifference</span><span class="token punctuation">(</span>set2<span class="token punctuation">)</span>
+<span class="token comment">// {"cat", "dog", "cow", "horse"}</span></code></pre>
+<p>In the code example above, we have two Sets of animals, with one animal in
+common.</p>
+<ul>
+<li><code>intersection()</code> lists the elements in common.</li>
+<li><code>subtracting()</code> lists the elements in one Set after removing all elements that
+are in the other.</li>
+<li><code>union()</code> joins all the elements without duplicates.</li>
+<li><code>symmetricDifference()</code> lists the elements that are in one or other of the
+Sets but not in both. (Swift 3 renamed this function from <code>exclusiveOr()</code>)</li>
+</ul>
+<p>Here is my best attempt at a pretty drawing to show how these go together:</p>
+<p><img src="/images/2016/sets_1.png" alt="Sets"></p>
+<hr>
+<p>The next fun trick is working out sub-sets, super-sets and disjoint sets.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">let</span> set1<span class="token punctuation">:</span> <span class="token class-name">Set</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"dog"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"cat"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"pig"</span></span><span class="token punctuation">]</span>
+<span class="token keyword">let</span> set2<span class="token punctuation">:</span> <span class="token class-name">Set</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"cow"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"horse"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"pig"</span></span><span class="token punctuation">]</span>
+
+<span class="token keyword">let</span> smallSet<span class="token punctuation">:</span> <span class="token class-name">Set</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"pig"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"cow"</span></span><span class="token punctuation">]</span>
+
+smallSet<span class="token punctuation">.</span><span class="token function">isSubset</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> set1<span class="token punctuation">)</span>   <span class="token comment">// false</span>
+smallSet<span class="token punctuation">.</span><span class="token function">isSubset</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> set2<span class="token punctuation">)</span>   <span class="token comment">// true</span></code></pre>
+<p><code>smallSet</code> is <strong>not</strong> a subset of <code>set1</code> because it contains an element that is
+not in <code>set1</code>. <code>smallSet</code> <strong>is</strong> a subset of <code>set2</code> because every element in
+<code>smallSet</code> is also in <code>set2</code>.</p>
+<p><img src="/images/2016/sets_2.png" alt="Sets"></p>
+<p>If you want to get technical, a Set should not be considered a subset of an
+identical Set. The default <code>isSubset(of:)</code> allows this, but you can use
+<code>isStrictSubset(of:)</code> if you prefer.</p>
+<pre class="language-swift"><code class="language-swift">set1<span class="token punctuation">.</span><span class="token function">isSubset</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> set1<span class="token punctuation">)</span>         <span class="token comment">// true</span>
+set1<span class="token punctuation">.</span><span class="token function">isStrictSubset</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> set1<span class="token punctuation">)</span>   <span class="token comment">// false</span></code></pre>
+<p>Superset works just the same but in reverse so the diagram above explains it
+too:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">let</span> set1<span class="token punctuation">:</span> <span class="token class-name">Set</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"dog"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"cat"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"pig"</span></span><span class="token punctuation">]</span>
+<span class="token keyword">let</span> set2<span class="token punctuation">:</span> <span class="token class-name">Set</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"cow"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"horse"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"pig"</span></span><span class="token punctuation">]</span>
+
+<span class="token keyword">let</span> smallSet<span class="token punctuation">:</span> <span class="token class-name">Set</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"pig"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"cow"</span></span><span class="token punctuation">]</span>
+
+set1<span class="token punctuation">.</span><span class="token function">isSuperset</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> smallSet<span class="token punctuation">)</span>       <span class="token comment">// false</span>
+set2<span class="token punctuation">.</span><span class="token function">isSuperset</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> smallSet<span class="token punctuation">)</span>       <span class="token comment">// true</span>
+
+set1<span class="token punctuation">.</span><span class="token function">isSuperset</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> set1<span class="token punctuation">)</span>           <span class="token comment">// true</span>
+set1<span class="token punctuation">.</span><span class="token function">isStrictSuperset</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> set1<span class="token punctuation">)</span>     <span class="token comment">// false</span></code></pre>
+<p><code>set1</code> is <strong>not</strong> a superset of <code>smallSet</code> because it does not contain every
+element in <code>smallSet</code>. <code>set2</code> <strong>is</strong> a superset of <code>smallSet</code> because every
+element in <code>smallSet</code> is also in <code>set2</code>.</p>
+<p>The <code>isSuperset(of:)</code> and <code>isStrictSuperset(of:)</code> functions allow or reject
+identical sets.</p>
+<p>The final comparison tool that might be useful is <code>isDisjoint(with:)</code> which
+returns true only if the two Sets have no elements in common i.e. if there is no
+overlap in the circles.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">let</span> set1<span class="token punctuation">:</span> <span class="token class-name">Set</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"dog"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"cat"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"pig"</span></span><span class="token punctuation">]</span>
+<span class="token keyword">let</span> set2<span class="token punctuation">:</span> <span class="token class-name">Set</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"cow"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"horse"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"pig"</span></span><span class="token punctuation">]</span>
+
+<span class="token keyword">let</span> otherSet<span class="token punctuation">:</span> <span class="token class-name">Set</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"duck"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"chicken"</span></span><span class="token punctuation">]</span>
+
+set1<span class="token punctuation">.</span><span class="token function">isDisjoint</span><span class="token punctuation">(</span>with<span class="token punctuation">:</span> set2<span class="token punctuation">)</span>       <span class="token comment">// false</span>
+set1<span class="token punctuation">.</span><span class="token function">isDisjoint</span><span class="token punctuation">(</span>with<span class="token punctuation">:</span> otherSet<span class="token punctuation">)</span>   <span class="token comment">// true</span></code></pre>
+<p>&quot;pig&quot; occurs in both <code>set1</code> and <code>set2</code> so they are <strong>not</strong> disjoint. <code>otherSet</code>
+and <code>set1</code> have no matching entries so they <strong>are</strong> disjoint.</p>
+<hr>
+<h2>When should you use a Set?</h2>
+<ol>
+<li>If you want the elements to be unique.</li>
+<li>If you want easy methods of comparing the contents of different collections.</li>
+<li>If you want to be able to remove elements easily.</li>
+</ol>
+<h2>When should you not use a Set?</h2>
+<ol>
+<li>If you need the collection to be able to hold multiples of an element.</li>
+<li>If the order of the collection is important.</li>
+</ol>
+<hr>
+<p>For more details on Sets, check out <a href="http://swiftdoc.org/v2.2/type/Set/" rel="noreferrer nofollow noopener external" target="_blank">SwiftDoc.org</a>.</p>
+
+        </article>
+    </section>
+
+    </main>
+    <footer>
+        <div class="footer-content">
+  <nav>
+    <ul class="footer-links">
+      
+        <li>
+          <a href="mailto:info@troz.net">
+            <img src="/images/links/envelope.svg" alt="Email" title="Email" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://mastodon.social/@troz" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/mastodon.png" alt="Mastodon" title="Mastodon" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://linktr.ee/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/tree.svg" alt="Linktree" title="Linktree" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://github.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/github.svg" alt="GitHub" title="GitHub" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://stackoverflow.com/users/1082632" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/stack-overflow.svg" alt="Stack Overflow" title="Stack Overflow" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://dev.to/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/dev-badge.svg" alt="Dev To" title="Dev To" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/index.xml">
+            <img src="/images/links/rss.svg" alt="RSS Feed" title="RSS Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/atom.xml">
+            <img src="/images/links/atom.svg" alt="Atom Feed" title="Atom Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/feed.json">
+            <img src="/images/links/json.png" alt="JSON Feed" title="JSON Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://ko-fi.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/kofi1.png.webp" alt="Buy Me a Coffee" title="Buy Me a Coffee" height="30px" >
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+
+        <div class="copyright">
+            <p>Copyright &copy; 2025 Sarah Reichelt, TrozWare</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            let searchElement = document.getElementById('search');
+            if (searchElement) {
+                new PagefindUI({ element: searchElement, showSubResults: true });
+            }
+        });
+    </script>
+    <script src="/js/theme_switcher.js"></script>
+    <script src="/js/clipboard.js"></script>
+    <script src="/js/menu.js"></script>
+</body>
+</html>

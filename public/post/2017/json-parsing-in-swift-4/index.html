@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Parsing in Swift 4</title>
+    
+    <link href="/styles/style.css" rel="stylesheet" >
+
+
+    <link href="/styles/prism.css" rel="stylesheet" >
+
+
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+<style>
+@media (prefers-color-scheme: dark) {
+    :root {
+    --pagefind-ui-primary: #eeeeee;
+    --pagefind-ui-text: #eeeeee;
+    --pagefind-ui-background: #152028;
+    --pagefind-ui-border: #152028;
+    --pagefind-ui-tag: #152028;
+    }
+}
+</style>
+    
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<meta property="og:site_name" content="TrozWare" >
+<meta property="og:title" content="JSON Parsing in Swift 4 - TrozWare" >
+<meta property="og:type" content="website" >
+<meta property="og:url" content="https://troz.net/post/2017/json-parsing-in-swift-4/" >
+<meta name="keywords" content="Mac app development, Apple Mac, Xcode, Swift, SwiftUI, Apple macOS, books, articles, blog, apps, developer, author, Sarah Reichelt">
+
+
+
+
+  <meta name="description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+  <meta property="og:description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+
+
+
+<link rel="alternate" type="application/rss+xml" href="/index.xml" title="TrozWare">
+<link rel="alternate" type="application/atom+xml" href="/atom.xml" title="TrozWare">
+<link rel="alternate" type="application/json" href="/feed.json" title="TrozWare">
+
+
+<link rel="icon" type="image/png" href="/images/favicon.png">
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+
+<body>
+    <header>
+  <nav class="container">
+    <div class="nav-brand">
+      <a href="/" class="site-title">TrozWare</a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+
+    <ul class="nav-links">
+      
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+      
+        <li>
+          <a href="/books/" class="nav-link">Books</a>
+        </li>
+      
+        <li>
+          <a href="/apps/" class="nav-link">Apps</a>
+        </li>
+      
+        <li>
+          <a href="/archives/" class="nav-link">Archives</a>
+        </li>
+      
+        <li>
+          <a href="/tags/" class="nav-link">Tags</a>
+        </li>
+      
+        <li>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </li>
+      
+
+      <li>
+        <button           class="theme-toggle"
+          type="button"
+          title="Toggle theme"
+          aria-label="Toggle theme"
+          onclick="toggleTheme()"
+        >
+          <svg             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            width="1em"
+            height="1em"
+            class="theme-toggle__dark-side"
+            fill="currentColor"
+            viewBox="0 0 32 32"
+          >
+            <path d="M16 .5C7.4.5.5 7.4.5 16S7.4 31.5 16 31.5 31.5 24.6 31.5 16 24.6.5 16 .5zm0 28.1V3.4C23 3.4 28.6 9 28.6 16S23 28.6 16 28.6z" ></path>
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+    
+	<main>
+        
+    <section class="post">
+        <h1 data-pagefind-meta="title">JSON Parsing in Swift 4</h1>
+
+        <p>
+            18th June 2017 • 1,728 words • 12 minutes  reading time.
+        </p>
+
+        <div class="tag-list">
+            
+                <a href="/tags/#json" class="tag-button">#JSON</a>
+            
+                <a href="/tags/#learning-swift" class="tag-button">#Learning Swift</a>
+            
+                <a href="/tags/#swift" class="tag-button">#Swift</a>
+            
+        </div>
+
+        <article data-pagefind-body>
+            <p><strong>Updated:</strong> 3rd September 2017.</p>
+<ul>
+<li>Checked syntax using Xcode 9.0 beta 6.</li>
+<li>Added section on <a href="#nulls">allowing for nulls</a>.</li>
+</ul>
+<hr>
+<p>Since <strong>JSON</strong> has become the de facto standard for data transfers around the
+internet, there has always been a lot of interest in Swift libraries to parse
+JSON into Swift classes or structs. Searching for &quot;swift json library&quot; on
+<a href="https://github.com/search?q=swift+json+library" rel="noreferrer nofollow noopener external" target="_blank">GitHub</a> discovers <s>77</s> 86 repositories. So why are there so many? And
+what has Swift 4 done to <em>sherlock</em> them all?</p>
+
+<p>The problem has always been converting loosely typed JSON to strictly typed
+Swift which involves a lot of type casting, checking, optionals etc. Swift has
+always provided access to the Objective-C methods for converting JSON to and
+from NSData, NSDictionary and NSArray. (These are now called Data, Dictionary
+and Array, but those labels are so universal, that I sometimes feel a more
+specific nomenclature would be useful. Have you tried doing a search for
+'Data'?)</p>
+<p>For sample data, I am using https://jsonplaceholder.typicode.com/users which
+returns 10 user objects in this format:</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Leanne Graham"</span><span class="token punctuation">,</span>
+  <span class="token property">"username"</span><span class="token operator">:</span> <span class="token string">"Bret"</span><span class="token punctuation">,</span>
+  <span class="token property">"email"</span><span class="token operator">:</span> <span class="token string">"Sincere@april.biz"</span><span class="token punctuation">,</span>
+  <span class="token property">"address"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"street"</span><span class="token operator">:</span> <span class="token string">"Kulas Light"</span><span class="token punctuation">,</span>
+    <span class="token property">"suite"</span><span class="token operator">:</span> <span class="token string">"Apt. 556"</span><span class="token punctuation">,</span>
+    <span class="token property">"city"</span><span class="token operator">:</span> <span class="token string">"Gwenborough"</span><span class="token punctuation">,</span>
+    <span class="token property">"zipcode"</span><span class="token operator">:</span> <span class="token string">"92998-3874"</span><span class="token punctuation">,</span>
+    <span class="token property">"geo"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token property">"lat"</span><span class="token operator">:</span> <span class="token string">"-37.3159"</span><span class="token punctuation">,</span>
+      <span class="token property">"lng"</span><span class="token operator">:</span> <span class="token string">"81.1496"</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"phone"</span><span class="token operator">:</span> <span class="token string">"1-770-736-8031 x56442"</span><span class="token punctuation">,</span>
+  <span class="token property">"website"</span><span class="token operator">:</span> <span class="token string">"hildegard.org"</span><span class="token punctuation">,</span>
+  <span class="token property">"company"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Romaguera-Crona"</span><span class="token punctuation">,</span>
+    <span class="token property">"catchPhrase"</span><span class="token operator">:</span> <span class="token string">"Multi-layered client-server neural-net"</span><span class="token punctuation">,</span>
+    <span class="token property">"bs"</span><span class="token operator">:</span> <span class="token string">"harness real-time e-markets"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>The goal will be to convert this to an instance of this matching Swift struct:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">User</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> id<span class="token punctuation">:</span> <span class="token class-name">Int</span>
+    <span class="token keyword">let</span> name<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> username<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> email<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> phone<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> website<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> address<span class="token punctuation">:</span> <span class="token class-name">Address</span>
+    <span class="token keyword">let</span> company<span class="token punctuation">:</span> <span class="token class-name">Company</span>
+
+    <span class="token keyword">struct</span> <span class="token class-name">Address</span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> street<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token keyword">let</span> suite<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token keyword">let</span> city<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token keyword">let</span> zipcode<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token keyword">let</span> geo<span class="token punctuation">:</span> <span class="token class-name">Coordinates</span>
+
+        <span class="token keyword">struct</span> <span class="token class-name">Coordinates</span> <span class="token punctuation">{</span>
+            <span class="token keyword">let</span> lat<span class="token punctuation">:</span> <span class="token class-name">Double</span>
+            <span class="token keyword">let</span> lng<span class="token punctuation">:</span> <span class="token class-name">Double</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">struct</span> <span class="token class-name">Company</span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> name<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token keyword">let</span> catchPhrase<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token keyword">let</span> bs<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>The first thing to note is that the Swift struct (and its embedded structs) use
+multiple different types: Int, String, Double, Address, Coordinates, Company.
+The JSON data only has strings and numbers and even then, some of the numbers
+are really strings - look at the lat &amp; lng entries. So converting from JSON to a
+struct and back again has always been problematic, but let's give it a go using
+built-in Swift 3 processing with no external libraries.</p>
+<h2>Decoding in Swift 3</h2>
+<p>You can insert this into a playground or <a href="https://github.com/trozware/json" rel="noreferrer nofollow noopener external" target="_blank">download my playground</a> and check
+out the Swift 3 JSON page:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">import</span> <span class="token class-name">Foundation</span>
+
+<span class="token keyword">let</span> sampleDataAddress <span class="token operator">=</span> <span class="token string-literal"><span class="token string">"https://jsonplaceholder.typicode.com/users"</span></span>
+<span class="token keyword">let</span> url <span class="token operator">=</span> <span class="token function">URL</span><span class="token punctuation">(</span>string<span class="token punctuation">:</span> sampleDataAddress<span class="token punctuation">)</span><span class="token operator">!</span>
+<span class="token keyword">let</span> jsonData <span class="token operator">=</span> <span class="token keyword">try</span><span class="token operator">!</span> <span class="token class-name">Data</span><span class="token punctuation">(</span>contentsOf<span class="token punctuation">:</span> url<span class="token punctuation">)</span>
+
+<span class="token keyword">struct</span> <span class="token class-name">User</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> id<span class="token punctuation">:</span> <span class="token class-name">Int</span>
+    <span class="token keyword">let</span> name<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> username<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> email<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> phone<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> website<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> address<span class="token punctuation">:</span> <span class="token class-name">Address</span>
+    <span class="token keyword">let</span> company<span class="token punctuation">:</span> <span class="token class-name">Company</span>
+
+    <span class="token keyword">init</span><span class="token operator">?</span><span class="token punctuation">(</span>dict<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token class-name">String</span><span class="token punctuation">:</span> <span class="token keyword">Any</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">guard</span>
+            <span class="token keyword">let</span> id <span class="token operator">=</span> dict<span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"id"</span></span><span class="token punctuation">]</span> <span class="token keyword">as</span><span class="token operator">?</span> <span class="token class-name">Int</span><span class="token punctuation">,</span>
+            <span class="token keyword">let</span> name <span class="token operator">=</span> dict<span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"name"</span></span><span class="token punctuation">]</span> <span class="token keyword">as</span><span class="token operator">?</span> <span class="token class-name">String</span><span class="token punctuation">,</span>
+            <span class="token keyword">let</span> username <span class="token operator">=</span> dict<span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"username"</span></span><span class="token punctuation">]</span> <span class="token keyword">as</span><span class="token operator">?</span> <span class="token class-name">String</span><span class="token punctuation">,</span>
+            <span class="token keyword">let</span> email <span class="token operator">=</span> dict<span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"email"</span></span><span class="token punctuation">]</span> <span class="token keyword">as</span><span class="token operator">?</span> <span class="token class-name">String</span><span class="token punctuation">,</span>
+            <span class="token keyword">let</span> phone <span class="token operator">=</span> dict<span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"phone"</span></span><span class="token punctuation">]</span> <span class="token keyword">as</span><span class="token operator">?</span> <span class="token class-name">String</span><span class="token punctuation">,</span>
+            <span class="token keyword">let</span> website <span class="token operator">=</span> dict<span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"website"</span></span><span class="token punctuation">]</span> <span class="token keyword">as</span><span class="token operator">?</span> <span class="token class-name">String</span><span class="token punctuation">,</span>
+            <span class="token keyword">let</span> addressDict <span class="token operator">=</span> dict<span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"address"</span></span><span class="token punctuation">]</span> <span class="token keyword">as</span><span class="token operator">?</span> <span class="token punctuation">[</span><span class="token class-name">String</span><span class="token punctuation">:</span> <span class="token keyword">Any</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token keyword">let</span> address <span class="token operator">=</span> <span class="token class-name">Address</span><span class="token punctuation">(</span>dict<span class="token punctuation">:</span> addressDict<span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token keyword">let</span> companyDict <span class="token operator">=</span> dict<span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"company"</span></span><span class="token punctuation">]</span> <span class="token keyword">as</span><span class="token operator">?</span> <span class="token punctuation">[</span><span class="token class-name">String</span><span class="token punctuation">:</span> <span class="token keyword">Any</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token keyword">let</span> company <span class="token operator">=</span> <span class="token class-name">Company</span><span class="token punctuation">(</span>dict<span class="token punctuation">:</span> companyDict<span class="token punctuation">)</span>
+            <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> <span class="token nil constant">nil</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">self</span><span class="token punctuation">.</span>id <span class="token operator">=</span> id
+        <span class="token keyword">self</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name
+        <span class="token keyword">self</span><span class="token punctuation">.</span>username <span class="token operator">=</span> username
+        <span class="token keyword">self</span><span class="token punctuation">.</span>email <span class="token operator">=</span> email
+        <span class="token keyword">self</span><span class="token punctuation">.</span>phone <span class="token operator">=</span> phone
+        <span class="token keyword">self</span><span class="token punctuation">.</span>website <span class="token operator">=</span> website
+        <span class="token keyword">self</span><span class="token punctuation">.</span>address <span class="token operator">=</span> address
+        <span class="token keyword">self</span><span class="token punctuation">.</span>company <span class="token operator">=</span> company
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">struct</span> <span class="token class-name">Address</span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> street<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token keyword">let</span> suite<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token keyword">let</span> city<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token keyword">let</span> zipcode<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token keyword">let</span> geo<span class="token punctuation">:</span> <span class="token class-name">Coordinates</span>
+
+        <span class="token keyword">init</span><span class="token operator">?</span><span class="token punctuation">(</span>dict<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token class-name">String</span><span class="token punctuation">:</span> <span class="token keyword">Any</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">guard</span>
+                <span class="token keyword">let</span> street <span class="token operator">=</span> dict<span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"street"</span></span><span class="token punctuation">]</span> <span class="token keyword">as</span><span class="token operator">?</span> <span class="token class-name">String</span><span class="token punctuation">,</span>
+                <span class="token keyword">let</span> suite <span class="token operator">=</span> dict<span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"suite"</span></span><span class="token punctuation">]</span> <span class="token keyword">as</span><span class="token operator">?</span> <span class="token class-name">String</span><span class="token punctuation">,</span>
+                <span class="token keyword">let</span> city <span class="token operator">=</span> dict<span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"city"</span></span><span class="token punctuation">]</span> <span class="token keyword">as</span><span class="token operator">?</span> <span class="token class-name">String</span><span class="token punctuation">,</span>
+                <span class="token keyword">let</span> zipcode <span class="token operator">=</span> dict<span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"zipcode"</span></span><span class="token punctuation">]</span> <span class="token keyword">as</span><span class="token operator">?</span> <span class="token class-name">String</span><span class="token punctuation">,</span>
+                <span class="token keyword">let</span> geoDict <span class="token operator">=</span> dict<span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"geo"</span></span><span class="token punctuation">]</span> <span class="token keyword">as</span><span class="token operator">?</span> <span class="token punctuation">[</span><span class="token class-name">String</span><span class="token punctuation">:</span> <span class="token keyword">Any</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token keyword">let</span> geo <span class="token operator">=</span> <span class="token class-name">Coordinates</span><span class="token punctuation">(</span>dict<span class="token punctuation">:</span> geoDict<span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">return</span> <span class="token nil constant">nil</span>
+            <span class="token punctuation">}</span>
+
+            <span class="token keyword">self</span><span class="token punctuation">.</span>street <span class="token operator">=</span> street
+            <span class="token keyword">self</span><span class="token punctuation">.</span>suite <span class="token operator">=</span> suite
+            <span class="token keyword">self</span><span class="token punctuation">.</span>city <span class="token operator">=</span> city
+            <span class="token keyword">self</span><span class="token punctuation">.</span>zipcode <span class="token operator">=</span> zipcode
+            <span class="token keyword">self</span><span class="token punctuation">.</span>geo <span class="token operator">=</span> geo
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">struct</span> <span class="token class-name">Coordinates</span> <span class="token punctuation">{</span>
+            <span class="token keyword">let</span> lat<span class="token punctuation">:</span> <span class="token class-name">Double</span>
+            <span class="token keyword">let</span> lng<span class="token punctuation">:</span> <span class="token class-name">Double</span>
+
+            <span class="token keyword">init</span><span class="token operator">?</span><span class="token punctuation">(</span>dict<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token class-name">String</span><span class="token punctuation">:</span> <span class="token keyword">Any</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">guard</span>
+                    <span class="token keyword">let</span> latString <span class="token operator">=</span> dict<span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"lat"</span></span><span class="token punctuation">]</span> <span class="token keyword">as</span><span class="token operator">?</span> <span class="token class-name">String</span><span class="token punctuation">,</span>
+                    <span class="token keyword">let</span> lat <span class="token operator">=</span> <span class="token class-name">Double</span><span class="token punctuation">(</span>latString<span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token keyword">let</span> lngString <span class="token operator">=</span> dict<span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"lng"</span></span><span class="token punctuation">]</span> <span class="token keyword">as</span><span class="token operator">?</span> <span class="token class-name">String</span><span class="token punctuation">,</span>
+                    <span class="token keyword">let</span> lng <span class="token operator">=</span> <span class="token class-name">Double</span><span class="token punctuation">(</span>lngString<span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                        <span class="token keyword">return</span> <span class="token nil constant">nil</span>
+                <span class="token punctuation">}</span>
+                <span class="token keyword">self</span><span class="token punctuation">.</span>lat <span class="token operator">=</span> lat
+                <span class="token keyword">self</span><span class="token punctuation">.</span>lng <span class="token operator">=</span> lng
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">struct</span> <span class="token class-name">Company</span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> name<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token keyword">let</span> catchPhrase<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token keyword">let</span> bs<span class="token punctuation">:</span> <span class="token class-name">String</span>
+
+        <span class="token keyword">init</span><span class="token operator">?</span><span class="token punctuation">(</span>dict<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token class-name">String</span><span class="token punctuation">:</span> <span class="token keyword">Any</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">guard</span>
+                <span class="token keyword">let</span> name <span class="token operator">=</span> dict<span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"name"</span></span><span class="token punctuation">]</span> <span class="token keyword">as</span><span class="token operator">?</span> <span class="token class-name">String</span><span class="token punctuation">,</span>
+                <span class="token keyword">let</span> catchPhrase <span class="token operator">=</span> dict<span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"catchPhrase"</span></span><span class="token punctuation">]</span> <span class="token keyword">as</span><span class="token operator">?</span> <span class="token class-name">String</span><span class="token punctuation">,</span>
+                <span class="token keyword">let</span> bs <span class="token operator">=</span> dict<span class="token punctuation">[</span><span class="token string-literal"><span class="token string">"bs"</span></span><span class="token punctuation">]</span> <span class="token keyword">as</span><span class="token operator">?</span> <span class="token class-name">String</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">return</span> <span class="token nil constant">nil</span>
+            <span class="token punctuation">}</span>
+
+            <span class="token keyword">self</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name
+            <span class="token keyword">self</span><span class="token punctuation">.</span>catchPhrase <span class="token operator">=</span> catchPhrase
+            <span class="token keyword">self</span><span class="token punctuation">.</span>bs <span class="token operator">=</span> bs
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">if</span> <span class="token keyword">let</span> json <span class="token operator">=</span> <span class="token keyword">try</span><span class="token operator">?</span> <span class="token class-name">JSONSerialization</span><span class="token punctuation">.</span><span class="token function">jsonObject</span><span class="token punctuation">(</span>with<span class="token punctuation">:</span> jsonData<span class="token punctuation">,</span> options<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token keyword">let</span> jsonArray <span class="token operator">=</span> json <span class="token keyword">as</span><span class="token operator">?</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token class-name">String</span><span class="token punctuation">:</span> <span class="token keyword">Any</span><span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> users <span class="token operator">=</span> jsonArray<span class="token punctuation">.</span>flatMap <span class="token punctuation">{</span>
+            <span class="token class-name">User</span><span class="token punctuation">(</span>dict<span class="token punctuation">:</span> <span class="token short-argument">$0</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        users<span class="token punctuation">.</span>count
+        <span class="token function">dump</span><span class="token punctuation">(</span>users<span class="token punctuation">.</span>first<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>I don't actually expect you to go through all this code in detail, but I
+included it here to make it obvious how verbose this method is.</p>
+<p>The first 3 lines get the data, and I have force-unwrapped the URL and the Data
+which I would not do in a production app but which is OK while testing in a
+playground. Then there is a declaration of the Users struct with all its sub
+structs. Each one has a failable init that tries to parse the JSON dictionary
+and returns nil if the data doesn't match, by way of a lengthy set of guard
+statements. The basic layout of each struct is the same but it is very verbose.
+And as an extra step, the lat and lng properties need to be converted from
+Strings to Doubles.</p>
+<p>I have to confess that it took quite come time to get this right ... lots of
+guard statements to check that the data can be converted to the required types
+which meant that any typos produced an empty array. The sub-structs have to be
+extracted from the JSON as Dictionaries and then initialised by themselves.</p>
+<h2>Decoding in Swift 4</h2>
+<p>So this works, and I get an array of Users objects. But it isn't pretty and it
+takes a lot of code to do the processing. So now I am going to move on to doing
+this in Swift 4. I am using Xcode 9.0 beta 6 (9M214v) so if you have a later
+version, you may need to adapt to any changes.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">User</span><span class="token punctuation">:</span> <span class="token class-name">Codable</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> id<span class="token punctuation">:</span> <span class="token class-name">Int</span>
+    <span class="token keyword">let</span> name<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> username<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> email<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> phone<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> website<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> address<span class="token punctuation">:</span> <span class="token class-name">Address</span>
+    <span class="token keyword">let</span> company<span class="token punctuation">:</span> <span class="token class-name">Company</span>
+
+    <span class="token keyword">struct</span> <span class="token class-name">Address</span><span class="token punctuation">:</span> <span class="token class-name">Codable</span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> street<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token keyword">let</span> suite<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token keyword">let</span> city<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token keyword">let</span> zipcode<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token keyword">let</span> geo<span class="token punctuation">:</span> <span class="token class-name">Coordinates</span>
+
+        <span class="token keyword">struct</span> <span class="token class-name">Coordinates</span><span class="token punctuation">:</span> <span class="token class-name">Codable</span> <span class="token punctuation">{</span>
+            <span class="token keyword">let</span> lat<span class="token punctuation">:</span> <span class="token class-name">String</span>
+            <span class="token keyword">let</span> lng<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">struct</span> <span class="token class-name">Company</span><span class="token punctuation">:</span> <span class="token class-name">Codable</span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> name<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token keyword">let</span> catchPhrase<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token keyword">let</span> bs<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">let</span> jsonDecoder <span class="token operator">=</span> <span class="token class-name">JSONDecoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">let</span> users <span class="token operator">=</span> <span class="token keyword">try</span><span class="token operator">?</span> jsonDecoder<span class="token punctuation">.</span><span class="token function">decode</span><span class="token punctuation">(</span><span class="token class-name">Array</span><span class="token operator">&lt;</span><span class="token class-name">User</span><span class="token operator">></span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">,</span>
+                                    from<span class="token punctuation">:</span> jsonData<span class="token punctuation">)</span></code></pre>
+<p>Ignoring the complexities of converting latitude and longitude to Doubles, I get
+vastly simpler code. I declare all the structs as conforming to the <code>Codable</code>
+protocol and then I can remove all the init methods and just let <code>JSONDecoder</code>
+do its magic. I just have to tell it what data type to expect - in this case an
+Array of Users. I don't have to worry about the initial conversion of the JSON
+data to a Dictionary or looping through the elements using flatMap.</p>
+<p><em>In the playground, I used a do...catch structure to check the result of the
+decode function, but I have used try? here to keep the code short.</em></p>
+<h2>Changing data types</h2>
+<p>The lat &amp; lng coordinates are stored in the JSON as Strings, but need to be
+converted to Doubles for the Swift struct.</p>
+<p>This requires a custom init method for the Coordinates struct to do the
+conversion from String to Double.</p>
+<p>So here is the complete code for Swift 4 - again, if you don't want to create
+your own playground, you can <a href="https://github.com/trozware/json" rel="noreferrer nofollow noopener external" target="_blank">use mine</a>, this time looking at the Swift 4
+JSON page:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">import</span> <span class="token class-name">Foundation</span>
+
+<span class="token keyword">let</span> sampleDataAddress <span class="token operator">=</span> <span class="token string-literal"><span class="token string">"https://jsonplaceholder.typicode.com/users"</span></span>
+<span class="token keyword">let</span> url <span class="token operator">=</span> <span class="token function">URL</span><span class="token punctuation">(</span>string<span class="token punctuation">:</span> sampleDataAddress<span class="token punctuation">)</span><span class="token operator">!</span>
+<span class="token keyword">let</span> jsonData <span class="token operator">=</span> <span class="token keyword">try</span><span class="token operator">!</span> <span class="token class-name">Data</span><span class="token punctuation">(</span>contentsOf<span class="token punctuation">:</span> url<span class="token punctuation">)</span>
+
+<span class="token keyword">struct</span> <span class="token class-name">User</span><span class="token punctuation">:</span> <span class="token class-name">Codable</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> id<span class="token punctuation">:</span> <span class="token class-name">Int</span>
+    <span class="token keyword">let</span> name<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> username<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> email<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> phone<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> website<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> address<span class="token punctuation">:</span> <span class="token class-name">Address</span>
+    <span class="token keyword">let</span> company<span class="token punctuation">:</span> <span class="token class-name">Company</span>
+
+    <span class="token keyword">struct</span> <span class="token class-name">Address</span><span class="token punctuation">:</span> <span class="token class-name">Codable</span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> street<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token keyword">let</span> suite<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token keyword">let</span> city<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token keyword">let</span> zipcode<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token keyword">let</span> geo<span class="token punctuation">:</span> <span class="token class-name">Coordinates</span>
+
+        <span class="token keyword">struct</span> <span class="token class-name">Coordinates</span><span class="token punctuation">:</span> <span class="token class-name">Codable</span> <span class="token punctuation">{</span>
+            <span class="token keyword">let</span> lat<span class="token punctuation">:</span> <span class="token class-name">Double</span>
+            <span class="token keyword">let</span> lng<span class="token punctuation">:</span> <span class="token class-name">Double</span>
+
+            <span class="token keyword">init</span><span class="token punctuation">(</span>from decoder<span class="token punctuation">:</span> <span class="token class-name">Decoder</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token punctuation">{</span>
+                <span class="token keyword">let</span> values <span class="token operator">=</span> <span class="token keyword">try</span> decoder<span class="token punctuation">.</span><span class="token function">container</span><span class="token punctuation">(</span>keyedBy<span class="token punctuation">:</span> <span class="token class-name">CodingKeys</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">)</span>
+                <span class="token keyword">let</span> latString <span class="token operator">=</span> <span class="token keyword">try</span> values<span class="token punctuation">.</span><span class="token function">decode</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">,</span> forKey<span class="token punctuation">:</span> <span class="token punctuation">.</span>lat<span class="token punctuation">)</span>
+                <span class="token keyword">let</span> lngString <span class="token operator">=</span> <span class="token keyword">try</span> values<span class="token punctuation">.</span><span class="token function">decode</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">,</span> forKey<span class="token punctuation">:</span> <span class="token punctuation">.</span>lng<span class="token punctuation">)</span>
+                lat <span class="token operator">=</span> <span class="token class-name">Double</span><span class="token punctuation">(</span>latString<span class="token punctuation">)</span> <span class="token operator">??</span> <span class="token number">0</span>
+                lng <span class="token operator">=</span> <span class="token class-name">Double</span><span class="token punctuation">(</span>lngString<span class="token punctuation">)</span> <span class="token operator">??</span> <span class="token number">0</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">struct</span> <span class="token class-name">Company</span><span class="token punctuation">:</span> <span class="token class-name">Codable</span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> name<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token keyword">let</span> catchPhrase<span class="token punctuation">:</span> <span class="token class-name">String</span>
+        <span class="token keyword">let</span> bs<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">let</span> jsonDecoder <span class="token operator">=</span> <span class="token class-name">JSONDecoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">let</span> users <span class="token operator">=</span> <span class="token keyword">try</span><span class="token operator">?</span> jsonDecoder<span class="token punctuation">.</span><span class="token function">decode</span><span class="token punctuation">(</span><span class="token class-name">Array</span><span class="token operator">&lt;</span><span class="token class-name">User</span><span class="token operator">></span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">,</span> from<span class="token punctuation">:</span> jsonData<span class="token punctuation">)</span>
+
+users<span class="token operator">?</span><span class="token punctuation">.</span>count
+<span class="token function">dump</span><span class="token punctuation">(</span>users<span class="token operator">?</span><span class="token punctuation">.</span>first<span class="token punctuation">)</span></code></pre>
+<p>For comparative purposes, I counted the lines of code in each, removing the
+common boiler plate of the top of each and the two lines for displaying the
+results in the playground. I also removed the blank lines which I always use a
+lot in my code for readability but which are not relevant when comparing code
+efficiency:</p>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th style="text-align:right">Lines</th>
+<th style="text-align:right">Lines if lat &amp; lng are Strings</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Swift 3</td>
+<td style="text-align:right">95</td>
+<td style="text-align:right">93</td>
+</tr>
+<tr>
+<td>Swift 4</td>
+<td style="text-align:right">35</td>
+<td style="text-align:right">28</td>
+</tr>
+</tbody>
+</table>
+<h2>Encoding</h2>
+<p>Encoding back to JSON is very similar. In the Swift 3 version, I would have
+written a method for each struct that created a Dictionary and then used
+JSONSerialization to convert the Dictionary back to JSON. This is very verbose
+and tedious to write so I am not going to bother to demonstrate it here.</p>
+<p>But in Swift 4, this is even easier than decoding. Add this code to the end of
+your Swift 4 JSON playground or playground page:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">if</span> <span class="token keyword">let</span> users <span class="token operator">=</span> users <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> jsonEncoder <span class="token operator">=</span> <span class="token class-name">JSONEncoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    jsonEncoder<span class="token punctuation">.</span>outputFormatting <span class="token operator">=</span> <span class="token punctuation">.</span>prettyPrinted
+
+    <span class="token keyword">if</span> <span class="token keyword">let</span> backToJson <span class="token operator">=</span> <span class="token keyword">try</span><span class="token operator">?</span> jsonEncoder<span class="token punctuation">.</span><span class="token function">encode</span><span class="token punctuation">(</span>users<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token keyword">let</span> jsonString <span class="token operator">=</span> <span class="token class-name">String</span><span class="token punctuation">(</span>data<span class="token punctuation">:</span> backToJson<span class="token punctuation">,</span> encoding<span class="token punctuation">:</span> <span class="token punctuation">.</span>utf8<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">print</span><span class="token punctuation">(</span>jsonString<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>The <code>JSONEncoder</code> returns Data and I have converted that to a String for
+checking. I set JSONEncoder's outputFormatting property to .prettyPrinted get a
+more readable String.</p>
+<p>Notice how the encoded data is not quite the same as I received because the lat
+&amp; lng properties are now Doubles. In a production app, if I needed to be able to
+convert back to JSON, I probably would have left them as Strings so as to enable
+data transfer in both directions. I would add computed properties to the struct
+to convert these Strings to Doubles as I needed them.</p>
+<h2>Advanced Decoding</h2>
+<p>Now that we have the basics, I want to look at three more features: changing
+property names, date handling and allowing for nulls.</p>
+<h2>Changing Property Names</h2>
+<p>In these examples I used exactly the same names for the properties as were used
+in the JSON. In the Swift 3 version, it would have been easy to change the
+property names, since the data for each property was being extracted manually.
+In Swift 4, if you want the decoder to change names, you have to tell it what
+you want.</p>
+<p>Make a new playground or playground page and replace the contents with this - or
+go to the Swift 4 Extras page on <a href="https://github.com/trozware/json" rel="noreferrer nofollow noopener external" target="_blank">my playground</a>:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">import</span> <span class="token class-name">Foundation</span>
+
+<span class="token keyword">let</span> jsonString <span class="token operator">=</span> <span class="token string-literal"><span class="token string">"""
+{
+"name1": "Jane",
+"name2": "Smith"
+}
+"""</span></span>
+<span class="token keyword">let</span> jsonData <span class="token operator">=</span> jsonString<span class="token punctuation">.</span><span class="token function">data</span><span class="token punctuation">(</span>using<span class="token punctuation">:</span> <span class="token punctuation">.</span>utf8<span class="token punctuation">)</span><span class="token operator">!</span>
+
+<span class="token keyword">struct</span> <span class="token class-name">Person</span><span class="token punctuation">:</span> <span class="token class-name">Codable</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> firstName<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> lastName<span class="token punctuation">:</span> <span class="token class-name">String</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">let</span> jsonDecoder <span class="token operator">=</span> <span class="token class-name">JSONDecoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">let</span> person <span class="token operator">=</span> <span class="token keyword">try</span><span class="token operator">?</span> jsonDecoder<span class="token punctuation">.</span><span class="token function">decode</span><span class="token punctuation">(</span><span class="token class-name">Person</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">,</span> from<span class="token punctuation">:</span> jsonData<span class="token punctuation">)</span>
+<span class="token function">dump</span><span class="token punctuation">(</span>person<span class="token punctuation">)</span></code></pre>
+<p>This uses the new multi-line literals in Swift 4 to assemble the JSON string
+which is amazingly useful as it allows quotes to be embedded in the string
+without having to escape them. As you can see, the JSON property names are not
+very helpful, so I want to change them in my Person struct. At the moment,
+<code>person</code> is nil because I have not given the decoder any clues to help it
+translate the names. To do that, I have to add a CodingKeys enum to the Person
+struct and it tells the decoder what names in the JSON match up to what
+properties in the struct.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">Person</span><span class="token punctuation">:</span> <span class="token class-name">Codable</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> firstName<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> lastName<span class="token punctuation">:</span> <span class="token class-name">String</span>
+
+    <span class="token keyword">enum</span> <span class="token class-name">CodingKeys</span><span class="token punctuation">:</span> <span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">CodingKey</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> firstName <span class="token operator">=</span> <span class="token string-literal"><span class="token string">"name1"</span></span>
+        <span class="token keyword">case</span> lastName <span class="token operator">=</span> <span class="token string-literal"><span class="token string">"name2"</span></span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>And that's all I have to do. Now the JSON is correctly converted to a Person. As
+an exercise, use JSONEncoder to get back to JSON from the Person. You will see
+that the JSON correctly names the elements using &quot;name1&quot; and &quot;name2&quot;.</p>
+<h2>Date Handling</h2>
+<p>Next let's look at dates - add this code to the playground:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">let</span> jsonString2 <span class="token operator">=</span> <span class="token string-literal"><span class="token string">"""
+{
+"name": "My New Project",
+"created": "2017-06-18T06:28:25Z"
+}
+"""</span></span>
+<span class="token keyword">let</span> jsonData2 <span class="token operator">=</span> jsonString2<span class="token punctuation">.</span><span class="token function">data</span><span class="token punctuation">(</span>using<span class="token punctuation">:</span> <span class="token punctuation">.</span>utf8<span class="token punctuation">)</span><span class="token operator">!</span>
+
+<span class="token keyword">struct</span> <span class="token class-name">Project</span><span class="token punctuation">:</span> <span class="token class-name">Codable</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> name<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> created<span class="token punctuation">:</span> <span class="token class-name">Date</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">let</span> jsonDecoder2 <span class="token operator">=</span> <span class="token class-name">JSONDecoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">let</span> project <span class="token operator">=</span> <span class="token keyword">try</span><span class="token operator">?</span> jsonDecoder2<span class="token punctuation">.</span><span class="token function">decode</span><span class="token punctuation">(</span><span class="token class-name">Project</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">,</span> from<span class="token punctuation">:</span> jsonData2<span class="token punctuation">)</span>
+
+<span class="token function">dump</span><span class="token punctuation">(</span>project<span class="token punctuation">)</span></code></pre>
+<p>When this runs, <code>project</code> is nil because the decoder has no idea how to get from
+the String &quot;2017-06-18T06:28:25Z&quot; to a Date object. Add this line after creating
+<code>jsonDecoder2</code>:</p>
+<pre class="language-swift"><code class="language-swift">jsonDecoder2<span class="token punctuation">.</span>dateDecodingStrategy <span class="token operator">=</span> <span class="token punctuation">.</span>iso8601</code></pre>
+<p>Now the date can be converted and an instance of the Project struct will be
+created.</p>
+<p>And to get back to the JSON, converting the Date back to ISO8601 format:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">let</span> jsonEncoder <span class="token operator">=</span> <span class="token class-name">JSONEncoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+jsonEncoder<span class="token punctuation">.</span>dateEncodingStrategy <span class="token operator">=</span> <span class="token punctuation">.</span>iso8601
+
+<span class="token keyword">if</span> <span class="token keyword">let</span> backToJson <span class="token operator">=</span> <span class="token keyword">try</span><span class="token operator">?</span> jsonEncoder<span class="token punctuation">.</span><span class="token function">encode</span><span class="token punctuation">(</span>project<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token keyword">let</span> jsonString <span class="token operator">=</span> <span class="token class-name">String</span><span class="token punctuation">(</span>data<span class="token punctuation">:</span> backToJson<span class="token punctuation">,</span> encoding<span class="token punctuation">:</span> <span class="token punctuation">.</span>utf8<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">print</span><span class="token punctuation">(</span>jsonString<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p><a name ="nulls"></a></p>
+<h2>Allowing For Nulls</h2>
+<p>JSON data will often include <strong>null</strong> where there is no value for a particular
+property name. When using JSONDecoder or JSONEncoder, this can be allowed for by
+using Optionals. If you are not clear about Optionals, have a look at my
+previous article: <a href="/post/2016-02-12-learning-swift-optionals/">Learning Swift - Optionals</a>.</p>
+<p>The crucial step is to declare the properties of the Swift object as optionals
+if you think they could get a null value.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">Role</span><span class="token punctuation">:</span> <span class="token class-name">Codable</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> firstName<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> lastName<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">let</span> nickName<span class="token punctuation">:</span> <span class="token class-name">String</span><span class="token operator">?</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">let</span> jsonStringWithNulls <span class="token operator">=</span> <span class="token string-literal"><span class="token string">"""
+[
+    {
+        "firstName": "Sally",
+        "lastName": "Sparrow",
+        "nickName": null
+    },
+    {
+        "firstName": "Doctor",
+        "lastName": "Who",
+        "nickName": "The Doctor"
+    }
+]
+"""</span></span>
+<span class="token keyword">let</span> jsonDataWithNulls <span class="token operator">=</span> jsonStringWithNulls<span class="token punctuation">.</span><span class="token function">data</span><span class="token punctuation">(</span>using<span class="token punctuation">:</span> <span class="token punctuation">.</span>utf8<span class="token punctuation">)</span><span class="token operator">!</span>
+
+<span class="token keyword">let</span> jsonDecoder3 <span class="token operator">=</span> <span class="token class-name">JSONDecoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">let</span> roles <span class="token operator">=</span> <span class="token keyword">try</span><span class="token operator">?</span> jsonDecoder3<span class="token punctuation">.</span><span class="token function">decode</span><span class="token punctuation">(</span><span class="token class-name">Array</span><span class="token operator">&lt;</span><span class="token class-name">Role</span><span class="token operator">></span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">,</span> from<span class="token punctuation">:</span> jsonDataWithNulls<span class="token punctuation">)</span>
+<span class="token function">dump</span><span class="token punctuation">(</span>roles<span class="token punctuation">)</span></code></pre>
+<p>In this example (which you can find in the Swift 4 Extras page on <a href="https://github.com/trozware/json" rel="noreferrer nofollow noopener external" target="_blank">my
+playground</a>), I have declared a struct called Role with 3 String properties.
+The 3rd String - nickName - is an Optional so it may be a String or it may be
+nil.</p>
+<p>The JSON contains 2 elements - one has a nickName value and the other has it as
+null. Because the matching property in the Swift struct is an optional, this
+works as expected and the nickName property for Sally Sparrow is decoded as nil.
+If you remove the question mark to make nickName non-optional, the decoding will
+fail.</p>
+<p>Going back to JSON from a Swift object with optionals works much the same except
+that it does not specifically mark items as null, it just leaves them out.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">let</span> jsonEncoder2 <span class="token operator">=</span> <span class="token class-name">JSONEncoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+jsonEncoder2<span class="token punctuation">.</span>outputFormatting <span class="token operator">=</span> <span class="token punctuation">.</span>prettyPrinted
+
+<span class="token keyword">if</span> <span class="token keyword">let</span> backToJsonWithNulls <span class="token operator">=</span> <span class="token keyword">try</span><span class="token operator">?</span> jsonEncoder2<span class="token punctuation">.</span><span class="token function">encode</span><span class="token punctuation">(</span>roles<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token keyword">let</span> jsonString <span class="token operator">=</span> <span class="token class-name">String</span><span class="token punctuation">(</span>data<span class="token punctuation">:</span> backToJsonWithNulls<span class="token punctuation">,</span> encoding<span class="token punctuation">:</span> <span class="token punctuation">.</span>utf8<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">print</span><span class="token punctuation">(</span>jsonString<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h2>Property Lists</h2>
+<p>As well as JSONDecoder and JSONEncoder, Swift 4 has introduced
+PropertyListDecoder and PropertyListEncoder, so let's take a quick look at that.</p>
+<p>Add this to the bottom of the last playground as it uses the Project struct and
+data:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">let</span> plistEncoder <span class="token operator">=</span> <span class="token class-name">PropertyListEncoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+plistEncoder<span class="token punctuation">.</span>outputFormat <span class="token operator">=</span> <span class="token punctuation">.</span>xml
+<span class="token keyword">if</span> <span class="token keyword">let</span> plist <span class="token operator">=</span> <span class="token keyword">try</span><span class="token operator">?</span> plistEncoder<span class="token punctuation">.</span><span class="token function">encode</span><span class="token punctuation">(</span>project<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token keyword">let</span> plistString <span class="token operator">=</span> <span class="token class-name">String</span><span class="token punctuation">(</span>data<span class="token punctuation">:</span> plist<span class="token punctuation">,</span> encoding<span class="token punctuation">:</span> <span class="token punctuation">.</span>utf8<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">print</span><span class="token punctuation">(</span>plistString<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">let</span> plistDecoder <span class="token operator">=</span> <span class="token class-name">PropertyListDecoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">let</span> project2 <span class="token operator">=</span> <span class="token keyword">try</span><span class="token operator">?</span> plistDecoder<span class="token punctuation">.</span><span class="token function">decode</span><span class="token punctuation">(</span><span class="token class-name">Project</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">,</span> from<span class="token punctuation">:</span> plist<span class="token punctuation">)</span>
+
+    <span class="token function">dump</span><span class="token punctuation">(</span>project2<span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>I don't see this is being quite as useful as the JSON Encoding &amp; Decoding, but I
+mention it here for completeness.</p>
+<h2>Codable</h2>
+<p>In all the Swift 4 examples above, I set the structs to conform to <code>Codable</code>.
+Reading Apple's docs, I see that <code>Codable</code> is actually a typealias referring to
+2 separate protocols:</p>
+<pre class="language-Swift"><code class="language-Swift">typealias Codable = Decodable & Encodable</code></pre>
+<p>If you only need to convert data one way, it will be more efficient to set your
+struct or class as confirming to only one of these protocols. For example, if
+you download JSON data from an API but never need to send it back, just conform
+to Decodable to transform the JSON data into your data structure.</p>
+<p>Much more information can be found in the <a href="https://developer.apple.com/documentation/swift/encoding_decoding_and_serialization" rel="noreferrer nofollow noopener external" target="_blank">Apple documentation</a>.</p>
+
+        </article>
+    </section>
+
+    </main>
+    <footer>
+        <div class="footer-content">
+  <nav>
+    <ul class="footer-links">
+      
+        <li>
+          <a href="mailto:info@troz.net">
+            <img src="/images/links/envelope.svg" alt="Email" title="Email" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://mastodon.social/@troz" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/mastodon.png" alt="Mastodon" title="Mastodon" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://linktr.ee/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/tree.svg" alt="Linktree" title="Linktree" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://github.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/github.svg" alt="GitHub" title="GitHub" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://stackoverflow.com/users/1082632" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/stack-overflow.svg" alt="Stack Overflow" title="Stack Overflow" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://dev.to/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/dev-badge.svg" alt="Dev To" title="Dev To" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/index.xml">
+            <img src="/images/links/rss.svg" alt="RSS Feed" title="RSS Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/atom.xml">
+            <img src="/images/links/atom.svg" alt="Atom Feed" title="Atom Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/feed.json">
+            <img src="/images/links/json.png" alt="JSON Feed" title="JSON Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://ko-fi.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/kofi1.png.webp" alt="Buy Me a Coffee" title="Buy Me a Coffee" height="30px" >
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+
+        <div class="copyright">
+            <p>Copyright &copy; 2025 Sarah Reichelt, TrozWare</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            let searchElement = document.getElementById('search');
+            if (searchElement) {
+                new PagefindUI({ element: searchElement, showSubResults: true });
+            }
+        });
+    </script>
+    <script src="/js/theme_switcher.js"></script>
+    <script src="/js/clipboard.js"></script>
+    <script src="/js/menu.js"></script>
+</body>
+</html>

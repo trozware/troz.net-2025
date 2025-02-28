@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Swift  - Tuples</title>
+    
+    <link href="/styles/style.css" rel="stylesheet" >
+
+
+    <link href="/styles/prism.css" rel="stylesheet" >
+
+
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+<style>
+@media (prefers-color-scheme: dark) {
+    :root {
+    --pagefind-ui-primary: #eeeeee;
+    --pagefind-ui-text: #eeeeee;
+    --pagefind-ui-background: #152028;
+    --pagefind-ui-border: #152028;
+    --pagefind-ui-tag: #152028;
+    }
+}
+</style>
+    
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<meta property="og:site_name" content="TrozWare" >
+<meta property="og:title" content="Learning Swift  - Tuples - TrozWare" >
+<meta property="og:type" content="website" >
+<meta property="og:url" content="https://troz.net/post/2019/learning-swift-tuples/" >
+<meta name="keywords" content="Mac app development, Apple Mac, Xcode, Swift, SwiftUI, Apple macOS, books, articles, blog, apps, developer, author, Sarah Reichelt">
+
+
+
+
+  <meta name="description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+  <meta property="og:description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+
+
+
+<link rel="alternate" type="application/rss+xml" href="/index.xml" title="TrozWare">
+<link rel="alternate" type="application/atom+xml" href="/atom.xml" title="TrozWare">
+<link rel="alternate" type="application/json" href="/feed.json" title="TrozWare">
+
+
+<link rel="icon" type="image/png" href="/images/favicon.png">
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+
+<body>
+    <header>
+  <nav class="container">
+    <div class="nav-brand">
+      <a href="/" class="site-title">TrozWare</a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+
+    <ul class="nav-links">
+      
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+      
+        <li>
+          <a href="/books/" class="nav-link">Books</a>
+        </li>
+      
+        <li>
+          <a href="/apps/" class="nav-link">Apps</a>
+        </li>
+      
+        <li>
+          <a href="/archives/" class="nav-link">Archives</a>
+        </li>
+      
+        <li>
+          <a href="/tags/" class="nav-link">Tags</a>
+        </li>
+      
+        <li>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </li>
+      
+
+      <li>
+        <button           class="theme-toggle"
+          type="button"
+          title="Toggle theme"
+          aria-label="Toggle theme"
+          onclick="toggleTheme()"
+        >
+          <svg             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            width="1em"
+            height="1em"
+            class="theme-toggle__dark-side"
+            fill="currentColor"
+            viewBox="0 0 32 32"
+          >
+            <path d="M16 .5C7.4.5.5 7.4.5 16S7.4 31.5 16 31.5 31.5 24.6 31.5 16 24.6.5 16 .5zm0 28.1V3.4C23 3.4 28.6 9 28.6 16S23 28.6 16 28.6z" ></path>
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+    
+	<main>
+        
+    <section class="post">
+        <h1 data-pagefind-meta="title">Learning Swift  - Tuples</h1>
+
+        <p>
+            3rd February 2019 • 886 words • 5 minutes  reading time.
+        </p>
+
+        <div class="tag-list">
+            
+                <a href="/tags/#learning-swift" class="tag-button">#Learning Swift</a>
+            
+                <a href="/tags/#swift" class="tag-button">#Swift</a>
+            
+        </div>
+
+        <article data-pagefind-body>
+            <p>false</p>
+<p>I sometimes like to focus on aspects of the Swift language that get less publicity, but that I think are really useful without adding a lot of complexity. This time I am looking at tuples.</p>
+<p>There are many different ways of collecting data together in Swift, but for small amounts of transitory data, I find tuples to be an extremely convenient data structure.</p>
+
+<h2>What is a Tuple?</h2>
+<p>A tuple is basically an array with a pre-determined length and unlike normal Swift arrays, it can hold a mix of data types.</p>
+<p>Here are some examples:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">let</span> pair <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Jessie"</span></span><span class="token punctuation">,</span> <span class="token string-literal"><span class="token string">"Woody"</span></span><span class="token punctuation">)</span>
+<span class="token keyword">let</span> coords <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">6</span><span class="token punctuation">)</span>
+<span class="token keyword">let</span> pet <span class="token operator">=</span> <span class="token punctuation">(</span>type<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">"cat"</span></span><span class="token punctuation">,</span> trained<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> age<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">)</span></code></pre>
+<p>To define a tuple, you enclose the data elements in parentheses - normal brackets, not curly or square. Optionally, the elements can have a label attached as shown in the <code>pet</code> example.</p>
+<p>Tuples can have any number of components, but if they get too long, a struct might be a better option. <a href="https://github.com/realm/SwiftLint" rel="noreferrer nofollow noopener external" target="_blank">SwiftLint</a> will complain if you use tuples with more than 3 elements and usually I go along with that.</p>
+<p>There are various ways to access the parts of a tuple. The first way is using index numbers which works but isn't very intuitive and could be hard to decipher when you come back to a project after some time.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token function">print</span><span class="token punctuation">(</span>pair<span class="token punctuation">.</span><span class="token number">0</span><span class="token punctuation">)</span>
+<span class="token function">print</span><span class="token punctuation">(</span>pair<span class="token punctuation">.</span><span class="token number">1</span><span class="token punctuation">)</span></code></pre>
+<p>The next way is if the tuple has used labels for the elements as in the <code>pet</code> example above:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token function">print</span><span class="token punctuation">(</span>pet<span class="token punctuation">.</span>type<span class="token punctuation">)</span>
+<span class="token function">print</span><span class="token punctuation">(</span>pet<span class="token punctuation">.</span>trained<span class="token punctuation">)</span>
+<span class="token function">print</span><span class="token punctuation">(</span>pet<span class="token punctuation">.</span>age<span class="token punctuation">)</span></code></pre>
+<p>But the way I prefer to use them is by deconstructing the parts into separate variables in a single statement:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">let</span> <span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> z<span class="token punctuation">)</span> <span class="token operator">=</span> coords
+<span class="token function">print</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> z<span class="token punctuation">)</span></code></pre>
+<p>The elements of a tuple can be of different types but once a tuple has been defined, that type of each element is fixed, so you still get all the benefits of Swift's type safety.</p>
+<p>Option-clicking on the variable name shows the inferred type of the tuple:</p>
+<p><img src="/images/2019/Tuple_type.png" alt="The type of a tuple."></p>
+<p>Trying to re-assign the tuple or any elements of the tuple will only work if the new assignments match the initial types for each element:</p>
+<p><img src="/images/2019/Tuple_errors.png" alt="Errors when mutating a tuple."></p>
+<h2>Where could you use a tuple and why?</h2>
+<p>Let's imagine you have a function that checks a database or web service and comes back with the title of a movie and its rating.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">func</span> <span class="token function-definition function">getMovieInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> movieTitle<span class="token punctuation">:</span> <span class="token class-name">String</span>
+  <span class="token keyword">var</span> rating<span class="token punctuation">:</span> <span class="token class-name">Int</span>
+
+  <span class="token comment">// get the data from somewhere</span>
+  <span class="token comment">// now return both movieTitle and rating</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Having got the data, this function needs to return two pieces of data: <code>movieTitle</code> and <code>rating</code> - one <code>String</code> and one <code>Int</code>. How could this be done?</p>
+<ol>
+<li>
+<p><strong>Array</strong>: since there are 2 different data types, the array would have to be of type <code>[Any]</code> or the <code>Int</code> could be converted to a <code>String</code> before returning. Neither of these are good options. Using <code>Any</code> removes the protection of Swift's type safety and converting the <code>Int</code> to and from a <code>String</code> may fail, so then you have to deal with optionals.</p>
+</li>
+<li>
+<p><strong>Dictionary</strong>: the same arguments hold true. The dictionary would have to be of type <code>[String: Any]</code> or the rating would have to be converted to a <code>String</code>.</p>
+</li>
+<li>
+<p><strong>Struct or Class</strong>: either of these would be fine but unless this is a data structure that is going to be re-used, it seems like overkill.</p>
+</li>
+<li>
+<p><strong>Tuple</strong>: this would get my vote, so let's see how that would work.</p>
+</li>
+</ol>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">func</span> <span class="token function-definition function">getMovieInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Int</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> movieTitle<span class="token punctuation">:</span> <span class="token class-name">String</span>
+  <span class="token keyword">var</span> rating<span class="token punctuation">:</span> <span class="token class-name">Int</span>
+
+  <span class="token comment">// get the data from somewhere</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>movieTitle<span class="token punctuation">,</span> rating<span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Two main things to notice here:</p>
+<ol>
+<li>
+<p>The return type of the function lists the data types of both the elements being returned, enclosed in parentheses.</p>
+</li>
+<li>
+<p>The returning tuple is created by wrapping the elements inside parentheses, just like in the examples above.</p>
+</li>
+</ol>
+<p>And then in the calling function, you can access the parts of the returned data like this:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">let</span> <span class="token punctuation">(</span>returnedMovieTitle<span class="token punctuation">,</span> returnedRating<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token function">getMovieInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>The tuple is being returned and immediately deconstructed to give 2 new variables so accessing the parts of the tuple is easy and type-safe.</p>
+<p>A function returning a tuple can also be configured to use named elements by specifying the names in the return type declaration.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">func</span> <span class="token function-definition function">getMovieInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token punctuation">(</span>name<span class="token punctuation">:</span> <span class="token class-name">String</span><span class="token punctuation">,</span> score<span class="token punctuation">:</span> <span class="token class-name">Int</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> movieTitle<span class="token punctuation">:</span> <span class="token class-name">String</span>
+    <span class="token keyword">var</span> rating<span class="token punctuation">:</span> <span class="token class-name">Int</span>
+
+    <span class="token comment">// get the data from somewhere</span>
+
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>movieTitle<span class="token punctuation">,</span> rating<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token function">getMovieInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">let</span> returnedMovieTitle <span class="token operator">=</span> result<span class="token punctuation">.</span>name
+<span class="token keyword">let</span> returnedRating <span class="token operator">=</span> result<span class="token punctuation">.</span>score</code></pre>
+<p>My feeling is that once a tuple is complex enough to need names, you should really consider using a class or a struct, but for returning 2 or 3 chunks of data from a function, this is a very useful technique, espeicialy if the data types are different.</p>
+<h2>Looping through tuples</h2>
+<p>If you have an array of tuples, looping through the tuples is made very convenient if you use the deconstruction method of accessing the parts.</p>
+<p>As an example, suppose you are dealing with some 3D coordinate system and you want to perform an operation on each location.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">let</span> coords_array <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span>
+<span class="token punctuation">]</span>
+
+<span class="token keyword">for</span> <span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> z<span class="token punctuation">)</span> <span class="token keyword">in</span> coords_array <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> distanceFromOrigin <span class="token operator">=</span> <span class="token function">abs</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token function">abs</span><span class="token punctuation">(</span>y<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token function">abs</span><span class="token punctuation">(</span>z<span class="token punctuation">)</span>
+    <span class="token function">print</span><span class="token punctuation">(</span>distanceForOrigin<span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>You can deconstruct the tuple each time through the loop, assigning temporary variables so you can act on them.</p>
+<h2>Wrapping Up</h2>
+<p>So those are the basics of tuples: how to create them, how to use them and where they might be useful. My main use is as a light-weight alternative to a struct for returning multi-part data from a function. But hopefully after reading this article, they have become another tool in your Swift tool belt that you can consider using in certain circumstances.</p>
+<h3>That leaves only one important question: how do you pronounce 'tuple'?</h3>
+<p>I have heard two variations: 'toople' using a long U as in universe or 'tupple' using a short U as in cup. There does not appear to be any strict geographical differentiation, so take your pick. I prefer 'toople' myself, but if somebody says 'tupple', I know what they mean.</p>
+
+        </article>
+    </section>
+
+    </main>
+    <footer>
+        <div class="footer-content">
+  <nav>
+    <ul class="footer-links">
+      
+        <li>
+          <a href="mailto:info@troz.net">
+            <img src="/images/links/envelope.svg" alt="Email" title="Email" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://mastodon.social/@troz" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/mastodon.png" alt="Mastodon" title="Mastodon" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://linktr.ee/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/tree.svg" alt="Linktree" title="Linktree" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://github.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/github.svg" alt="GitHub" title="GitHub" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://stackoverflow.com/users/1082632" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/stack-overflow.svg" alt="Stack Overflow" title="Stack Overflow" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://dev.to/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/dev-badge.svg" alt="Dev To" title="Dev To" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/index.xml">
+            <img src="/images/links/rss.svg" alt="RSS Feed" title="RSS Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/atom.xml">
+            <img src="/images/links/atom.svg" alt="Atom Feed" title="Atom Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/feed.json">
+            <img src="/images/links/json.png" alt="JSON Feed" title="JSON Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://ko-fi.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/kofi1.png.webp" alt="Buy Me a Coffee" title="Buy Me a Coffee" height="30px" >
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+
+        <div class="copyright">
+            <p>Copyright &copy; 2025 Sarah Reichelt, TrozWare</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            let searchElement = document.getElementById('search');
+            if (searchElement) {
+                new PagefindUI({ element: searchElement, showSubResults: true });
+            }
+        });
+    </script>
+    <script src="/js/theme_switcher.js"></script>
+    <script src="/js/clipboard.js"></script>
+    <script src="/js/menu.js"></script>
+</body>
+</html>

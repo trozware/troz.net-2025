@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time In Words 4.0</title>
+    
+    <link href="/styles/style.css" rel="stylesheet" >
+
+
+    <link href="/styles/prism.css" rel="stylesheet" >
+
+
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+<style>
+@media (prefers-color-scheme: dark) {
+    :root {
+    --pagefind-ui-primary: #eeeeee;
+    --pagefind-ui-text: #eeeeee;
+    --pagefind-ui-background: #152028;
+    --pagefind-ui-border: #152028;
+    --pagefind-ui-tag: #152028;
+    }
+}
+</style>
+    
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<meta property="og:site_name" content="TrozWare" >
+<meta property="og:title" content="Time In Words 4.0 - TrozWare" >
+<meta property="og:type" content="website" >
+<meta property="og:url" content="https://troz.net/post/2015/time-in-words-4.0/" >
+<meta name="keywords" content="Mac app development, Apple Mac, Xcode, Swift, SwiftUI, Apple macOS, books, articles, blog, apps, developer, author, Sarah Reichelt">
+
+
+
+
+  <meta name="description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+  <meta property="og:description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+
+
+
+<link rel="alternate" type="application/rss+xml" href="/index.xml" title="TrozWare">
+<link rel="alternate" type="application/atom+xml" href="/atom.xml" title="TrozWare">
+<link rel="alternate" type="application/json" href="/feed.json" title="TrozWare">
+
+
+<link rel="icon" type="image/png" href="/images/favicon.png">
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+
+<body>
+    <header>
+  <nav class="container">
+    <div class="nav-brand">
+      <a href="/" class="site-title">TrozWare</a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+
+    <ul class="nav-links">
+      
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+      
+        <li>
+          <a href="/books/" class="nav-link">Books</a>
+        </li>
+      
+        <li>
+          <a href="/apps/" class="nav-link">Apps</a>
+        </li>
+      
+        <li>
+          <a href="/archives/" class="nav-link">Archives</a>
+        </li>
+      
+        <li>
+          <a href="/tags/" class="nav-link">Tags</a>
+        </li>
+      
+        <li>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </li>
+      
+
+      <li>
+        <button           class="theme-toggle"
+          type="button"
+          title="Toggle theme"
+          aria-label="Toggle theme"
+          onclick="toggleTheme()"
+        >
+          <svg             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            width="1em"
+            height="1em"
+            class="theme-toggle__dark-side"
+            fill="currentColor"
+            viewBox="0 0 32 32"
+          >
+            <path d="M16 .5C7.4.5.5 7.4.5 16S7.4 31.5 16 31.5 31.5 24.6 31.5 16 24.6.5 16 .5zm0 28.1V3.4C23 3.4 28.6 9 28.6 16S23 28.6 16 28.6z" ></path>
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+    
+	<main>
+        
+    <section class="post">
+        <h1 data-pagefind-meta="title">Time In Words 4.0</h1>
+
+        <p>
+            15th April 2015 • 807 words • 4 minutes  reading time.
+        </p>
+
+        <div class="tag-list">
+            
+                <a href="/tags/#time" class="tag-button">#Time</a>
+            
+                <a href="/tags/#ios" class="tag-button">#iOS</a>
+            
+        </div>
+
+        <article data-pagefind-body>
+            <p><a href="/time-in-words/">Time In Words</a> for iOS started off as a fun gimmick, emulating the
+<a href="http://www.qlocktwo.com/" rel="noreferrer nofollow noopener external" target="_blank">Qlocktwo</a> type of time display where the relevant words are highlighted in
+some way to spell out the time as a sentence. This very quickly evolved into
+what I hoped would be more useful app, still showing the original display, but
+also providing the current time &amp; date as complete sentences. Then I added time
+conversions and discovered the real power and utility of writing out times as
+words.</p>
+<p>When it comes to converting times, I doubt there are many people in the world
+who haven't had problems.</p>
+<ul>
+<li>Is that morning or afternoon for them?</li>
+<li>Are they in tomorrow, today or yesterday?</li>
+<li>What if they are using daylight-savings?</li>
+</ul>
+<p>Having the time written out removes all ambiguity. As an example, Time In Words
+currently reports very clearly:</p>
+<blockquote>
+<p>In Los Angeles, it is nine minutes to ten on Tuesday evening (daylight-savings
+time).</p>
+</blockquote>
+<p>When writing <a href="/time-in-words-for-mac/">Time In Words for Mac</a>, I focussed immediately on the time zone
+conversion facilities, and provided a menu bar app that can display as many time
+zones as you like (although more than will show on a single screen would
+probably get annoying).</p>
+<p>So when I decided to do a complete re-write of Time In Words for iOS, the
+obvious move was to emulate the Mac version and allow for as many time zones as
+the user wants, instead of the current 2 or 4 (iPhone or iPad). So I discarded
+the Qlocktwo display and the separate date display which used a similar
+mechanic. I kept the display that shows the current date and time, but every
+display after that shows the time in a different time zone. The time zones can
+be changed and re-ordered, so the ones you need most are the fastest to get to
+once the app opens.</p>
+<hr>
+<p>One new feature (again taken from the Mac version), is the ability to calculate
+&quot;What time will it be...&quot;</p>
+<p><img src="/images/2015/TiW_what_time.png" alt="What time"></p>
+<p>You dial in your local date and time to see what time that will be in your
+selected zone. And if you want to calculate the other way around, tap the &quot;Swap
+time zones&quot; button.</p>
+<hr>
+<p>The main impetus for a re-write was the Apple Watch. I thought this would be a
+perfect app for the watch as it could use the Apple Watch's superb time-keeping
+in conjunction with my text generation, to add a significant level of usability
+to the Apple Watch as regards time zone conversions.</p>
+<p>Sadly, Apple disagrees…</p>
+<p>I completed the app and submitted it to the App Store for review. The review
+process seems to be very fast at the moment and the app moved into review only
+one day later. And there it stuck for 3 days. This was very odd. My experience
+is that once an app gets into review, it only takes a few hours, if that. For
+<a href="/19th-hole/">19th Hole</a> - my other app with an Apple Watch component, the review process
+took 30 hours. But 3 days!</p>
+<p>Then I got a phone call from Apple where a very polite person explained to me
+that although this was not mentioned in any of the documentation, the marketing
+people had decided that no apps were to be allowed on the watch if they told the
+time.</p>
+<p>I offered to remove the initial screen telling the local time, so the app would
+not actually supply the current time but only the time conversions, but that was
+not acceptable either.</p>
+<p>Then I tried appealing the rejection. My hopes were not high, but I didn't see
+any harm in asking. I again offered to remove the local time display and
+emphasised the accessibility advantages of displaying times in this manner.
+Another day, another phone call, another polite Apple person saying no.</p>
+<p>So now I have re-submitted the app for review without the Apple Watch component,
+which is a shame. I am hoping that after some months they will review this
+policy and allow me to try again, but who knows.</p>
+<p>So you can see what you are missing, here are a couple of screen shots from the
+watch app showing my local time, plus one time zone:</p>
+<p><img src="/images/2015/Watch_1.png" alt="Local time">
+<img src="/images/2015/Watch_2.png" alt="Converted time"></p>
+<hr>
+<p>One more minor point. People who actually look at version numbers may wonder why
+I have gone from version 2.5 to version 4.0. When I was working on version 2.5,
+I considered making it version 3.0 and then changed my mind. However by that
+time I had already created a version 3.0 in iTunesConnect, so I was not able to
+use 3.0 again this time. This version was such a big change that I wanted it to
+be a .0 release, so that meant going to version 4.0</p>
+
+        </article>
+    </section>
+
+    </main>
+    <footer>
+        <div class="footer-content">
+  <nav>
+    <ul class="footer-links">
+      
+        <li>
+          <a href="mailto:info@troz.net">
+            <img src="/images/links/envelope.svg" alt="Email" title="Email" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://mastodon.social/@troz" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/mastodon.png" alt="Mastodon" title="Mastodon" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://linktr.ee/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/tree.svg" alt="Linktree" title="Linktree" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://github.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/github.svg" alt="GitHub" title="GitHub" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://stackoverflow.com/users/1082632" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/stack-overflow.svg" alt="Stack Overflow" title="Stack Overflow" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://dev.to/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/dev-badge.svg" alt="Dev To" title="Dev To" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/index.xml">
+            <img src="/images/links/rss.svg" alt="RSS Feed" title="RSS Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/atom.xml">
+            <img src="/images/links/atom.svg" alt="Atom Feed" title="Atom Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/feed.json">
+            <img src="/images/links/json.png" alt="JSON Feed" title="JSON Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://ko-fi.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/kofi1.png.webp" alt="Buy Me a Coffee" title="Buy Me a Coffee" height="30px" >
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+
+        <div class="copyright">
+            <p>Copyright &copy; 2025 Sarah Reichelt, TrozWare</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            let searchElement = document.getElementById('search');
+            if (searchElement) {
+                new PagefindUI({ element: searchElement, showSubResults: true });
+            }
+        });
+    </script>
+    <script src="/js/theme_switcher.js"></script>
+    <script src="/js/clipboard.js"></script>
+    <script src="/js/menu.js"></script>
+</body>
+</html>

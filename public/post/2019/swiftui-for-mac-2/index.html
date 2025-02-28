@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftUI for Mac - Part 2</title>
+    
+    <link href="/styles/style.css" rel="stylesheet" >
+
+
+    <link href="/styles/prism.css" rel="stylesheet" >
+
+
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+<style>
+@media (prefers-color-scheme: dark) {
+    :root {
+    --pagefind-ui-primary: #eeeeee;
+    --pagefind-ui-text: #eeeeee;
+    --pagefind-ui-background: #152028;
+    --pagefind-ui-border: #152028;
+    --pagefind-ui-tag: #152028;
+    }
+}
+</style>
+    
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<meta property="og:site_name" content="TrozWare" >
+<meta property="og:title" content="SwiftUI for Mac - Part 2 - TrozWare" >
+<meta property="og:type" content="website" >
+<meta property="og:url" content="https://troz.net/post/2019/swiftui-for-mac-2/" >
+<meta name="keywords" content="Mac app development, Apple Mac, Xcode, Swift, SwiftUI, Apple macOS, books, articles, blog, apps, developer, author, Sarah Reichelt">
+
+
+
+
+  <meta name="description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+  <meta property="og:description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+
+
+
+<link rel="alternate" type="application/rss+xml" href="/index.xml" title="TrozWare">
+<link rel="alternate" type="application/atom+xml" href="/atom.xml" title="TrozWare">
+<link rel="alternate" type="application/json" href="/feed.json" title="TrozWare">
+
+
+<link rel="icon" type="image/png" href="/images/favicon.png">
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+
+<body>
+    <header>
+  <nav class="container">
+    <div class="nav-brand">
+      <a href="/" class="site-title">TrozWare</a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+
+    <ul class="nav-links">
+      
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+      
+        <li>
+          <a href="/books/" class="nav-link">Books</a>
+        </li>
+      
+        <li>
+          <a href="/apps/" class="nav-link">Apps</a>
+        </li>
+      
+        <li>
+          <a href="/archives/" class="nav-link">Archives</a>
+        </li>
+      
+        <li>
+          <a href="/tags/" class="nav-link">Tags</a>
+        </li>
+      
+        <li>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </li>
+      
+
+      <li>
+        <button           class="theme-toggle"
+          type="button"
+          title="Toggle theme"
+          aria-label="Toggle theme"
+          onclick="toggleTheme()"
+        >
+          <svg             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            width="1em"
+            height="1em"
+            class="theme-toggle__dark-side"
+            fill="currentColor"
+            viewBox="0 0 32 32"
+          >
+            <path d="M16 .5C7.4.5.5 7.4.5 16S7.4 31.5 16 31.5 31.5 24.6 31.5 16 24.6.5 16 .5zm0 28.1V3.4C23 3.4 28.6 9 28.6 16S23 28.6 16 28.6z" ></path>
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+    
+	<main>
+        
+    <section class="post">
+        <h1 data-pagefind-meta="title">SwiftUI for Mac - Part 2</h1>
+
+        <p>
+            15th December 2019 • 2,301 words • 12 minutes  reading time.
+        </p>
+
+        <div class="tag-list">
+            
+                <a href="/tags/#swift" class="tag-button">#Swift</a>
+            
+                <a href="/tags/#swiftui" class="tag-button">#SwiftUI</a>
+            
+                <a href="/tags/#macos" class="tag-button">#macOS</a>
+            
+        </div>
+
+        <article data-pagefind-body>
+            <p>In <a href="/post/2019/swiftui-for-mac-1/">part 1 of this series</a>, I created a Mac app using SwiftUI. The app uses a Master-Detail design to list entries in an outline on the left and show details about the selected entry in the detail view on the right.</p>
+<p>Now it is time to explore some more of the features of a Mac app with SwiftUI.</p>
+
+<h2>Menus</h2>
+<p>I had already discovered that the menu bar is configured in the Main.storyboard file. As an experiment, I will add new menu items that allows the user to select between dark mode, light mode or the system mode.</p>
+<p>false</p>
+<p><img src="/images/2019/SwiftUi-Mac-menus.png" alt="Menus"></p>
+<p>Looking at the possibilities along the top that I could send the menu command to, the App Delegate looks like the best option, especially since these menus will change the entire app.</p>
+<p>I opened AppDelegate.swift in the Assistant Editor and Control-dragged from each of the new menu items to create the 3 IBActions and added the code to set the mode.</p>
+<pre class="language-swift"><code class="language-swift">    <span class="token attribute atrule">@IBAction</span> <span class="token keyword">func</span> <span class="token function-definition function">darkModeSelected</span><span class="token punctuation">(</span><span class="token omit keyword">_</span> sender<span class="token punctuation">:</span> <span class="token keyword">Any</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">NSApp</span><span class="token punctuation">.</span>appearance <span class="token operator">=</span> <span class="token class-name">NSAppearance</span><span class="token punctuation">(</span>named<span class="token punctuation">:</span> <span class="token punctuation">.</span>darkAqua<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token attribute atrule">@IBAction</span> <span class="token keyword">func</span> <span class="token function-definition function">lightModeSelected</span><span class="token punctuation">(</span><span class="token omit keyword">_</span> sender<span class="token punctuation">:</span> <span class="token keyword">Any</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">NSApp</span><span class="token punctuation">.</span>appearance <span class="token operator">=</span> <span class="token class-name">NSAppearance</span><span class="token punctuation">(</span>named<span class="token punctuation">:</span> <span class="token punctuation">.</span>aqua<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token attribute atrule">@IBAction</span> <span class="token keyword">func</span> <span class="token function-definition function">systemModeSelected</span><span class="token punctuation">(</span><span class="token omit keyword">_</span> sender<span class="token punctuation">:</span> <span class="token keyword">Any</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">NSApp</span><span class="token punctuation">.</span>appearance <span class="token operator">=</span> <span class="token nil constant">nil</span>
+    <span class="token punctuation">}</span></code></pre>
+<p>And since I realized that I would want to check or un-check these based on the current settings, I added IBOutlets for each of these menu items too. As a side note, I love how Xcode is now clever enough to decide whether to add an IBOutlet or an IBAction depending on where in the file you Control-drag to.</p>
+<h2>Using a Property Wrapper</h2>
+<p>Changing mode worked perfectly in the Xcode Preview and in the built app, but the app was not storing this or displaying the current selection with a check mark in the menu.</p>
+<p>For storing the selection, I decided to try another new thing and use a UserDefaults property wrapper, based on <a href="https://www.avanderlee.com/swift/property-wrappers/" rel="noreferrer nofollow noopener external" target="_blank">this post by Antoine van der Lee</a>.</p>
+<p>I configured a UserDefault wrapped variable for the mode, set it whenever the menu items changed it and added a function to read it in and apply it on startup.</p>
+<pre class="language-swift"><code class="language-swift">    <span class="token attribute atrule">@UserDefault</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"system_mode"</span></span><span class="token punctuation">,</span> defaultValue<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">"system"</span></span><span class="token punctuation">)</span>
+    <span class="token keyword">var</span> systemMode<span class="token punctuation">:</span> <span class="token class-name">String</span></code></pre>
+<p>It would be neater to use an enum here instead of strings, but that would have required fiddling with rawValues to save the data, so for this first test, I stuck to strings.</p>
+<p>The code to toggle the checkmarks in the menu items is standard stuff and nothing particularly SwiftUI related, so I won't detail it here, but it is in the GitHub project if you are interested.</p>
+<p><img src="/images/2019/SwiftUI-Mac-dark.png" alt="Dark mode"></p>
+<h2>Passing menu data to a View</h2>
+<p>This worked fine and the app worked equally as well in dark or light modes, but I wanted to test how to communicate data back from the menus to the SwiftUI views.</p>
+<p>As a totally pointless but possibly amusing feature, I decided to add a menu item to flip the cat image and then work out how I could send that to the ContentView.</p>
+<p>I added the new menu item to the Format menu and as a first attempt, I tried to Control-drag from there into the ContentView. It didn't take, so I guess I need to send the message to the AppDelegate as before and then pass it on to the ContentView. I feel like this might be a good place to use a Publisher although so far I have only used the built-in ObservableObject type publishers.</p>
+<p>In this case, it would make more sense to have the DetailView respond to the menu, since it contains the image. But trying to add an @IBAction to a SwiftUI View struct gives this error: <code>Only instance methods can be declared @IBAction</code> so I am using the App Delegate instead. I feel like this is a problem I need to solve, or the AppDelegate is going to end up filled with @IBActions, but for now, let's keep going.</p>
+<p>In AppDelegate.swift, I added the IBAction for the Flip Image menu item and had it issue a Notification, after setting up an extension on Notification.Name to de-stringify the name of the notification.</p>
+<pre class="language-swift"><code class="language-swift">    <span class="token attribute atrule">@IBAction</span> <span class="token keyword">func</span> <span class="token function-definition function">flipImage</span><span class="token punctuation">(</span><span class="token omit keyword">_</span> sender<span class="token punctuation">:</span> <span class="token keyword">Any</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">NotificationCenter</span><span class="token punctuation">.</span><span class="token keyword">default</span><span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span>name<span class="token punctuation">:</span> <span class="token punctuation">.</span>flipImage<span class="token punctuation">,</span> object<span class="token punctuation">:</span> <span class="token nil constant">nil</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span></code></pre>
+<p>In DetailView.swift, I set up a Boolean @State property to store whether the image was flipped or not and added an onReceive handler to toggle it. Since this is updating the UI, I made sure that it happened on the main thread, but I am not sure whether this is necessary, or whether onReceive uses the main thread automatically.</p>
+<p><strong>UPDATE:</strong> Check out <strong><a href="/post/2020/swiftui_for-mac-extras#subscribing-on-the-main-thread">Subscribing on the Main Thread</a></strong> in my post of extras &amp; changes to this series for an alternative way to make sure the updates happen on the correct thread.</p>
+<pre class="language-swift"><code class="language-swift">    <span class="token attribute atrule">@State</span> <span class="token keyword">private</span> <span class="token keyword">var</span> imageIsFlipped <span class="token operator">=</span> <span class="token boolean">false</span>
+
+    <span class="token comment">// ...</span>
+
+  <span class="token punctuation">.</span><span class="token function">onReceive</span><span class="token punctuation">(</span>flipImageMenuItemSelected<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token omit keyword">_</span> <span class="token keyword">in</span>
+    <span class="token class-name">DispatchQueue</span><span class="token punctuation">.</span>main<span class="token punctuation">.</span><span class="token keyword">async</span> <span class="token punctuation">{</span>
+        <span class="token keyword">self</span><span class="token punctuation">.</span>imageIsFlipped<span class="token punctuation">.</span><span class="token function">toggle</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span></code></pre>
+<p>Once I had that Boolean property, I added two more modifiers to the image. Don't hate me for the force un-wrapping. I tried using if-let but it wouldn't compile so I check for <code>catImage != nil</code> before using this force-unwrap.</p>
+<pre class="language-swift"><code class="language-swift">  <span class="token class-name">Image</span><span class="token punctuation">(</span>nsImage<span class="token punctuation">:</span> catImage<span class="token operator">!</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">resizable</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">aspectRatio</span><span class="token punctuation">(</span>contentMode<span class="token punctuation">:</span> <span class="token punctuation">.</span>fit<span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">rotation3DEffect</span><span class="token punctuation">(</span><span class="token class-name">Angle</span><span class="token punctuation">(</span>degrees<span class="token punctuation">:</span> imageIsFlipped <span class="token operator">?</span> <span class="token number">180</span> <span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                        axis<span class="token punctuation">:</span> <span class="token punctuation">(</span>x<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span> y<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> z<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">animation</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token keyword">default</span><span class="token punctuation">)</span></code></pre>
+<p>Now the image can be flipped from the menu item or even by using the keyboard shortcut. And with a smooth animation (smoother in the app than in this gif).</p>
+<p><img src="/images/2019/SwiftUI-Mac-Flip.mp4" alt="Flipping the image"></p>
+<h2>Opening another window</h2>
+<p>For my next challenge, I want to open a second window that I can use to show samples of various UI elements. As I want to open it from a menu command, my first thought was to add a Window Controller to the Main storyboard and open it that way. I replaced the default View Controller with a Hosting Controller so that I could insert my SwiftUI View into it.</p>
+<p>I had great trouble finding any documentation or examples of how to implement this, but after a lot of trial and error, here is what I got to work:</p>
+<ol>
+<li>Drag a Hosting View Controller into the storyboard and connect it to the menu item with a segue.</li>
+<li>Set the Presentation property for the window controller to Single so that multiple copies of the window are not created.</li>
+<li>Create a new Swift file and subclass NSHostingController. Don't bother using a Cocoa class file - the template doesn't work. Use the code below, replacing SamplesView with the name of the SwiftUI view you want to display.</li>
+</ol>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">import</span> <span class="token class-name">SwiftUI</span>
+
+<span class="token keyword">class</span> <span class="token class-name">SamplesHostingController</span><span class="token punctuation">:</span> <span class="token class-name">NSHostingController</span><span class="token operator">&lt;</span><span class="token class-name">PrefsView</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token attribute atrule">@objc</span> <span class="token keyword">required</span> <span class="token keyword">dynamic</span> <span class="token keyword">init</span><span class="token operator">?</span><span class="token punctuation">(</span>coder<span class="token punctuation">:</span> <span class="token class-name">NSCoder</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token keyword">init</span><span class="token punctuation">(</span>coder<span class="token punctuation">:</span> coder<span class="token punctuation">,</span> rootView<span class="token punctuation">:</span> <span class="token class-name">SamplesView</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<ol start="4">
+<li>Back in the storyboard, set the class of the HostingController to this sub-class: SamplesHostingController in my case.</li>
+<li>Set a minimum size for the new Window Controller, otherwise it shrinks to a very small stripe on the screen.</li>
+<li>Add the <code>.frame(maxWidth: .infinity, maxHeight: .infinity)</code> modifier to the root view in the view you are displaying - my SamplesView.</li>
+</ol>
+<p>With all these in place, I was able to open and close a Samples window that was displaying my SwiftUI content.</p>
+<h2>User Interface Elements</h2>
+<p>Not all the expected user interface elements are available in SwiftUI and some of the ones that are implemented are using different names. Again this is a point at which iOS development has got all the attention, so there are conversion tables out there listing UIKit elements and their SwiftUI equivalents, but I was not able to find a similar listing for AppKit. If you find one, please let me know.</p>
+<p>Anyway, I experimented and got most of what I wanted as you can see below. The <a href="https://github.com/trozware/swiftui-mac" rel="noreferrer nofollow noopener external" target="_blank">sample app on GitHub</a> shows the SwiftUI code for these samples, but the main advice I would give is firstly to use the Object Browser to look for what is available and then to check out the styles that can be applied to the element you have chosen.</p>
+<p><img src="/images/2019/SwiftUI-Mac-UI.png" alt="UI elements"></p>
+<p>Mostly, I managed to achieve what I wanted but there were a few exceptions.</p>
+<p>Buttons were a bit odd as there are multiple button styles listed, but I found that they either all looked the same or they disappeared completely. I was not able to style a button with an image and text which is now easy to do in iOS. And I was not able to set a button as the default button and I could not work out how to set a keyboard equivalent for a button. (Setting the keyboard equivalent to Return or Enter might set it to the default style automatically.)</p>
+<p>Of the other UI elements that I wanted to use, a color picker was the main one missing. So I decided to embed an NSColorWell from AppKit into my SwiftUI view.</p>
+<p>The process for embedding a UIKit view is quite well documented elsewhere and the AppKit equivalent was not significantly different. Replace every &quot;UI&quot; with &quot;NS&quot; and you are nearly there.</p>
+<p>First I made a struct that conformed to <code>NSViewRepresentable</code> and had the required two functions: <code>makeNSView(context:)</code> and <code>updateNSView(_:context:)</code>. I supplied an @Binding variable to hold the selected color as an NSColor since that is what the NSColorWell uses.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">EmbeddedColorWell</span><span class="token punctuation">:</span> <span class="token class-name">NSViewRepresentable</span> <span class="token punctuation">{</span>
+    <span class="token attribute atrule">@Binding</span> <span class="token keyword">var</span> selectedColor<span class="token punctuation">:</span> <span class="token class-name">NSColor</span>
+
+    <span class="token keyword">func</span> <span class="token function-definition function">makeNSView</span><span class="token punctuation">(</span>context<span class="token punctuation">:</span> <span class="token class-name">Context</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token class-name">NSColorWell</span> <span class="token punctuation">{</span>
+        <span class="token class-name">NSColorWell</span><span class="token punctuation">(</span>frame<span class="token punctuation">:</span> <span class="token punctuation">.</span>zero<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">func</span> <span class="token function-definition function">updateNSView</span><span class="token punctuation">(</span><span class="token omit keyword">_</span> nsView<span class="token punctuation">:</span> <span class="token class-name">NSColorWell</span><span class="token punctuation">,</span> context<span class="token punctuation">:</span> <span class="token class-name">Context</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        nsView<span class="token punctuation">.</span>color <span class="token operator">=</span> selectedColor
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Back in my SwiftUI view, I was then able to use <code>EmbeddedColorWell</code> just like any other SwiftUI view, passing it a binding to an @State variable to set and get the selected color.</p>
+<pre class="language-swift"><code class="language-swift">  <span class="token class-name">EmbeddedColorWell</span><span class="token punctuation">(</span>selectedColor<span class="token punctuation">:</span> $selectedColor<span class="token punctuation">)</span></code></pre>
+<p><strong>UPDATE:</strong> Be sure to read <strong><a href="/post/2020/swiftui_for-mac-extras#passing-data-back-from-appkit">Passing data back from AppKit</a></strong> in my post of extras &amp; changes to this series. This is an important fix that is needed to make this embedded control pass data back properly.</p>
+<p>The other stumbling block that I encountered was that I had no way to close the window programmatically, in response to a button click or some other interaction. Maybe this was not the best way to open a fully SwifUI window, but it was still an interesting experiment.</p>
+<p>One thing I learned while working on this project was that SwiftUI can be a bit too clever about working out what needs to be redrawn in the previews. If you edit something in an separate file to the View, you may need to force a re-build to get the updates to show.</p>
+<h2>Communicating Between Windows</h2>
+<p>The last feature that I need to explore is transferring data between two windows. I tested using a <code>.sheet</code> modifier to open a dialog and that worked exactly as it would in an iOS app - I was able to pass an @Binding variable to the sheet window and any changes made to that in the sheet window flowed back to the calling view.</p>
+<p>But I want to set up a Preferences window which will be opened from the menu bar and not directly from the ContentView or any of its sub-views.</p>
+<p>I started out by using the same technique as before with a Hosting View Controller. And here is where I came mightily unstuck as I could not make a data connection. I had hoped an EnvironmentObject would work, but I could not get an EnvironmentObject through to the HostingController as it was not in the same view hierarchy.</p>
+<p>So instead of trying to use the storyboard, I decide to see if I could use something similar to the initial window creation and call that new window from my ContentView so that it was part of the view and therefore the data hierarchy.</p>
+<p>As usual, there was a lot of trial and error involved here, but I came up with a workable solution.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">PrefsView</span><span class="token punctuation">:</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Hello, Prefs!"</span></span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">frame</span><span class="token punctuation">(</span>maxWidth<span class="token punctuation">:</span> <span class="token punctuation">.</span>infinity<span class="token punctuation">,</span> maxHeight<span class="token punctuation">:</span> <span class="token punctuation">.</span>infinity<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">var</span> window<span class="token punctuation">:</span> <span class="token class-name">NSWindow</span><span class="token operator">!</span>
+    <span class="token keyword">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        window <span class="token operator">=</span> <span class="token class-name">NSWindow</span><span class="token punctuation">.</span><span class="token function">createStandardWindow</span><span class="token punctuation">(</span>withTitle<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">"Preferences"</span></span><span class="token punctuation">,</span>
+                                               width<span class="token punctuation">:</span> <span class="token number">300</span><span class="token punctuation">,</span>
+                                               height<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">)</span>
+        window<span class="token punctuation">.</span>contentView <span class="token operator">=</span> <span class="token class-name">NSHostingView</span><span class="token punctuation">(</span>rootView<span class="token punctuation">:</span> <span class="token keyword">self</span><span class="token punctuation">)</span>
+        window<span class="token punctuation">.</span><span class="token function">makeKeyAndOrderFront</span><span class="token punctuation">(</span><span class="token nil constant">nil</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>For convenience and reusability, I made an extension on NSWindow that created a window with the basic properties configured, much like they are in AppDelegate. I temporarily added a Button to ContentView like this:</p>
+<pre class="language-swift"><code class="language-swift">  <span class="token class-name">Button</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Prefs"</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">let</span> <span class="token omit keyword">_</span> <span class="token operator">=</span> <span class="token class-name">PrefsView</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span></code></pre>
+<p>This opened the window perfectly, but it had a problem: repeatedly clicking the button kept opening a new window instead of bringing the existing one to the front.</p>
+<p>After a lot more trial and error, this is what I ended up with for my <code>PrefsView</code> struct:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">PrefsView</span><span class="token punctuation">:</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+    <span class="token attribute atrule">@State</span> <span class="token keyword">var</span> prefsWindowDelegate <span class="token operator">=</span> <span class="token class-name">PrefsWindowDelegate</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Hello, Prefs!"</span></span><span class="token punctuation">)</span>
+          <span class="token punctuation">.</span><span class="token function">frame</span><span class="token punctuation">(</span>maxWidth<span class="token punctuation">:</span> <span class="token punctuation">.</span>infinity<span class="token punctuation">,</span> maxHeight<span class="token punctuation">:</span> <span class="token punctuation">.</span>infinity<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">var</span> window<span class="token punctuation">:</span> <span class="token class-name">NSWindow</span><span class="token operator">!</span>
+    <span class="token keyword">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        window <span class="token operator">=</span> <span class="token class-name">NSWindow</span><span class="token punctuation">.</span><span class="token function">createStandardWindow</span><span class="token punctuation">(</span>withTitle<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">"Preferences"</span></span><span class="token punctuation">,</span>
+                                               width<span class="token punctuation">:</span> <span class="token number">300</span><span class="token punctuation">,</span>
+                                               height<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">)</span>
+        window<span class="token punctuation">.</span>contentView <span class="token operator">=</span> <span class="token class-name">NSHostingView</span><span class="token punctuation">(</span>rootView<span class="token punctuation">:</span> <span class="token keyword">self</span><span class="token punctuation">)</span>
+        window<span class="token punctuation">.</span>delegate <span class="token operator">=</span> prefsWindowDelegate
+        prefsWindowDelegate<span class="token punctuation">.</span>windowIsOpen <span class="token operator">=</span> <span class="token boolean">true</span>
+        window<span class="token punctuation">.</span><span class="token function">makeKeyAndOrderFront</span><span class="token punctuation">(</span><span class="token nil constant">nil</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">class</span> <span class="token class-name">PrefsWindowDelegate</span><span class="token punctuation">:</span> <span class="token class-name">NSObject</span><span class="token punctuation">,</span> <span class="token class-name">NSWindowDelegate</span> <span class="token punctuation">{</span>
+        <span class="token keyword">var</span> windowIsOpen <span class="token operator">=</span> <span class="token boolean">false</span>
+
+        <span class="token keyword">func</span> <span class="token function-definition function">windowWillClose</span><span class="token punctuation">(</span><span class="token omit keyword">_</span> notification<span class="token punctuation">:</span> <span class="token class-name">Notification</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            windowIsOpen <span class="token operator">=</span> <span class="token boolean">false</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>So my PrefsView opens its own window and sets a window delegate that records when the window is closed.</p>
+<p>I removed my temporary button and back in AppDelegate.swift, I added an IBAction called by the Preferences menu item:</p>
+<pre class="language-swift"><code class="language-swift">    <span class="token keyword">var</span> prefsView<span class="token punctuation">:</span> <span class="token class-name">PrefsView</span><span class="token operator">?</span>
+
+    <span class="token attribute atrule">@IBAction</span> <span class="token keyword">func</span> <span class="token function-definition function">openPrefsWindow</span><span class="token punctuation">(</span><span class="token omit keyword">_</span> sender<span class="token punctuation">:</span> <span class="token keyword">Any</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token keyword">let</span> prefsView <span class="token operator">=</span> prefsView<span class="token punctuation">,</span> prefsView<span class="token punctuation">.</span>prefsWindowDelegate<span class="token punctuation">.</span>windowIsOpen <span class="token punctuation">{</span>
+            prefsView<span class="token punctuation">.</span>window<span class="token punctuation">.</span><span class="token function">makeKeyAndOrderFront</span><span class="token punctuation">(</span><span class="token keyword">self</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            prefsView <span class="token operator">=</span> <span class="token class-name">PrefsView</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span></code></pre>
+<p>And this gave me what I was after - a view that opened from a menu item but that knew itself whether it still had a window so could decide whether to open a new one or bring the existing one to the front. This looks a bit convoluted, but it doesn't appear to cause any memory leaks and the responsibility for the window rests on the view that uses it, which feels right to me.</p>
+<p>After I had this working, getting the data passing around was quite simple. I created a Prefs class to store the preference data. I wanted this data stored in UserDefaults, but since I also wanted to use an ObservableObject with the @Published property wrapper, I was not able to use the @UserDefaults property wrapper that I had used for the app mode.</p>
+<p>So instead I used @Published with a <code>didSet</code> that saved the changed data to UserDefaults. Thanks to <a href="https://twitter.com/azamsharp" rel="noreferrer nofollow noopener external" target="_blank">@azamsharp</a> for this technique.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">class</span> <span class="token class-name">Prefs</span><span class="token punctuation">:</span> <span class="token class-name">ObservableObject</span> <span class="token punctuation">{</span>
+    <span class="token attribute atrule">@Published</span>
+    <span class="token keyword">var</span> showCopyright<span class="token punctuation">:</span> <span class="token class-name">Bool</span> <span class="token operator">=</span> <span class="token class-name">UserDefaults</span><span class="token punctuation">.</span>standard<span class="token punctuation">.</span><span class="token function">bool</span><span class="token punctuation">(</span>forKey<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">"showCopyright"</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">didSet</span> <span class="token punctuation">{</span>
+            <span class="token class-name">UserDefaults</span><span class="token punctuation">.</span>standard<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token keyword">self</span><span class="token punctuation">.</span>showCopyright<span class="token punctuation">,</span> forKey<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">"showCopyright"</span></span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>This preference will dictate whether a copyright notice is shown on every cat image, so it needs to be available to DetailView and to PrefsView. Since I did not want to pass it through every view on the way to DetailView, I decided to use an EnvironmentObject. But I was not able to work out how to set the environmentObject for the PrefsView as I created it, so I ended up sending an @ObservedObject to PrefsView but using an @EnvironmentObject for DetailView. (Actually for CatImageView as I had extracted the image from DetailView as a subview.)</p>
+<p>In AppDelegate.swift:</p>
+<pre class="language-swift"><code class="language-swift">    <span class="token keyword">let</span> prefs <span class="token operator">=</span> <span class="token class-name">Prefs</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token comment">// and in the openPrefsWindow IBAction:</span>
+    prefsView <span class="token operator">=</span> <span class="token class-name">PrefsView</span><span class="token punctuation">(</span>prefs<span class="token punctuation">:</span> prefs<span class="token punctuation">)</span></code></pre>
+<p>In PrefsView.swift:</p>
+<pre class="language-swift"><code class="language-swift">    <span class="token attribute atrule">@ObservedObject</span> <span class="token keyword">var</span> prefs<span class="token punctuation">:</span> <span class="token class-name">Prefs</span></code></pre>
+<p>In CatImageView (a subview of DetailView):</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">CatImageView</span><span class="token punctuation">:</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+    <span class="token attribute atrule">@EnvironmentObject</span> <span class="token keyword">var</span> prefs<span class="token punctuation">:</span> <span class="token class-name">Prefs</span>
+
+    <span class="token keyword">let</span> catImage<span class="token punctuation">:</span> <span class="token class-name">NSImage</span>
+    <span class="token keyword">let</span> imageIsFlipped<span class="token punctuation">:</span> <span class="token class-name">Bool</span>
+
+    <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Image</span><span class="token punctuation">(</span>nsImage<span class="token punctuation">:</span> catImage<span class="token punctuation">)</span>
+          <span class="token comment">// modifiers as before</span>
+
+         <span class="token punctuation">.</span><span class="token function">overlay</span><span class="token punctuation">(</span>
+             <span class="token class-name">Text</span><span class="token punctuation">(</span>prefs<span class="token punctuation">.</span>showCopyright <span class="token operator">?</span> <span class="token string-literal"><span class="token string">"Copyright © https://http.cat"</span></span> <span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">""</span></span><span class="token punctuation">)</span>
+                 <span class="token punctuation">.</span><span class="token function">padding</span><span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span>
+                 <span class="token punctuation">.</span><span class="token function">font</span><span class="token punctuation">(</span><span class="token punctuation">.</span>caption<span class="token punctuation">)</span>
+                 <span class="token punctuation">.</span><span class="token function">foregroundColor</span><span class="token punctuation">(</span><span class="token punctuation">.</span>white<span class="token punctuation">)</span>
+                 <span class="token punctuation">.</span><span class="token function">shadow</span><span class="token punctuation">(</span>radius<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">)</span>
+             <span class="token punctuation">,</span>alignment<span class="token punctuation">:</span> <span class="token punctuation">.</span>bottomTrailing<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>And that is that! I have shown how it is possible to create an entire Mac app using SwiftUI.</p>
+<p>I am sure that there are numerous ways that this could be improved, so if you have any ideas or suggestions, please use one of the buttons below to contact me.</p>
+<p>If you want to check out the project at this stage, here is a link to the <a href="https://github.com/trozware/swiftui-mac/tree/0ea77f80832e0f32e477ce89ac57d8a95f45f035" rel="noreferrer nofollow noopener external" target="_blank">relevant GitHub commit</a>. Or if you would prefer, here is a link to the <a href="https://github.com/trozware/swiftui-mac" rel="noreferrer nofollow noopener external" target="_blank">final version</a> of the project.</p>
+<hr>
+<p>Moving on to an unplanned <a href="/post/2019/swiftui-for-mac-3/">part 3 of this series</a>, I am going to experiment with various forms of dialog.</p>
+
+        </article>
+    </section>
+
+    </main>
+    <footer>
+        <div class="footer-content">
+  <nav>
+    <ul class="footer-links">
+      
+        <li>
+          <a href="mailto:info@troz.net">
+            <img src="/images/links/envelope.svg" alt="Email" title="Email" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://mastodon.social/@troz" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/mastodon.png" alt="Mastodon" title="Mastodon" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://linktr.ee/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/tree.svg" alt="Linktree" title="Linktree" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://github.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/github.svg" alt="GitHub" title="GitHub" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://stackoverflow.com/users/1082632" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/stack-overflow.svg" alt="Stack Overflow" title="Stack Overflow" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://dev.to/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/dev-badge.svg" alt="Dev To" title="Dev To" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/index.xml">
+            <img src="/images/links/rss.svg" alt="RSS Feed" title="RSS Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/atom.xml">
+            <img src="/images/links/atom.svg" alt="Atom Feed" title="Atom Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/feed.json">
+            <img src="/images/links/json.png" alt="JSON Feed" title="JSON Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://ko-fi.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/kofi1.png.webp" alt="Buy Me a Coffee" title="Buy Me a Coffee" height="30px" >
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+
+        <div class="copyright">
+            <p>Copyright &copy; 2025 Sarah Reichelt, TrozWare</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            let searchElement = document.getElementById('search');
+            if (searchElement) {
+                new PagefindUI({ element: searchElement, showSubResults: true });
+            }
+        });
+    </script>
+    <script src="/js/theme_switcher.js"></script>
+    <script src="/js/clipboard.js"></script>
+    <script src="/js/menu.js"></script>
+</body>
+</html>

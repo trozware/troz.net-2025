@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stylish Swift</title>
+    
+    <link href="/styles/style.css" rel="stylesheet" >
+
+
+    <link href="/styles/prism.css" rel="stylesheet" >
+
+
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+<style>
+@media (prefers-color-scheme: dark) {
+    :root {
+    --pagefind-ui-primary: #eeeeee;
+    --pagefind-ui-text: #eeeeee;
+    --pagefind-ui-background: #152028;
+    --pagefind-ui-border: #152028;
+    --pagefind-ui-tag: #152028;
+    }
+}
+</style>
+    
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<meta property="og:site_name" content="TrozWare" >
+<meta property="og:title" content="Stylish Swift - TrozWare" >
+<meta property="og:type" content="website" >
+<meta property="og:url" content="https://troz.net/post/2018/stylish-swift/" >
+<meta name="keywords" content="Mac app development, Apple Mac, Xcode, Swift, SwiftUI, Apple macOS, books, articles, blog, apps, developer, author, Sarah Reichelt">
+
+
+
+
+  <meta name="description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+  <meta property="og:description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+
+
+
+<link rel="alternate" type="application/rss+xml" href="/index.xml" title="TrozWare">
+<link rel="alternate" type="application/atom+xml" href="/atom.xml" title="TrozWare">
+<link rel="alternate" type="application/json" href="/feed.json" title="TrozWare">
+
+
+<link rel="icon" type="image/png" href="/images/favicon.png">
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+
+<body>
+    <header>
+  <nav class="container">
+    <div class="nav-brand">
+      <a href="/" class="site-title">TrozWare</a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+
+    <ul class="nav-links">
+      
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+      
+        <li>
+          <a href="/books/" class="nav-link">Books</a>
+        </li>
+      
+        <li>
+          <a href="/apps/" class="nav-link">Apps</a>
+        </li>
+      
+        <li>
+          <a href="/archives/" class="nav-link">Archives</a>
+        </li>
+      
+        <li>
+          <a href="/tags/" class="nav-link">Tags</a>
+        </li>
+      
+        <li>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </li>
+      
+
+      <li>
+        <button           class="theme-toggle"
+          type="button"
+          title="Toggle theme"
+          aria-label="Toggle theme"
+          onclick="toggleTheme()"
+        >
+          <svg             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            width="1em"
+            height="1em"
+            class="theme-toggle__dark-side"
+            fill="currentColor"
+            viewBox="0 0 32 32"
+          >
+            <path d="M16 .5C7.4.5.5 7.4.5 16S7.4 31.5 16 31.5 31.5 24.6 31.5 16 24.6.5 16 .5zm0 28.1V3.4C23 3.4 28.6 9 28.6 16S23 28.6 16 28.6z" ></path>
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+    
+	<main>
+        
+    <section class="post">
+        <h1 data-pagefind-meta="title">Stylish Swift</h1>
+
+        <p>
+            31st March 2018 • 347 words • 2 minutes  reading time.
+        </p>
+
+        <div class="tag-list">
+            
+                <a href="/tags/#swift" class="tag-button">#Swift</a>
+            
+        </div>
+
+        <article data-pagefind-body>
+            <p>When Swift first appeared in 2014, the early adopters were mainly, like me, Objective-C programmers. This lead to people writing what was effectively Objective-C code, but with Swift syntax. While it worked, this was code that didn't make use of the advantages of a modern language like Swift. It was like speaking a foreign language by using a direct translation of each word - understandable, but not really correct.</p>
+
+<h2>Early Swift</h2>
+<p>As an example, here is how an Objective-C programmer might have written Swift code to double every number between 1 and 20:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">var</span> doubles <span class="token operator">=</span> <span class="token class-name">Array</span><span class="token operator">&lt;</span><span class="token class-name">Int</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> <span class="token number">20</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    doubles<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>i <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>This doesn't even compile in modern Swift, but it shows how things might have been done.
+So what's wrong with this?</p>
+<ul>
+<li>The array and its type are declared in a very un-Swift way.</li>
+<li>The loop uses the old C-style loop which is no longer supported in Swift but was up until Swift 3.</li>
+<li>Lines are ended with semi-colons.</li>
+<li>The array is a variable, not a constant.</li>
+</ul>
+<h2>Swifty Swift</h2>
+<p>So after Swift had been out for a while, there was a movement towards writing &quot;Swiftier&quot; code.
+Let's try writing that previous example in a Swifty manner:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">let</span> doubles <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">...</span> <span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">.</span>map <span class="token punctuation">{</span> <span class="token short-argument">$0</span> <span class="token operator">*</span> <span class="token number">2</span> <span class="token punctuation">}</span></code></pre>
+<p>And if you are not a fan of single line solutions:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">let</span> doubles <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">...</span> <span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">.</span>map <span class="token punctuation">{</span> num <span class="token keyword">in</span>
+    num <span class="token operator">*</span> <span class="token number">2</span>
+<span class="token punctuation">}</span></code></pre>
+<p>And what makes the Swiftier version better?</p>
+<ul>
+<li>Immutability - it uses a constant (let) instead of a variable (var) and never changes it.</li>
+<li>Range instead of a strict loop.</li>
+<li>No semi-colons or unnecessary symbols.</li>
+<li>Functional programming (map) for greater efficiency.</li>
+</ul>
+<h2>What makes code Swifty?</h2>
+<p>I don't have a definitive list, but here are some of the things I try to do, or at least consider:</p>
+<ul>
+<li>Use <code>let</code> instead of <code>var</code> wherever possible.</li>
+<li>Don't end lines with semi-colons.</li>
+<li>Avoid using <code>self.</code> when not necessary.</li>
+<li>Use <code>for ... in</code> to loop through collections.</li>
+<li>Never force-unwrap optionals.</li>
+<li>Think about whether you can use a <code>struct</code> instead of a <code>class</code>.</li>
+<li>Think about using a <code>protocol</code> instead of class inheritance.</li>
+<li>Use <code>map</code>, <code>filter</code> and <code>reduce</code> where possible.</li>
+<li>Performs checks early in functions and get out quickly, using <code>guard</code>.</li>
+<li>Make <code>extensions</code> to keep your code organised.</li>
+</ul>
+
+        </article>
+    </section>
+
+    </main>
+    <footer>
+        <div class="footer-content">
+  <nav>
+    <ul class="footer-links">
+      
+        <li>
+          <a href="mailto:info@troz.net">
+            <img src="/images/links/envelope.svg" alt="Email" title="Email" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://mastodon.social/@troz" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/mastodon.png" alt="Mastodon" title="Mastodon" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://linktr.ee/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/tree.svg" alt="Linktree" title="Linktree" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://github.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/github.svg" alt="GitHub" title="GitHub" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://stackoverflow.com/users/1082632" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/stack-overflow.svg" alt="Stack Overflow" title="Stack Overflow" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://dev.to/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/dev-badge.svg" alt="Dev To" title="Dev To" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/index.xml">
+            <img src="/images/links/rss.svg" alt="RSS Feed" title="RSS Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/atom.xml">
+            <img src="/images/links/atom.svg" alt="Atom Feed" title="Atom Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/feed.json">
+            <img src="/images/links/json.png" alt="JSON Feed" title="JSON Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://ko-fi.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/kofi1.png.webp" alt="Buy Me a Coffee" title="Buy Me a Coffee" height="30px" >
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+
+        <div class="copyright">
+            <p>Copyright &copy; 2025 Sarah Reichelt, TrozWare</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            let searchElement = document.getElementById('search');
+            if (searchElement) {
+                new PagefindUI({ element: searchElement, showSubResults: true });
+            }
+        });
+    </script>
+    <script src="/js/theme_switcher.js"></script>
+    <script src="/js/clipboard.js"></script>
+    <script src="/js/menu.js"></script>
+</body>
+</html>

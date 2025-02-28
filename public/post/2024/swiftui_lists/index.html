@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftUI Lists</title>
+    
+    <link href="/styles/style.css" rel="stylesheet" >
+
+
+    <link href="/styles/prism.css" rel="stylesheet" >
+
+
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+<style>
+@media (prefers-color-scheme: dark) {
+    :root {
+    --pagefind-ui-primary: #eeeeee;
+    --pagefind-ui-text: #eeeeee;
+    --pagefind-ui-background: #152028;
+    --pagefind-ui-border: #152028;
+    --pagefind-ui-tag: #152028;
+    }
+}
+</style>
+    
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<meta property="og:site_name" content="TrozWare" >
+<meta property="og:title" content="SwiftUI Lists - TrozWare" >
+<meta property="og:type" content="website" >
+<meta property="og:url" content="https://troz.net/post/2024/swiftui_lists/" >
+<meta name="keywords" content="Mac app development, Apple Mac, Xcode, Swift, SwiftUI, Apple macOS, books, articles, blog, apps, developer, author, Sarah Reichelt">
+
+
+
+
+  <meta name="description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+  <meta property="og:description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+
+
+
+<link rel="alternate" type="application/rss+xml" href="/index.xml" title="TrozWare">
+<link rel="alternate" type="application/atom+xml" href="/atom.xml" title="TrozWare">
+<link rel="alternate" type="application/json" href="/feed.json" title="TrozWare">
+
+
+<link rel="icon" type="image/png" href="/images/favicon.png">
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+
+<body>
+    <header>
+  <nav class="container">
+    <div class="nav-brand">
+      <a href="/" class="site-title">TrozWare</a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+
+    <ul class="nav-links">
+      
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+      
+        <li>
+          <a href="/books/" class="nav-link">Books</a>
+        </li>
+      
+        <li>
+          <a href="/apps/" class="nav-link">Apps</a>
+        </li>
+      
+        <li>
+          <a href="/archives/" class="nav-link">Archives</a>
+        </li>
+      
+        <li>
+          <a href="/tags/" class="nav-link">Tags</a>
+        </li>
+      
+        <li>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </li>
+      
+
+      <li>
+        <button           class="theme-toggle"
+          type="button"
+          title="Toggle theme"
+          aria-label="Toggle theme"
+          onclick="toggleTheme()"
+        >
+          <svg             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            width="1em"
+            height="1em"
+            class="theme-toggle__dark-side"
+            fill="currentColor"
+            viewBox="0 0 32 32"
+          >
+            <path d="M16 .5C7.4.5.5 7.4.5 16S7.4 31.5 16 31.5 31.5 24.6 31.5 16 24.6.5 16 .5zm0 28.1V3.4C23 3.4 28.6 9 28.6 16S23 28.6 16 28.6z" ></path>
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+    
+	<main>
+        
+    <section class="post">
+        <h1 data-pagefind-meta="title">SwiftUI Lists</h1>
+
+        <p>
+            1st November 2024 • 725 words • 4 minutes  reading time.
+        </p>
+
+        <div class="tag-list">
+            
+                <a href="/tags/#swift" class="tag-button">#Swift</a>
+            
+                <a href="/tags/#swiftui" class="tag-button">#SwiftUI</a>
+            
+                <a href="/tags/#macos" class="tag-button">#macOS</a>
+            
+        </div>
+
+        <article data-pagefind-body>
+            <p>In SwiftUI Mac apps, the performance of lists with a lot of data has always been a problem. iOS apps appeared to load list rows lazily, but Mac apps did not. In my <a href="/manreader/">Man Reader</a> app, I follow a very common pattern of having a list of selectable <code>man</code> pages in the sidebar with a detail view that shows the selected page. The problem was that the list probably had at least 10,000 items and it could have nearly 30,000. Performance was terrible when I tried to do this in SwiftUI - the list took ages to display and both scrolling and selection were unusably unresponsive. I worked-around this by using AppKit's <code>NSTableView</code> instead and got great performance, although I do see a few crashes appearing with the table view trying to draw non-existent rows.</p>
+<p>With macOS Sequoia, SwiftUI Lists are improved, although they're still not great, but I recently learned a trick that makes everything much better.</p>
+
+<p>I started with a sample app that displayed 10,000 rows in the sidebar of sidebar of a <code>NavigationSplitView</code>:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">ContentView</span><span class="token punctuation">:</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+  <span class="token attribute atrule">@State</span> <span class="token keyword">private</span> <span class="token keyword">var</span> listData<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token class-name">Int</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+  <span class="token attribute atrule">@State</span> <span class="token keyword">private</span> <span class="token keyword">var</span> selectedRow<span class="token punctuation">:</span> <span class="token class-name">Int</span><span class="token operator">?</span>
+
+  <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+    <span class="token class-name">NavigationSplitView</span> <span class="token punctuation">{</span>
+      <span class="token class-name">List</span><span class="token punctuation">(</span>listData<span class="token punctuation">,</span> id<span class="token punctuation">:</span> <span class="token punctuation">\</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">,</span> selection<span class="token punctuation">:</span> $selectedRow<span class="token punctuation">)</span> <span class="token punctuation">{</span> rowIndex <span class="token keyword">in</span>
+        <span class="token class-name">RowView</span><span class="token punctuation">(</span>index<span class="token punctuation">:</span> rowIndex<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span> detail<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token keyword">let</span> selectedRow <span class="token punctuation">{</span>
+        <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"You clicked row </span><span class="token interpolation-punctuation punctuation">\(</span><span class="token interpolation">selectedRow</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string">"</span></span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Click any row to select."</span></span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>task <span class="token punctuation">{</span>
+      <span class="token function">generateData</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">func</span> <span class="token function-definition function">generateData</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    listData <span class="token operator">=</span> <span class="token class-name">Array</span><span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">...</span> <span class="token number">10_000</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">struct</span> <span class="token class-name">RowView</span><span class="token punctuation">:</span> <span class="token class-name">View</span><span class="token punctuation">,</span> <span class="token class-name">Equatable</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> index<span class="token punctuation">:</span> <span class="token class-name">Int</span>
+
+  <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+    <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Row #</span><span class="token interpolation-punctuation punctuation">\(</span><span class="token interpolation">index</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string">"</span></span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Running this in the app, I saw the window very quickly, but then the CPU on my M3 iMac was stuck at 100% for over 50 seconds before the list appeared. Selecting a row or scrolling by any non-trivial scroll zapped the CPU up to 100% again for 20 - 30 seconds. This is not usable.</p>
+<p>I added some logging to <code>RowView</code> and found that all 10,000 row views were initialized on startup - twice, for reasons that escape me. But the slow part was the list drawing all 10,000 row views, even though only about 15 were visible. Changing to using a <code>ForEach</code> inside the list made no difference.</p>
+<p>Then I read a thread on <a href="https://iosdev.space/@babbage/113223944895124685" rel="noreferrer nofollow noopener external" target="_blank">Mastodon</a> where someone mentioned that they had solved this problem in an unexpected way, using <code>equatable</code>. So I conformed <code>RowView</code> to the <code>Equatable</code> protocol like this:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">RowView</span><span class="token punctuation">:</span> <span class="token class-name">View</span><span class="token punctuation">,</span> <span class="token class-name">Equatable</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> index<span class="token punctuation">:</span> <span class="token class-name">Int</span>
+
+  <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+    <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Row #</span><span class="token interpolation-punctuation punctuation">\(</span><span class="token interpolation">index</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string">"</span></span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>And when calling it from the <code>List</code>, I added the <code>equatable</code> modifier:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token class-name">List</span><span class="token punctuation">(</span>listData<span class="token punctuation">,</span> id<span class="token punctuation">:</span> <span class="token punctuation">\</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">,</span> selection<span class="token punctuation">:</span> $selectedRow<span class="token punctuation">)</span> <span class="token punctuation">{</span> rowIndex <span class="token keyword">in</span>
+  <span class="token class-name">RowView</span><span class="token punctuation">(</span>index<span class="token punctuation">:</span> rowIndex<span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">equatable</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>My logging now showed that the app initialized all 10,000 row views on startup, but this took less than 0.1 of a second. The key point was that the row views were not drawn until they were scrolled into view. The list was now usable, and scrolling was smooth. Making selections or scrolling long distances bumped the CPU up to 25 - 30% usage, but I could only detect that in the debugger, not in the feel of the app.</p>
+<p>The docs say that the <code>equatable</code> modifier:</p>
+<blockquote>
+<p>Prevents the view from updating its child view when its new value is the same as its old value.</p>
+</blockquote>
+<p>So I'm guessing this is what is happening here. The list is not drawing all the rows at once, because only the visible ones have changed in any way.</p>
+<p>Further on in the Mastodon thread, <a href="https://indieweb.social/@curtclifton/113273571392595819" rel="noreferrer nofollow noopener external" target="_blank">Curt Clifton</a> suggested that the bad performance was only a problem in debug builds, not in release builds. To test this, I created a second scheme and set it to run using the <strong>Release</strong> build configuration:</p>
+<p><img src="/images/2024/release_scheme.png" alt="Release Scheme"></p>
+<p>The performance in this scheme was very similar to when using the <code>equatable</code> modifier in the debug build. Removing the <code>equatable</code> modifier in the release build made no difference, so Curt is correct and this is a debug build issue. However, as developers, we spend more time in debug builds than release builds, so this is still a very useful trick.</p>
+<p>While I am sure there will be more debates about this, my current position is that when building an app with a large list in SwiftUI, I will now always conform my row view to <code>Equatable</code> and use the <code>equatable</code> modifier when calling it from the list. It seems to add no overhead in the release build and makes the app much more usable when working on it.</p>
+<p>Now I just have to see whether this trick is enough to let me switch Man Reader to a SwiftUI list, which might stop the crashes I am seeing with the <code>NSTableView</code>.</p>
+<p>If you have any other thoughts or suggestions, I'd love to hear them. You can contact me using one of the links below or through the <a href="/contact/">Contact</a> page. And if you found this, or any of my articles useful, please <a href="https://ko-fi.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">buy me a coffee</a>.</p>
+
+        </article>
+    </section>
+
+    </main>
+    <footer>
+        <div class="footer-content">
+  <nav>
+    <ul class="footer-links">
+      
+        <li>
+          <a href="mailto:info@troz.net">
+            <img src="/images/links/envelope.svg" alt="Email" title="Email" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://mastodon.social/@troz" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/mastodon.png" alt="Mastodon" title="Mastodon" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://linktr.ee/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/tree.svg" alt="Linktree" title="Linktree" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://github.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/github.svg" alt="GitHub" title="GitHub" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://stackoverflow.com/users/1082632" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/stack-overflow.svg" alt="Stack Overflow" title="Stack Overflow" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://dev.to/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/dev-badge.svg" alt="Dev To" title="Dev To" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/index.xml">
+            <img src="/images/links/rss.svg" alt="RSS Feed" title="RSS Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/atom.xml">
+            <img src="/images/links/atom.svg" alt="Atom Feed" title="Atom Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/feed.json">
+            <img src="/images/links/json.png" alt="JSON Feed" title="JSON Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://ko-fi.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/kofi1.png.webp" alt="Buy Me a Coffee" title="Buy Me a Coffee" height="30px" >
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+
+        <div class="copyright">
+            <p>Copyright &copy; 2025 Sarah Reichelt, TrozWare</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            let searchElement = document.getElementById('search');
+            if (searchElement) {
+                new PagefindUI({ element: searchElement, showSubResults: true });
+            }
+        });
+    </script>
+    <script src="/js/theme_switcher.js"></script>
+    <script src="/js/clipboard.js"></script>
+    <script src="/js/menu.js"></script>
+</body>
+</html>

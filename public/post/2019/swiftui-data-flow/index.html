@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftUI Data Flow</title>
+    
+    <link href="/styles/style.css" rel="stylesheet" >
+
+
+    <link href="/styles/prism.css" rel="stylesheet" >
+
+
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+<style>
+@media (prefers-color-scheme: dark) {
+    :root {
+    --pagefind-ui-primary: #eeeeee;
+    --pagefind-ui-text: #eeeeee;
+    --pagefind-ui-background: #152028;
+    --pagefind-ui-border: #152028;
+    --pagefind-ui-tag: #152028;
+    }
+}
+</style>
+    
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<meta property="og:site_name" content="TrozWare" >
+<meta property="og:title" content="SwiftUI Data Flow - TrozWare" >
+<meta property="og:type" content="website" >
+<meta property="og:url" content="https://troz.net/post/2019/swiftui-data-flow/" >
+<meta name="keywords" content="Mac app development, Apple Mac, Xcode, Swift, SwiftUI, Apple macOS, books, articles, blog, apps, developer, author, Sarah Reichelt">
+
+
+
+
+  <meta name="description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+  <meta property="og:description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+
+
+
+<link rel="alternate" type="application/rss+xml" href="/index.xml" title="TrozWare">
+<link rel="alternate" type="application/atom+xml" href="/atom.xml" title="TrozWare">
+<link rel="alternate" type="application/json" href="/feed.json" title="TrozWare">
+
+
+<link rel="icon" type="image/png" href="/images/favicon.png">
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+
+<body>
+    <header>
+  <nav class="container">
+    <div class="nav-brand">
+      <a href="/" class="site-title">TrozWare</a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+
+    <ul class="nav-links">
+      
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+      
+        <li>
+          <a href="/books/" class="nav-link">Books</a>
+        </li>
+      
+        <li>
+          <a href="/apps/" class="nav-link">Apps</a>
+        </li>
+      
+        <li>
+          <a href="/archives/" class="nav-link">Archives</a>
+        </li>
+      
+        <li>
+          <a href="/tags/" class="nav-link">Tags</a>
+        </li>
+      
+        <li>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </li>
+      
+
+      <li>
+        <button           class="theme-toggle"
+          type="button"
+          title="Toggle theme"
+          aria-label="Toggle theme"
+          onclick="toggleTheme()"
+        >
+          <svg             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            width="1em"
+            height="1em"
+            class="theme-toggle__dark-side"
+            fill="currentColor"
+            viewBox="0 0 32 32"
+          >
+            <path d="M16 .5C7.4.5.5 7.4.5 16S7.4 31.5 16 31.5 31.5 24.6 31.5 16 24.6.5 16 .5zm0 28.1V3.4C23 3.4 28.6 9 28.6 16S23 28.6 16 28.6z" ></path>
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+    
+	<main>
+        
+    <section class="post">
+        <h1 data-pagefind-meta="title">SwiftUI Data Flow</h1>
+
+        <p>
+            24th January 2021 • 2,826 words • 16 minutes  reading time.
+        </p>
+
+        <div class="tag-list">
+            
+                <a href="/tags/#swift" class="tag-button">#Swift</a>
+            
+                <a href="/tags/#swiftui" class="tag-button">#SwiftUI</a>
+            
+        </div>
+
+        <article data-pagefind-body>
+            <p><a href="https://developer.apple.com/xcode/swiftui/" rel="noreferrer nofollow noopener external" target="_blank">SwiftUI</a> gives us a completely new way to lay out out user interfaces, in a declarative and responsive way. Your data dictates what is displayed. But this leads to a new problem - how should the data models be constructed and how can they be passed around between the various views that make up your app?</p>
+<p>In this post, I intend to discuss the possibilities with examples.</p>
+<p><strong>Update - January 2021:</strong> I think the information in this post is still all valid except for one change. When you are initializing an ObservableObject, you should use <code>@StateObject</code> instead of <code>@ObservedObject</code>. Your views can receive objects that are owned by other views as <code>@ObservedObject</code> or <code>@EnvironmentObject</code> but the owner of the data should always create the data object with <code>@StateObject</code>.</p>
+
+<hr>
+<p>For a great diagram showing what data object type to use where, check out this image from <a href="https://twitter.com/chriseidhof/status/1280433133813456896" rel="noreferrer nofollow noopener external" target="_blank">Chris Edihof</a> - thanks Chris!</p>
+<p><img src="/images/2019/dataflow.png" alt="Data flow"></p>
+<p>If you read this article before November 18th 2019, please check out <a href="/post/2019/swiftui-data-flow/#observable2">ObservableObject &amp; @ObservedObject - Part 2</a> again as it has gone through several iterations, which are all shown for comparison.</p>
+<hr>
+<p>At WWDC 2019, some Apple engineers gave a great presentation on <a href="https://developer.apple.com/videos/play/wwdc2019/226/" rel="noreferrer nofollow noopener external" target="_blank">Data Flow Through SwiftUI</a> and I strongly recommend watching the video. But you need to watch it twice. First watch it so that you can get started, and then, when you feel that this is all way too complicated, watch it again and it will start to click into place. The only real difference between then and now is that BindableObject has become ObservableObject.</p>
+<p>I guess I could stop there, but I will be illustrating my ideas with code examples, which I hope will make things clearer. Some of the examples are rather contrived in order to make a point, but the sample code is also sprinkled with other SwiftUI examples which I hope will prove useful.</p>
+<p><a href="https://github.com/trozware/swiftui-data-flow/tree/master" rel="noreferrer nofollow noopener external" target="_blank">Download the sample project from GitHub</a> and open it in Xcode. Go to ContentView.swift and make sure the Canvas is open. Click Resume to make the view appear. Then click the Live Preview button and wait for the view to become active. I recommend clicking the Pin button at the bottom left of the Canvas so that you can investigate the code samples, while still working in the main navigation.</p>
+<h2>Data Flow Options</h2>
+<p>There are 5 ways to specify data in SwiftUI:</p>
+<ul>
+<li>Property</li>
+<li>@State</li>
+<li>@Binding</li>
+<li>ObservableObject &amp; @ObservedObject</li>
+<li>@EnvironmentObject</li>
+</ul>
+<p>false</p>
+<p><img src="/images/2019/ContentView.png" alt="Content View"></p>
+<h2>Property</h2>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">Property</span><span class="token punctuation">:</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Property</span>
+    <span class="token keyword">let</span> greeting <span class="token operator">=</span> <span class="token string-literal"><span class="token string">"Hello from SwiftUI!"</span></span>
+
+    <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Using property directly</span>
+         <span class="token class-name">Text</span><span class="token punctuation">(</span>greeting<span class="token punctuation">)</span>
+             <span class="token punctuation">.</span><span class="token function">font</span><span class="token punctuation">(</span><span class="token punctuation">.</span>title<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>In this example, the <code>greeting</code> property is used in the view. <code>greeting</code> is static, so the view does not need to monitor it for changes. This may seem like a simplistic and obvious example, but separating it out allows for localization or re-usability.</p>
+<p>The property could also have been supplied by a parent view and this is a really useful feature of properties. A parent view can have some dynamic data that it can use to set properties in a subview where the subview only needs to display the data statically. This data will change as the parent view changes but the subview will not be able to change the data in the parent view.</p>
+<p>And it is important to remember that not everything needs to be set up with one of these new property wrappers.</p>
+<h2>@State</h2>
+<p>This is where things start to get very interesting in the SwiftUI world. SwiftUI views are contained in structs, so are non-mutable. Also, the views are re-created every time the data changes, so any properties are re-created then too. By marking a property with the <code>@State</code> property wrapper, you are telling SwiftUI that you want it to keep this data in a separate portion of memory, allow it to be mutated, and preserve the current value during the view refresh.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">UsingState</span><span class="token punctuation">:</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+    <span class="token attribute atrule">@State</span> <span class="token keyword">private</span> <span class="token keyword">var</span> toggleValue <span class="token operator">=</span> <span class="token boolean">true</span>
+
+    <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Using state with 2-way binding</span>
+         <span class="token class-name">Toggle</span><span class="token punctuation">(</span>isOn<span class="token punctuation">:</span> $toggleValue<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+             <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Toggle is </span><span class="token interpolation-punctuation punctuation">\(</span><span class="token interpolation"><span class="token keyword">self</span><span class="token punctuation">.</span>toggleValue <span class="token operator">?</span> <span class="token string-literal"><span class="token string">"ON"</span></span> <span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">"OFF"</span></span></span><span class="token interpolation-punctuation punctuation">)</span><span class="token string">"</span></span><span class="token punctuation">)</span>
+         <span class="token punctuation">}</span>
+         <span class="token punctuation">.</span><span class="token function">padding</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>In this example, <code>toggleValue</code> is declared as a <code>Bool</code> with a property wrapper of <code>@State</code>. Inside the <code>Toggle</code>, the <code>isOn</code> value is bound to <code>toggleValue</code> by the leading <code>$</code>. This allows the variable to set the toggle and the toggle to set the variable - 2-way binding.</p>
+<p><img src="/images/2019/Toggle.png" alt="Toggle"></p>
+<p><code>@State</code> variables are always value types and are usually local to their view, so Apple recommends marking them as <code>private</code>.</p>
+<p>And unlike properties, <code>@State</code> variables allow you to have data that is dynamic but it can still be passed to subviews as properties for display.</p>
+<h2>@Binding</h2>
+<p>One problem with building SwiftUI views is that it is very easy to end up with a gigantic Pyramid of Doom as you embed views within views within views. The solution is to extract subviews, but then you need a way to pass the data to the subview.</p>
+<p>This is where <code>@Binding</code> comes in as it allows you to tell a view that the data for a property is actually coming from a parent but that the subview is allowed to change that property and that change will flow back to the parent's data.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">Numbers</span><span class="token punctuation">:</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+    <span class="token attribute atrule">@State</span> <span class="token keyword">private</span> <span class="token keyword">var</span> stepperValue <span class="token operator">=</span> <span class="token number">0</span>
+
+    <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+        <span class="token class-name">NumberChooser</span><span class="token punctuation">(</span>stepperValue<span class="token punctuation">:</span> $stepperValue<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">struct</span> <span class="token class-name">NumberChooser</span><span class="token punctuation">:</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Using state from parent with 2-way binding</span>
+    <span class="token attribute atrule">@Binding</span> <span class="token keyword">var</span> stepperValue<span class="token punctuation">:</span> <span class="token class-name">Int</span>
+
+    <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+        <span class="token class-name">ZStack</span> <span class="token punctuation">{</span>
+            <span class="token class-name">VStack</span> <span class="token punctuation">{</span>
+                <span class="token class-name">Stepper</span><span class="token punctuation">(</span>value<span class="token punctuation">:</span> $stepperValue<span class="token punctuation">,</span> <span class="token keyword">in</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token operator">...</span><span class="token number">20</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Value = </span><span class="token interpolation-punctuation punctuation">\(</span><span class="token interpolation">stepperValue</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string">"</span></span><span class="token punctuation">)</span>
+                <span class="token punctuation">}</span>
+
+                <span class="token class-name">NumberBlock</span><span class="token punctuation">(</span>stepperValue<span class="token punctuation">:</span> stepperValue<span class="token punctuation">)</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">struct</span> <span class="token class-name">NumberBlock</span><span class="token punctuation">:</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+    <span class="token comment">// As this view never changes the value, there is no need to bind it</span>
+    <span class="token keyword">var</span> stepperValue<span class="token punctuation">:</span> <span class="token class-name">Int</span>
+
+    <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Image</span><span class="token punctuation">(</span>systemName<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">"</span><span class="token interpolation-punctuation punctuation">\(</span><span class="token interpolation">stepperValue</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string">.square"</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>In this example, I have declared a <code>stepperValue</code> property and marked it with <code>@State</code>.</p>
+<p>The interface has been extracted into a subview called <code>NumberChooser</code> and a <code>Binding</code> to the <code>stepperValue</code> property has been passed to <code>NumberChooser</code> using the <code>$</code> prefix, which will ensure that changes to the value can come back. Inside <code>NumberChooser</code> this property is wrapped in the <code>@Binding</code> property wrapper to indicate that it is coming from another source and that changes will be returned.</p>
+<p><code>NumberChooser</code> itself has a subview called <code>NumberBlock</code> but it is a display view only and never mutates the value itself, so <code>stepperValue</code> is passed to this subview as a property only, without the <code>$</code> prefix. It will still be updated every time the data changes as it is contained by the view with the <code>@State</code> property.</p>
+<p><img src="/images/2019/NumberChooser.png" alt="Number Chooser"></p>
+<h2>@State &amp; @Binding - Part 2</h2>
+<p>So far, the examples have used primitive data types for the @State properties, but given that <code>@State</code> properties are value types, any struct can be used. In the next example, I use a struct to hold the properties of a pizza order and use a SwiftUI Form to allow selections.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">PizzaView</span><span class="token punctuation">:</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Using @State for a struct</span>
+    <span class="token attribute atrule">@State</span> <span class="token keyword">private</span> <span class="token keyword">var</span> pizza <span class="token operator">=</span> <span class="token class-name">Pizza</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+            <span class="token class-name">VStack</span> <span class="token punctuation">{</span>
+                <span class="token class-name">Form</span> <span class="token punctuation">{</span>
+                    <span class="token comment">// Using 2-way binding but each component</span>
+                    <span class="token comment">// only needs 1 property from the struct</span>
+                    <span class="token class-name">PizzaNamePicker</span><span class="token punctuation">(</span>selectedPizzaName<span class="token punctuation">:</span> $pizza<span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+                    <span class="token class-name">PizzaSizePicker</span><span class="token punctuation">(</span>selectedPizzaSize<span class="token punctuation">:</span> $pizza<span class="token punctuation">.</span>size<span class="token punctuation">)</span>
+                    <span class="token class-name">PizzaCrustPicker</span><span class="token punctuation">(</span>selectedPizzaCrust<span class="token punctuation">:</span> $pizza<span class="token punctuation">.</span>crust<span class="token punctuation">)</span>
+                <span class="token punctuation">}</span>
+
+                <span class="token comment">// Text representation to prove that the</span>
+                <span class="token comment">// subviews are modifying the parent struct</span>
+                <span class="token class-name">Text</span><span class="token punctuation">(</span>pizza<span class="token punctuation">.</span>pizzaSelection<span class="token punctuation">)</span>
+             <span class="token punctuation">}</span>
+            <span class="token punctuation">.</span><span class="token function">navigationBarTitle</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Choose Your Pizza"</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Each subview gets the property it needs using <code>@Binding</code>:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">PizzaNamePicker</span><span class="token punctuation">:</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+    <span class="token attribute atrule">@Binding</span> <span class="token keyword">var</span> selectedPizzaName<span class="token punctuation">:</span> <span class="token class-name">PizzaName</span>
+
+    <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+      <span class="token comment">// see the GitHub project for more details</span>
+    <span class="token punctuation">}</span></code></pre>
+<p>The form consists of 3 subviews - one each for selecting the pizza, size and crust. The Pizza struct holds all three properties, but each subview only needs a <code>Binding</code> to the single property that it controls. The Text view after the Form is to prove that all the selections come back to the parent.</p>
+<p><img src="/images/2019/PizzaView.png" alt="Pizza View"></p>
+<h2>ObservableObject &amp; @ObservedObject - Part 1</h2>
+<p>These are used if your data model is a class and you want to use reference-based data instead of the struct's value-based system.</p>
+<p>To set up a data model to be Observable, it must conform to the <code>ObservableObject</code> protocol and any property that needs to be observed should have the <code>@Published</code> property wrapper. This makes sure that any time this property changes, all the Views that are observing the instance of this data model will be notified to perform the UI updates.</p>
+<p>For this example, I have a ColorSet class with six color components that are used to assemble two RGB colors.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">class</span> <span class="token class-name">ColorSet</span><span class="token punctuation">:</span> <span class="token class-name">ObservableObject</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ObservableObject</span>
+    <span class="token comment">// The 6 color components are marked as @Published so any changes</span>
+    <span class="token comment">// get published to the views that are observing</span>
+
+    <span class="token attribute atrule">@Published</span> <span class="token keyword">var</span> foregroundRed <span class="token operator">=</span> <span class="token number">0.0</span>
+    <span class="token attribute atrule">@Published</span> <span class="token keyword">var</span> foregroundGreen <span class="token operator">=</span> <span class="token number">0.0</span>
+    <span class="token attribute atrule">@Published</span> <span class="token keyword">var</span> foregroundBlue <span class="token operator">=</span> <span class="token number">0.0</span>
+
+    <span class="token attribute atrule">@Published</span> <span class="token keyword">var</span> backgroundRed <span class="token operator">=</span> <span class="token number">1.0</span>
+    <span class="token attribute atrule">@Published</span> <span class="token keyword">var</span> backgroundGreen <span class="token operator">=</span> <span class="token number">1.0</span>
+    <span class="token attribute atrule">@Published</span> <span class="token keyword">var</span> backgroundBlue <span class="token operator">=</span> <span class="token number">1.0</span>
+<span class="token punctuation">}</span></code></pre>
+<p>In the primary view, I set up an instance of this class as an <code>@ObservedObject</code>.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">ColorSetView</span><span class="token punctuation">:</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+    <span class="token attribute atrule">@ObservedObject</span> <span class="token keyword">private</span> <span class="token keyword">var</span> colorSet <span class="token operator">=</span> <span class="token class-name">ColorSet</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>The background of the view and the foreground of a system image are set using these colors. A button presents a sheet with sliders to allow editing these colors. The <code>colorSet</code> is passed to the sheet like this:</p>
+<pre class="language-swift"><code class="language-swift">  <span class="token punctuation">.</span><span class="token function">sheet</span><span class="token punctuation">(</span>isPresented<span class="token punctuation">:</span> $showChooser<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// notice that this does not use $ as the ColorChooser</span>
+      <span class="token comment">// will get a reference to the ColorSet object</span>
+      <span class="token class-name">ColorChooser</span><span class="token punctuation">(</span>colorSet<span class="token punctuation">:</span> <span class="token keyword">self</span><span class="token punctuation">.</span>colorSet<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span></code></pre>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">ColorChooser</span><span class="token punctuation">:</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+    <span class="token attribute atrule">@ObservedObject</span> <span class="token keyword">var</span> colorSet<span class="token punctuation">:</span> <span class="token class-name">ColorSet</span>
+
+    <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+        <span class="token comment">// ...</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>A sheet is not the ideal way of presenting a view that uses sliders for editing, but I wanted to demonstrate that changing the sliders instantly changes the value of the <code>@ObservedObject</code> for the parent view as well as for the subview. Editing the background color components shows the new background color in the back at the top of the sheet.</p>
+<p>The <code>ColorChooser</code> itself uses 2 subviews and they get a reference to the <code>ColorSet</code> in the same manner.</p>
+<p><img src="/images/2019/ColorChooser.png" alt="Color Chooser"></p>
+<h2><a name="observable2">ObservableObject &amp; @ObservedObject - Part 2</a></h2>
+<p>This section was that one that caused me the most trouble when writing the example app. I wanted to display a list of data and have each entry link to an editable detail view with the edits flowing back to the parent list.</p>
+<p>The initial display of data in a List was straight-forward and I was then able to have the list rows navigate to a detailed view for each entry. The problem was getting the edited data back to the parent List.</p>
+<p>The basic data model was an <code>ObservableObject</code> that publishes an array of <code>PersonViewModel</code> objects.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">class</span> <span class="token class-name">PersonListModel</span><span class="token punctuation">:</span> <span class="token class-name">ObservableObject</span> <span class="token punctuation">{</span>
+    <span class="token attribute atrule">@Published</span> <span class="token keyword">var</span> persons<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token class-name">PersonViewModel</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+    <span class="token keyword">func</span> <span class="token function-definition function">fetchData</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// get data from web ...</span>
+
+        <span class="token class-name">DispatchQueue</span><span class="token punctuation">.</span>main<span class="token punctuation">.</span><span class="token keyword">async</span> <span class="token punctuation">{</span>
+            <span class="token keyword">self</span><span class="token punctuation">.</span>persons <span class="token operator">=</span> newData
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Since this data is going to trigger a UI update after a background network call, it is important that changes to the <code>@Published</code> property get switched to the main thread.</p>
+<p>The <code>PersonViewModel</code> also needs to be <code>Observable</code> with the editable properties marked as <code>@Published</code>.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">class</span> <span class="token class-name">PersonViewModel</span><span class="token punctuation">:</span> <span class="token class-name">Identifiable</span><span class="token punctuation">,</span> <span class="token class-name">ObservableObject</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Even though this is not observed directly,</span>
+    <span class="token comment">// it must be an ObservableObject for the data flow to work</span>
+
+    <span class="token keyword">var</span> id <span class="token operator">=</span> <span class="token function">UUID</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token attribute atrule">@Published</span> <span class="token keyword">var</span> first<span class="token punctuation">:</span> <span class="token class-name">String</span> <span class="token operator">=</span> <span class="token string-literal"><span class="token string">""</span></span>
+    <span class="token attribute atrule">@Published</span> <span class="token keyword">var</span> last<span class="token punctuation">:</span> <span class="token class-name">String</span> <span class="token operator">=</span> <span class="token string-literal"><span class="token string">""</span></span>
+    <span class="token attribute atrule">@Published</span> <span class="token keyword">var</span> phone<span class="token punctuation">:</span> <span class="token class-name">String</span> <span class="token operator">=</span> <span class="token string-literal"><span class="token string">""</span></span>
+<span class="token punctuation">}</span></code></pre>
+<p>The odd thing was the way that I had to pass the data to the detail view. This is what I tried initially:</p>
+<pre class="language-swift"><code class="language-swift">  <span class="token class-name">List</span> <span class="token punctuation">{</span>
+      <span class="token class-name">ForEach</span><span class="token punctuation">(</span>personList<span class="token punctuation">.</span>persons<span class="token punctuation">)</span> <span class="token punctuation">{</span> person <span class="token keyword">in</span>
+          <span class="token class-name">NavigationLink</span><span class="token punctuation">(</span>destination<span class="token punctuation">:</span>
+              <span class="token class-name">PersonDetailView</span><span class="token punctuation">(</span>person<span class="token punctuation">:</span> person<span class="token punctuation">)</span>
+          <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+              <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"</span><span class="token interpolation-punctuation punctuation">\(</span><span class="token interpolation">person<span class="token punctuation">.</span>first</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string"> </span><span class="token interpolation-punctuation punctuation">\(</span><span class="token interpolation">person<span class="token punctuation">.</span>last</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string">"</span></span><span class="token punctuation">)</span>
+          <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span></code></pre>
+<p>And in <code>PersonDetailView</code>:</p>
+<pre class="language-swift"><code class="language-swift">    <span class="token attribute atrule">@ObservedObject</span> <span class="token keyword">var</span> person<span class="token punctuation">:</span> <span class="token class-name">PersonViewModel</span></code></pre>
+<p>This almost worked. The correct data was passed to the detail view, and the data edits changed the data, but the parent list was never re-drawn. If I changed a record's first name then went back to the list, the change was not displayed. But if I then returned to the detail view for the same record, my edits were there, so I could tell that the data was changing correctly. The problem was how to change it in such a way that the parent view was notified of the change.</p>
+<p>Trying to bind <code>person</code> with <code>PersonDetailView(person: $person)</code> gave the error <code>Use of unresolved identifier '$person'</code>, so the <code>ForEach</code> enumeration did not provide a direct connection to the <code>personList</code> object.</p>
+<p>The solution I came up with was to switch to enumerating by index in the <code>ForEach</code> and passing a direct member of the parent list's data to the detail view. And switching the <code>PersonDetailView</code> to use <code>@Binding var person: PersonViewModel</code>.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token class-name">ForEach</span><span class="token punctuation">(</span><span class="token number">0</span> <span class="token operator">..&lt;</span> personList<span class="token punctuation">.</span>persons<span class="token punctuation">.</span>count<span class="token punctuation">,</span> id<span class="token punctuation">:</span> <span class="token punctuation">\</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> index <span class="token keyword">in</span>
+    <span class="token class-name">NavigationLink</span><span class="token punctuation">(</span>destination<span class="token punctuation">:</span>
+        <span class="token class-name">PersonDetailView</span><span class="token punctuation">(</span>person<span class="token punctuation">:</span> <span class="token keyword">self</span><span class="token punctuation">.</span>$personList<span class="token punctuation">.</span>persons<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"</span><span class="token interpolation-punctuation punctuation">\(</span><span class="token interpolation"><span class="token keyword">self</span><span class="token punctuation">.</span>personList<span class="token punctuation">.</span>persons<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">.</span>first</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string">"</span></span><span class="token punctuation">)</span> <span class="token operator">+</span>
+          <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">" </span><span class="token interpolation-punctuation punctuation">\(</span><span class="token interpolation"><span class="token keyword">self</span><span class="token punctuation">.</span>personList<span class="token punctuation">.</span>persons<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">.</span>last</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>This works but as well as being hard to read, it has one major flaw. The rows in the table are identified by their row number, rather than by anything in the data like the <code>person.id</code>. This can really mess with how SwiftUI handles the List and how it knows which rows have changed and need to be re-rendered. It is important to identify rows by something unique to the data in each row so that SwiftUI knows that you have deleted the row with the ID &quot;abcd-1234&quot; and not row #7. Because if you delete row ID &quot;abcd-1234&quot; there is no longer a row ID &quot;abcd-1234&quot; but if you delete row #7, there is now a different row #7 and anything could happen.</p>
+<p><br><strong>Update 1:</strong> <a href="https://twitter.com/StewartLynch" rel="noreferrer nofollow noopener external" target="_blank">@StewartLynch</a> contacted me to suggest a much neater way to pass the person data to the PersonDetailView by using a function to get a <code>Binding&lt;PersonViewModel&gt;</code> for each <code>person</code> being displayed. This worked perfectly and made for a much cleaner looking bit of code. Thanks Stewart.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token class-name">ForEach</span><span class="token punctuation">(</span>personList<span class="token punctuation">.</span>persons<span class="token punctuation">)</span> <span class="token punctuation">{</span> person <span class="token keyword">in</span>
+    <span class="token class-name">NavigationLink</span><span class="token punctuation">(</span>destination<span class="token punctuation">:</span>
+        <span class="token class-name">PersonDetailView</span><span class="token punctuation">(</span>person<span class="token punctuation">:</span> <span class="token keyword">self</span><span class="token punctuation">.</span><span class="token function">selectedPerson</span><span class="token punctuation">(</span>id<span class="token punctuation">:</span> person<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"</span><span class="token interpolation-punctuation punctuation">\(</span><span class="token interpolation">person<span class="token punctuation">.</span>first</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string"> </span><span class="token interpolation-punctuation punctuation">\(</span><span class="token interpolation">person<span class="token punctuation">.</span>last</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>And outside the <code>body</code> declaration:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">func</span> <span class="token function-definition function">selectedPerson</span><span class="token punctuation">(</span>id<span class="token punctuation">:</span> <span class="token constant">UUID</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token class-name">Binding</span><span class="token operator">&lt;</span><span class="token class-name">PersonViewModel</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">guard</span> <span class="token keyword">let</span> index <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">.</span>personList<span class="token punctuation">.</span>persons<span class="token punctuation">.</span><span class="token function">firstIndex</span><span class="token punctuation">(</span><span class="token keyword">where</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token short-argument">$0</span><span class="token punctuation">.</span>id <span class="token operator">==</span> id <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token function">fatalError</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"This person does not exist."</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token keyword">self</span><span class="token punctuation">.</span>$personList<span class="token punctuation">.</span>persons<span class="token punctuation">[</span>index<span class="token punctuation">]</span>
+<span class="token punctuation">}</span></code></pre>
+<p>If you want to have a look at Stewart's solution, check out <a href="https://github.com/trozware/swiftui-data-flow/tree/57f48ea28d1e987566398800e74f12e339eac231" rel="noreferrer nofollow noopener external" target="_blank">this commit on GitHub</a>.</p>
+<p><strong>Update 2:</strong> <a href="https://twitter.com/vadimshpakovski" rel="noreferrer nofollow noopener external" target="_blank">@vadimshpakovski</a> says that creating a binding for every <code>person</code> object is inefficient and that the function to create this binding will slow things down. He suggests using <code>onReceive</code> to react to changes to <code>person</code> and trigger an update of <code>personList</code>. In this case, <code>PersonDetailView</code> uses <code>@ObservedObject var person: PersonViewModel</code>. This also works perfectly.</p>
+<pre class="language-swift"><code class="language-swift">  <span class="token class-name">ForEach</span><span class="token punctuation">(</span>personList<span class="token punctuation">.</span>persons<span class="token punctuation">)</span> <span class="token punctuation">{</span> person <span class="token keyword">in</span>
+      <span class="token class-name">NavigationLink</span><span class="token punctuation">(</span>destination<span class="token punctuation">:</span>
+          <span class="token class-name">PersonDetailView</span><span class="token punctuation">(</span>person<span class="token punctuation">:</span> person<span class="token punctuation">)</span>
+              <span class="token punctuation">.</span><span class="token function">onReceive</span><span class="token punctuation">(</span>person<span class="token punctuation">.</span>objectWillChange<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token omit keyword">_</span> <span class="token keyword">in</span>
+                  <span class="token keyword">self</span><span class="token punctuation">.</span>personList<span class="token punctuation">.</span>objectWillChange<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+              <span class="token punctuation">}</span>
+      <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"</span><span class="token interpolation-punctuation punctuation">\(</span><span class="token interpolation">person<span class="token punctuation">.</span>first</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string"> </span><span class="token interpolation-punctuation punctuation">\(</span><span class="token interpolation">person<span class="token punctuation">.</span>last</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string">"</span></span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span></code></pre>
+<p>If you want to have a look at Vadim's's solution, check out <a href="https://github.com/trozware/swiftui-data-flow/tree/093810bab93a984292c4a7b8bf29316a830e9f50" rel="noreferrer nofollow noopener external" target="_blank">this commit on GitHub</a>.</p>
+<p><strong>Update 3:</strong> More suggestions have come in from the community (thanks to everyone who contributed) and it has been pointed out to me that while Vadim's solution does solve a lot of the issues, it means that the entire <code>ForEach</code> has to be recalculated to check for changes every time a single <code>Person</code> is edited. And it also inserts model management code into the view code, which is not great.</p>
+<p>So my next attempt goes back to using <code>@Binding var person: PersonViewModel</code> in <code>PersonDetailView</code> but instead of <code>PersonListModel</code> having an array of <code>PersonViewModels</code>, it has an array of <code>UUIDs</code> and a dictionary of <code>UUID: PersonListModel</code>. The benefit of this is that the UUIDs can be used in the <code>ForEach</code> as they are unique to each row, and the dictionary can be used to provide a Binding to the <code>person</code> for each <code>UUID</code>.</p>
+<p>This removes the problem of my original solution by identifying each row uniquely, it goes back to Stewart's solution but eliminates the potential slow function to create a binding for the matching person, and eliminates the issue of complete redraws and model management inside views from Vadim's suggestion.</p>
+<p>But it was not entirely straight-forward as getting a value from a dictionary by key returns an optional. At first I thought I could use the new <code>default</code> syntax for dictionaries to get a non-optional value for binding but for some reason that couldn't be used to create a <code>Binding</code>.</p>
+<p>The answer was to write an extension on Dictionary with a <code>subscript</code> function that returns a non-optional value or gives a fatal error. Since I am in control of the data and set up every UUID with a matching PersonViewModel, this is not dangerous.</p>
+<p>So here is what we have now:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">class</span> <span class="token class-name">PersonListModel</span><span class="token punctuation">:</span> <span class="token class-name">ObservableObject</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Main list view model</span>
+    <span class="token comment">// ObservableObject so that updates are detected</span>
+
+    <span class="token attribute atrule">@Published</span> <span class="token keyword">var</span> ids<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token constant">UUID</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token attribute atrule">@Published</span> <span class="token keyword">var</span> persons<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token constant">UUID</span> <span class="token punctuation">:</span> <span class="token class-name">PersonViewModel</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">]</span>
+
+    <span class="token keyword">func</span> <span class="token function-definition function">fetchData</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// get data from web ...</span>
+
+        <span class="token class-name">DispatchQueue</span><span class="token punctuation">.</span>main<span class="token punctuation">.</span><span class="token keyword">async</span> <span class="token punctuation">{</span>
+          <span class="token keyword">let</span> personViewModels <span class="token operator">=</span> dataArray<span class="token punctuation">.</span>map <span class="token punctuation">{</span> <span class="token class-name">PersonViewModel</span><span class="token punctuation">(</span>with<span class="token punctuation">:</span> <span class="token short-argument">$0</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">.</span><span class="token function">sorted</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+              <span class="token short-argument">$0</span><span class="token punctuation">.</span>last <span class="token operator">+</span> <span class="token short-argument">$0</span><span class="token punctuation">.</span>first <span class="token operator">&lt;</span> <span class="token short-argument">$1</span><span class="token punctuation">.</span>last <span class="token operator">+</span> <span class="token short-argument">$1</span><span class="token punctuation">.</span>first
+          <span class="token punctuation">}</span>
+          <span class="token keyword">self</span><span class="token punctuation">.</span>ids <span class="token operator">=</span> personViewModels<span class="token punctuation">.</span>map <span class="token punctuation">{</span> <span class="token short-argument">$0</span><span class="token punctuation">.</span>id <span class="token punctuation">}</span>
+          <span class="token keyword">self</span><span class="token punctuation">.</span>persons <span class="token operator">=</span> <span class="token class-name">Dictionary</span><span class="token punctuation">(</span>
+              uniqueKeysWithValues<span class="token punctuation">:</span> personViewModels<span class="token punctuation">.</span>map <span class="token punctuation">{</span> <span class="token punctuation">(</span><span class="token short-argument">$0</span><span class="token punctuation">.</span>id<span class="token punctuation">,</span> <span class="token short-argument">$0</span><span class="token punctuation">)</span> <span class="token punctuation">}</span>
+          <span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+ <span class="token punctuation">}</span></code></pre>
+<p>The incoming data is mapped to a sorted array of <code>PersonViewModels</code> before extracting the UUIDs and creating the dictionary. This means that the UUIDs array is in the correct sort order for use in the <code>ForEach</code>.</p>
+<p>Here is the Dictionary extension:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token class-name">Dictionary</span> <span class="token keyword">where</span> <span class="token class-name">Key</span> <span class="token operator">==</span> <span class="token constant">UUID</span><span class="token punctuation">,</span> <span class="token class-name">Value</span> <span class="token operator">==</span> <span class="token class-name">PersonViewModel</span> <span class="token punctuation">{</span>
+    <span class="token keyword">subscript</span><span class="token punctuation">(</span>unchecked key<span class="token punctuation">:</span> <span class="token class-name">Key</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token class-name">Value</span> <span class="token punctuation">{</span>
+        <span class="token keyword">get</span> <span class="token punctuation">{</span>
+            <span class="token keyword">guard</span> <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token function">fatalError</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"This person does not exist."</span></span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">return</span> result
+        <span class="token punctuation">}</span>
+        <span class="token keyword">set</span> <span class="token punctuation">{</span>
+            <span class="token keyword">self</span><span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> newValue
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>And these go together to allow this:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token class-name">ForEach</span><span class="token punctuation">(</span>personList<span class="token punctuation">.</span>ids<span class="token punctuation">,</span> id<span class="token punctuation">:</span> <span class="token punctuation">\</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> id <span class="token keyword">in</span>
+    <span class="token class-name">NavigationLink</span><span class="token punctuation">(</span>
+        destination<span class="token punctuation">:</span> <span class="token class-name">PersonDetailView</span><span class="token punctuation">(</span>person<span class="token punctuation">:</span> <span class="token keyword">self</span><span class="token punctuation">.</span>$personList<span class="token punctuation">.</span>persons<span class="token punctuation">[</span>unchecked<span class="token punctuation">:</span> id<span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"</span><span class="token interpolation-punctuation punctuation">\(</span><span class="token interpolation"><span class="token keyword">self</span><span class="token punctuation">.</span>personList<span class="token punctuation">.</span>persons<span class="token punctuation">[</span>unchecked<span class="token punctuation">:</span> id<span class="token punctuation">]</span><span class="token punctuation">.</span>first</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string">"</span></span><span class="token punctuation">)</span> <span class="token operator">+</span>
+            <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">" </span><span class="token interpolation-punctuation punctuation">\(</span><span class="token interpolation"><span class="token keyword">self</span><span class="token punctuation">.</span>personList<span class="token punctuation">.</span>persons<span class="token punctuation">[</span>unchecked<span class="token punctuation">:</span> id<span class="token punctuation">]</span><span class="token punctuation">.</span>last</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p><img src="/images/2019/PersonListView.png" alt="Person List View"></p>
+<p>This ended up a bit more complicated than my original idea, but I think it is now <em>good</em> SwiftUI, avoiding several problems from the earlier solutions.</p>
+<p>Thanks to <a href="https://next.json-generator.com" rel="noreferrer nofollow noopener external" target="_blank">JSON Generator</a> for the sample data. And if anyone has any other solutions to this problem, I would love to hear it. You can contact me using any of the buttons at the end of this article.</p>
+<h2>@EnvironmentObject</h2>
+<p>Think of the EnvironmentObject a piece of state that can be used by any view or any descendent of the view once it has been introduced. People who have used React or any of the similar web development technologies will be familiar with the concept of global state and this is similar to that, although not truely global.</p>
+<p>You set up a class as an EnvironmentObject model exactly as you would set up an ObservableObject with the same protocol conformance and using the <code>@Published</code> property wrapper to mark properties whose changes will trigger UI updates. Here is a very simple example with just one property.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">class</span> <span class="token class-name">UserSettings</span><span class="token punctuation">:</span> <span class="token class-name">ObservableObject</span> <span class="token punctuation">{</span>
+    <span class="token attribute atrule">@Published</span> <span class="token keyword">var</span> isLoggedIn<span class="token punctuation">:</span> <span class="token class-name">Bool</span> <span class="token operator">=</span> <span class="token boolean">false</span>
+<span class="token punctuation">}</span></code></pre>
+<p><img src="/images/2019/NestedViews.png" alt="Nested Views"></p>
+<p>In this example, the yellow view is the parent view - the different views have different brightly colored backgrounds to make them easy to distinguish. The yellow view has access to the <code>UserSettings</code> like this:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">NestingViews</span><span class="token punctuation">:</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+    <span class="token attribute atrule">@EnvironmentObject</span> <span class="token keyword">var</span> userSettings<span class="token punctuation">:</span> <span class="token class-name">UserSettings</span>
+
+    <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+        <span class="token class-name">ZStack</span> <span class="token punctuation">{</span>
+            <span class="token class-name">Color</span><span class="token punctuation">.</span>yellow<span class="token punctuation">.</span><span class="token function">edgesIgnoringSafeArea</span><span class="token punctuation">(</span><span class="token punctuation">.</span>all<span class="token punctuation">)</span>
+
+            <span class="token class-name">VStack</span> <span class="token punctuation">{</span>
+                <span class="token comment">// UI omitted for space reasons</span>
+
+                <span class="token comment">// display first nested view</span>
+                <span class="token class-name">ChildView</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>The <code>ChildView</code> contained in this parent - the green view - has no need to access this data and so gets no <code>@EnvironmentObject</code> property. But <code>ChildView</code> contains another subview - the blue one. And this <code>GrandChildView</code> does need access to the <code>UserSettings</code> so it has the exact same <code>@EnvironmentObject var userSettings: UserSettings</code> property as the parent view.</p>
+<p>If this was using <code>@ObservedObject</code> the data would have to be passed through every view in an un-broken chain, even though <code>ChildView</code> did not need this data. By using <code>@EnvironmentObject</code> the chain can be broken, but any view that needs to, can access and mutate this data. In the example, both the yellow and the blue views display and edit the same data with updates happening in both when either button is pressed.</p>
+<p>One key thing to remember about previewing <code>@EnvironmentObject</code> in the Canvas is that every view that uses it, or that contains a view that uses it, needs to be supplied with the <code>ObservableObject</code> in the preview using <code>.environmentObject()</code>.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">NestingViews_Previews</span><span class="token punctuation">:</span> <span class="token class-name">PreviewProvider</span> <span class="token punctuation">{</span>
+    <span class="token keyword">static</span> <span class="token keyword">var</span> previews<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+        <span class="token class-name">NestingViews</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">environmentObject</span><span class="token punctuation">(</span><span class="token class-name">UserSettings</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>In the app itself, only the first view to access the <code>@EnvironmentObject</code> needs it set. In this example, it is done in the <code>NavigationLink</code> that goes to the <code>NestingViews</code> example. The <code>.environmentObject</code> can be provided to the root view in the <code>SceneDelegate</code> if the root view needs it.</p>
+<pre class="language-swift"><code class="language-swift">    <span class="token class-name">NavigationLink</span><span class="token punctuation">(</span>destination<span class="token punctuation">:</span> <span class="token class-name">NestingViews</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">environmentObject</span><span class="token punctuation">(</span><span class="token class-name">UserSettings</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">ListContents</span><span class="token punctuation">(</span>title<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">"@EnvironmentObject"</span></span><span class="token punctuation">,</span> imageNumber<span class="token punctuation">:</span> <span class="token number">6</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span></code></pre>
+<h2>Summary</h2>
+<p>Or What Should I Use When?</p>
+<ul>
+<li>For value-based data models or data primitives, use <code>@State</code>.</li>
+<li>For reference-based data use <code>ObservableObject</code>.</li>
+<li>For data needed by a lot of views in your app, use <code>@EnvironmentObject</code>.</li>
+<li>Use <code>@Binding</code> or <code>@ObservedObject</code> to pass data to a view that can mutate it.</li>
+</ul>
+<p>And one final tip: while creating a view from scratch, use <code>@State</code> with sample, hard-coded data. Once you have the interface you want, then change it to use real data.</p>
+<p>I am sure people will develop their own theories and their own ways of using SwiftUI, but those are the guidelines that I intend to follow for now. If you have different views and would like to discuss them, please contact me.</p>
+
+        </article>
+    </section>
+
+    </main>
+    <footer>
+        <div class="footer-content">
+  <nav>
+    <ul class="footer-links">
+      
+        <li>
+          <a href="mailto:info@troz.net">
+            <img src="/images/links/envelope.svg" alt="Email" title="Email" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://mastodon.social/@troz" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/mastodon.png" alt="Mastodon" title="Mastodon" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://linktr.ee/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/tree.svg" alt="Linktree" title="Linktree" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://github.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/github.svg" alt="GitHub" title="GitHub" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://stackoverflow.com/users/1082632" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/stack-overflow.svg" alt="Stack Overflow" title="Stack Overflow" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://dev.to/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/dev-badge.svg" alt="Dev To" title="Dev To" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/index.xml">
+            <img src="/images/links/rss.svg" alt="RSS Feed" title="RSS Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/atom.xml">
+            <img src="/images/links/atom.svg" alt="Atom Feed" title="Atom Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/feed.json">
+            <img src="/images/links/json.png" alt="JSON Feed" title="JSON Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://ko-fi.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/kofi1.png.webp" alt="Buy Me a Coffee" title="Buy Me a Coffee" height="30px" >
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+
+        <div class="copyright">
+            <p>Copyright &copy; 2025 Sarah Reichelt, TrozWare</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            let searchElement = document.getElementById('search');
+            if (searchElement) {
+                new PagefindUI({ element: searchElement, showSubResults: true });
+            }
+        });
+    </script>
+    <script src="/js/theme_switcher.js"></script>
+    <script src="/js/clipboard.js"></script>
+    <script src="/js/menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xcode Folders &amp; Groups</title>
+    
+    <link href="/styles/style.css" rel="stylesheet" >
+
+
+    <link href="/styles/prism.css" rel="stylesheet" >
+
+
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+<style>
+@media (prefers-color-scheme: dark) {
+    :root {
+    --pagefind-ui-primary: #eeeeee;
+    --pagefind-ui-text: #eeeeee;
+    --pagefind-ui-background: #152028;
+    --pagefind-ui-border: #152028;
+    --pagefind-ui-tag: #152028;
+    }
+}
+</style>
+    
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<meta property="og:site_name" content="TrozWare" >
+<meta property="og:title" content="Xcode Folders &amp; Groups - TrozWare" >
+<meta property="og:type" content="website" >
+<meta property="og:url" content="https://troz.net/post/2024/xcode_folders_groups/" >
+<meta name="keywords" content="Mac app development, Apple Mac, Xcode, Swift, SwiftUI, Apple macOS, books, articles, blog, apps, developer, author, Sarah Reichelt">
+
+
+
+
+  <meta name="description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+  <meta property="og:description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+
+
+
+<link rel="alternate" type="application/rss+xml" href="/index.xml" title="TrozWare">
+<link rel="alternate" type="application/atom+xml" href="/atom.xml" title="TrozWare">
+<link rel="alternate" type="application/json" href="/feed.json" title="TrozWare">
+
+
+<link rel="icon" type="image/png" href="/images/favicon.png">
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+
+<body>
+    <header>
+  <nav class="container">
+    <div class="nav-brand">
+      <a href="/" class="site-title">TrozWare</a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+
+    <ul class="nav-links">
+      
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+      
+        <li>
+          <a href="/books/" class="nav-link">Books</a>
+        </li>
+      
+        <li>
+          <a href="/apps/" class="nav-link">Apps</a>
+        </li>
+      
+        <li>
+          <a href="/archives/" class="nav-link">Archives</a>
+        </li>
+      
+        <li>
+          <a href="/tags/" class="nav-link">Tags</a>
+        </li>
+      
+        <li>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </li>
+      
+
+      <li>
+        <button           class="theme-toggle"
+          type="button"
+          title="Toggle theme"
+          aria-label="Toggle theme"
+          onclick="toggleTheme()"
+        >
+          <svg             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            width="1em"
+            height="1em"
+            class="theme-toggle__dark-side"
+            fill="currentColor"
+            viewBox="0 0 32 32"
+          >
+            <path d="M16 .5C7.4.5.5 7.4.5 16S7.4 31.5 16 31.5 31.5 24.6 31.5 16 24.6.5 16 .5zm0 28.1V3.4C23 3.4 28.6 9 28.6 16S23 28.6 16 28.6z" ></path>
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+    
+	<main>
+        
+    <section class="post">
+        <h1 data-pagefind-meta="title">Xcode Folders &amp; Groups</h1>
+
+        <p>
+            17th September 2024 • 1,503 words • 7 minutes  reading time.
+        </p>
+
+        <div class="tag-list">
+            
+                <a href="/tags/#swift" class="tag-button">#Swift</a>
+            
+                <a href="/tags/#xcode" class="tag-button">#Xcode</a>
+            
+        </div>
+
+        <article data-pagefind-body>
+            <p>In Xcode 16, project files and folders are arranged differently in the Project navigator. What used to be a <strong>group</strong> is now a <strong>folder</strong>, and this simple change has some interesting effects. At first, I was against the new scheme - in fact in my <a href="/post/2024/swiftui-mac-2024/">SwiftUI for Mac 2024</a> article, I specifically recommended reverting back to the old group method. But after doing some more reading and testing, I think the answer is not so clear cut.</p>
+<p>Since Xcode 15 doesn't work on macOS Sequoia, now's my last chance to create sample apps with both Xcode 15 and Xcode 16 in macOS Sonoma, and compare the two.</p>
+
+<p>Using Xcode 15.4 and Xcode 16.0, I created a macOS app using Swift and SwiftUI. Both projects were placed under <code>git</code> control - you'll see why this is important soon. Both projects have identical files with identical contents, but take a look at the Project navigators:</p>
+<p><img src="/images/2024/xcode_diffs.png" alt="Xcode 15 &amp; 16 Project navigators"></p>
+<p>At a first glance, there are two differences: the order of the files &amp; folders and the color of the folder icons. A less obvious difference is that in Xcode 15, I can drag files around to arrange them in the order I prefer. In Xcode 16, I can't do that. I can drag files into or out of folders, but I can't move them around at the same level.</p>
+<p>I like my Project navigator to be organized in a certain way, so I have to confess that I do find this annoying, especially since the folders at the top are ones I use infrequently. I did wonder whether the folders sorting to the top was due to the fact that I have that option turned on for Finder, but when I turned it off in Finder and made a new project, it was still the same.</p>
+<h3>Adding a new file</h3>
+<p>What happens when you add a new file? There are many different ways to do this in Xcode 16, but I'll stick to the same old method that works for both. With <strong>ContentView.swift</strong> selected, press <strong>Command-N</strong> to open the file template chooser, select a new SwiftUI View file, and click <strong>Next</strong>. Name it <strong>DetailView.swift</strong> and click <strong>Create</strong>.</p>
+<p>This is why I created <code>git</code> repositories for both projects - I wanted to see what source control changes were detected. In Xcode 16, the new <strong>DetailView.swift</strong> file is marked with the <strong>A</strong> that indicates an added file. But the top item in the Project navigator - the project itself - has no change marker. Going to the Source Control navigator confirms that there is only one change in the repository: the new file.</p>
+<p>In Xcode 15, the new <strong>DetailView.swift</strong> file is marked with the <strong>A</strong>, but the project file is also marked with an <strong>M</strong> for a modified file. The Changes tab in the Source control navigator shows a lot of unreadable changes to the <strong>project.pbxproj</strong> file, which is one of the files hidden inside the <strong>.xcodeproj</strong> bundle:</p>
+<p><img src="/images/2024/group_changes.png" alt="Xcode 15 Changes tab"></p>
+<p>This points out the fundamental difference between the two approaches: <strong>groups</strong> are an artificial construct that is stored in the project files. Usually, this mirrors the file and folder structure in Finder, but it doesn't have to. When you use <strong>folders</strong>, Xcode is reading the file and folder structure directly from the Finder.</p>
+<p>One other difference: in Xcode 15, the new file is added to the Project navigator directly after the selected file. In Xcode 16, there appears to be a preset sort order, the logic of which escapes me for now. If I add a file with no other file selected, it's added to the root of the project, outside the main folder. Otherwise, it's added after <strong>ContentView.swift</strong>, no matter which file was selected.</p>
+<h3>Importing files</h3>
+<p>So how does this affect importing files? For both projects, I used <strong>Integrate -&gt; Discard All Changes...</strong> to revert them to their original states. Then in Xcode 15, I dragged my folder of sample files into the Project navigator, selecting where I wanted it to appear:</p>
+<p><img src="/images/2024/import_folder_15.png" alt="Import folder in Xcode 15"></p>
+<p>This led to the dialog that I've always found slightly confusing and far too large, but I chose my standard settings.</p>
+<p><img src="/images/2024/import_settings_15.png" alt="Import settings in Xcode 15"></p>
+<p>The source control markers showed three added files and a modified project file. Checking the project folder in Finder, I could see the new folder and its files in the correct place.</p>
+<p>With Xcode 16, I wasn't able to select a precise location for the dropped folder, but I was able to choose the destination folder:</p>
+<p><img src="/images/2024/import_folder_16.png" alt="Import folder in Xcode 16"></p>
+<p>The import dialog was less confusing - the only real option was whether to copy the files or move them.</p>
+<p>The Utilities folder appeared below the Preview Content folder, the three files in it got the <strong>A</strong> marker, and the project file showed no changes.</p>
+<p>But since Xcode is reading the file and folder structure directly from the Finder, I can add and move files in Finder as well as in Xcode. Still in Xcode 16, I discarded all changes again to revert to the starting app, then I right-clicked on <strong>ContentView.swift</strong> and selected <strong>Show in Finder</strong>. Then I dragged my Utilities folder into the project folder in Finder:</p>
+<p><img src="/images/2024/finder_import.png" alt="Finder import"></p>
+<p>Back in Xcode, there was the folder and its files, but with no <strong>A</strong> markers on the files. The Source Control navigator showed only the addition of the Utilities folder and not the files inside it. I made a change in <strong>ContentView.swift</strong>, then went to <strong>Source Control navigator -&gt; Changes</strong> and clicked <strong>Stage All</strong>. This added the three new files to the commit. So that worked, just not very smoothly, but again, there were no changes to the project file.</p>
+<h3>Changing the Folder Structure</h3>
+<p>What else can I do in Finder that Xcode 16 will pick up? For my next test, I dragged a SwiftUI view file into the project folder in Finder. Then, still in Finder, I selected both the <strong>...View.swift</strong> files, right-clicked, and selected <strong>New Folder with Selection</strong>. I named the folder <strong>Views</strong> and sure enough, Xcode picked up the changes. The folders in the project appear to sort alphabetically, so the <strong>Views</strong> folder appeared after the <strong>Utilities</strong> folder. So I guess that while I don't have total control over the arrangement of the files in the Project navigator, I can organize the files into folders to suit.</p>
+<p>Then I got to thinking about assets - can I add them to <strong>Assets.xcassets</strong> using Finder? The assets I add most frequently are images and app icons. I tried dragging an image into the <strong>Assets.xcassets</strong> folder but it didn't appear in Xcode - I had to import the image as usual which creates an <strong>imageset</strong> folder with the image and a <strong>Contents.json</strong> file. If I took an <strong>imageset</strong> folder from another project and added it using Finder, that worked as expected. Similarly, if I dragged an <strong>AppIcon.appiconset</strong> folder from another project into <strong>Assets.xcassets</strong>, that worked too, with Finder offering to merge or replace the existing folder. I chose replace, and my icon was there.</p>
+<h3>Conclusion</h3>
+<p>Which style will I use going forward? With <strong>groups</strong>, I get the total flexibility that I'm used to, so I can arrange my files and folders exactly as I like. But with <strong>folders</strong>, I can use Finder to import and organize my files and folders. The big difference is in source control, especially if you're working with other people. When every file addition, deletion or move also changes the project file, you have a much greater chance of getting a merge conflict.</p>
+<p>Finally, Apple has obviously decided that folders are the way to go - they are the default for new projects in Xcode. Over the years, I have seen Apple make many changes which seemed nonsensical or irritating at first, but nearly every time, it turned out that these changes were the precursor to more significant changes and if you had accepted the initial changes, you were in much better shape to handle the larger changes down the track.</p>
+<p>Finally, as an educator, I try to stick to the defaults as much as possible. I don't want to confuse anyone by requiring them to make changes to their setup to match me. So I'll be using folders from now on.</p>
+<p>But remember, if you hate it, or if you want to upgrade an older project, you can always swap. Right-click on the project folder in the Project navigator (the second item), and select <strong>Convert to Group</strong> or <strong>Convert to Folder</strong>.</p>
+<p>What do you think? Will you go with the flow and use folders, or do you intend to stick with groups? If you have any other thoughts, ideas, suggestions or questions, I'd love to hear from you.</p>
+<p>You can contact me using one of the links below or through the <a href="/contact/">Contact</a> page. And if you found this article useful, please <a href="https://ko-fi.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">buy me a coffee</a>.</p>
+
+        </article>
+    </section>
+
+    </main>
+    <footer>
+        <div class="footer-content">
+  <nav>
+    <ul class="footer-links">
+      
+        <li>
+          <a href="mailto:info@troz.net">
+            <img src="/images/links/envelope.svg" alt="Email" title="Email" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://mastodon.social/@troz" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/mastodon.png" alt="Mastodon" title="Mastodon" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://linktr.ee/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/tree.svg" alt="Linktree" title="Linktree" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://github.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/github.svg" alt="GitHub" title="GitHub" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://stackoverflow.com/users/1082632" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/stack-overflow.svg" alt="Stack Overflow" title="Stack Overflow" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://dev.to/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/dev-badge.svg" alt="Dev To" title="Dev To" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/index.xml">
+            <img src="/images/links/rss.svg" alt="RSS Feed" title="RSS Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/atom.xml">
+            <img src="/images/links/atom.svg" alt="Atom Feed" title="Atom Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/feed.json">
+            <img src="/images/links/json.png" alt="JSON Feed" title="JSON Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://ko-fi.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/kofi1.png.webp" alt="Buy Me a Coffee" title="Buy Me a Coffee" height="30px" >
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+
+        <div class="copyright">
+            <p>Copyright &copy; 2025 Sarah Reichelt, TrozWare</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            let searchElement = document.getElementById('search');
+            if (searchElement) {
+                new PagefindUI({ element: searchElement, showSubResults: true });
+            }
+        });
+    </script>
+    <script src="/js/theme_switcher.js"></script>
+    <script src="/js/clipboard.js"></script>
+    <script src="/js/menu.js"></script>
+</body>
+</html>

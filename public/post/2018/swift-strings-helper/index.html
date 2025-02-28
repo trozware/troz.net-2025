@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swift Strings Helper</title>
+    
+    <link href="/styles/style.css" rel="stylesheet" >
+
+
+    <link href="/styles/prism.css" rel="stylesheet" >
+
+
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+<style>
+@media (prefers-color-scheme: dark) {
+    :root {
+    --pagefind-ui-primary: #eeeeee;
+    --pagefind-ui-text: #eeeeee;
+    --pagefind-ui-background: #152028;
+    --pagefind-ui-border: #152028;
+    --pagefind-ui-tag: #152028;
+    }
+}
+</style>
+    
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<meta property="og:site_name" content="TrozWare" >
+<meta property="og:title" content="Swift Strings Helper - TrozWare" >
+<meta property="og:type" content="website" >
+<meta property="og:url" content="https://troz.net/post/2018/swift-strings-helper/" >
+<meta name="keywords" content="Mac app development, Apple Mac, Xcode, Swift, SwiftUI, Apple macOS, books, articles, blog, apps, developer, author, Sarah Reichelt">
+
+
+
+
+  <meta name="description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+  <meta property="og:description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+
+
+
+<link rel="alternate" type="application/rss+xml" href="/index.xml" title="TrozWare">
+<link rel="alternate" type="application/atom+xml" href="/atom.xml" title="TrozWare">
+<link rel="alternate" type="application/json" href="/feed.json" title="TrozWare">
+
+
+<link rel="icon" type="image/png" href="/images/favicon.png">
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+
+<body>
+    <header>
+  <nav class="container">
+    <div class="nav-brand">
+      <a href="/" class="site-title">TrozWare</a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+
+    <ul class="nav-links">
+      
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+      
+        <li>
+          <a href="/books/" class="nav-link">Books</a>
+        </li>
+      
+        <li>
+          <a href="/apps/" class="nav-link">Apps</a>
+        </li>
+      
+        <li>
+          <a href="/archives/" class="nav-link">Archives</a>
+        </li>
+      
+        <li>
+          <a href="/tags/" class="nav-link">Tags</a>
+        </li>
+      
+        <li>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </li>
+      
+
+      <li>
+        <button           class="theme-toggle"
+          type="button"
+          title="Toggle theme"
+          aria-label="Toggle theme"
+          onclick="toggleTheme()"
+        >
+          <svg             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            width="1em"
+            height="1em"
+            class="theme-toggle__dark-side"
+            fill="currentColor"
+            viewBox="0 0 32 32"
+          >
+            <path d="M16 .5C7.4.5.5 7.4.5 16S7.4 31.5 16 31.5 31.5 24.6 31.5 16 24.6.5 16 .5zm0 28.1V3.4C23 3.4 28.6 9 28.6 16S23 28.6 16 28.6z" ></path>
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+    
+	<main>
+        
+    <section class="post">
+        <h1 data-pagefind-meta="title">Swift Strings Helper</h1>
+
+        <p>
+            21st June 2018 • 808 words • 4 minutes  reading time.
+        </p>
+
+        <div class="tag-list">
+            
+                <a href="/tags/#framework" class="tag-button">#Framework</a>
+            
+                <a href="/tags/#library" class="tag-button">#Library</a>
+            
+                <a href="/tags/#swift" class="tag-button">#Swift</a>
+            
+        </div>
+
+        <article data-pagefind-body>
+            <p>Hands up everyone who can remember how to work with Swift strings, especially when it comes to substrings and ranges? ....</p>
+<p>Nobody?</p>
+<p>Me neither. So I decided that I would work it out once and create myself a library to make it easy for myself in the future. And then I thought that other people might like it too. So I have created my first open sourced project.</p>
+
+<h2>Strings in Swift</h2>
+<p>Swift's string handling is amazing. It is truly Unicode-compliant, so a Swift <code>String</code> doesn't care whether your string is made up of basic alphanumerics, accented characters, or emojis that might be composed of several different emojis joined together.</p>
+<p>But this power comes at a price, and every version of Swift has changed the way we interact with strings, seemingly making it more and more confusing for the poor programmers trying to stay current. I have got to the stage where each year I read up on the new String features and then promptly forget them. For every use, I have to go back and search how to do what should be simple.</p>
+<h2>The Problems</h2>
+<p>To my mind, there are two main problems: indexes and substrings.</p>
+<p>In most languages, you can get the n-th character of a string, but not in Swift. In Swift, you have to ask the string for its startIndex (or endIndex), then use an offset to adjust that index by a certain number to give you a <code>String.Index</code>. Do much the same to get a second index and then you can grab the string between those two indices.</p>
+<p>To get a sub-string from the 7th up to the 11th character of a string, this is what you have to do:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">let</span> str <span class="token operator">=</span> <span class="token string-literal"><span class="token string">"Hello, playground"</span></span>
+
+<span class="token keyword">let</span> subStart <span class="token operator">=</span> str<span class="token punctuation">.</span><span class="token function">index</span><span class="token punctuation">(</span>str<span class="token punctuation">.</span>startIndex<span class="token punctuation">,</span> offsetBy<span class="token punctuation">:</span> <span class="token number">7</span><span class="token punctuation">)</span>
+<span class="token keyword">let</span> subEnd <span class="token operator">=</span> str<span class="token punctuation">.</span><span class="token function">index</span><span class="token punctuation">(</span>str<span class="token punctuation">.</span>startIndex<span class="token punctuation">,</span> offsetBy<span class="token punctuation">:</span> <span class="token number">11</span><span class="token punctuation">)</span>
+
+<span class="token keyword">let</span> subStr <span class="token operator">=</span> str<span class="token punctuation">[</span>subStart <span class="token operator">..&lt;</span> subEnd<span class="token punctuation">]</span>       <span class="token comment">// "play"</span></code></pre>
+<p>Splitting the lines up like that at least helps to show what is happening, but then you see abominations like this:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">let</span> sub <span class="token operator">=</span> str<span class="token punctuation">[</span>str<span class="token punctuation">.</span><span class="token function">index</span><span class="token punctuation">(</span>str<span class="token punctuation">.</span>startIndex<span class="token punctuation">,</span> offsetBy<span class="token punctuation">:</span> <span class="token number">7</span><span class="token punctuation">)</span><span class="token operator">..&lt;</span>str<span class="token punctuation">.</span><span class="token function">index</span><span class="token punctuation">(</span>str<span class="token punctuation">.</span>startIndex<span class="token punctuation">,</span> offsetBy<span class="token punctuation">:</span> <span class="token number">11</span><span class="token punctuation">)</span><span class="token punctuation">]</span></code></pre>
+<p>And how anyone is supposed to read that, I really do not know.</p>
+<p>And now here is the kicker: the results (<code>subStr</code> and <code>sub</code> in the examples above) are not of type <code>String</code>! They are of type <code>Substring</code> so when you go to use them, they don't work as expected.</p>
+<p>I guess there are cases for using <code>Substring</code> but I always just end up casting to <code>String</code> to solve this, but only after the compiler has choked on what I thought was a <code>String</code> all along.</p>
+<h2>The Solution</h2>
+<p>To make my life easier, I worked out all the ways that I wanted to be able to split up strings. Basically just two ways: by character number or by substring. Swift already has a <code>substring</code> method but it uses <code>String.Index</code> as shown above. To avoid confusion, I named my functions all <code>sub</code>.</p>
+<p>But now I can do the following to split strings by character number:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">let</span> subStr <span class="token operator">=</span> startingString<span class="token punctuation">.</span><span class="token function">sub</span><span class="token punctuation">(</span>from<span class="token punctuation">:</span> <span class="token number">9</span><span class="token punctuation">)</span>
+<span class="token keyword">let</span> subStr <span class="token operator">=</span> startingString<span class="token punctuation">.</span><span class="token function">sub</span><span class="token punctuation">(</span>from<span class="token punctuation">:</span> <span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">)</span>
+
+<span class="token keyword">let</span> subStr <span class="token operator">=</span> startingString<span class="token punctuation">.</span><span class="token function">sub</span><span class="token punctuation">(</span>upTo<span class="token punctuation">:</span> <span class="token number">4</span><span class="token punctuation">)</span>
+<span class="token keyword">let</span> subStr <span class="token operator">=</span> startingString<span class="token punctuation">.</span><span class="token function">sub</span><span class="token punctuation">(</span>upTo<span class="token punctuation">:</span> <span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">)</span>
+
+<span class="token keyword">let</span> subStr <span class="token operator">=</span> startingString<span class="token punctuation">.</span><span class="token function">sub</span><span class="token punctuation">(</span>from<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">,</span> upTo<span class="token punctuation">:</span> <span class="token number">7</span><span class="token punctuation">)</span>
+<span class="token keyword">let</span> subStr <span class="token operator">=</span> startingString<span class="token punctuation">.</span><span class="token function">sub</span><span class="token punctuation">(</span>from<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">,</span> upTo<span class="token punctuation">:</span> <span class="token operator">-</span><span class="token number">5</span><span class="token punctuation">)</span></code></pre>
+<p>Negative numbers count back from the end of the string. And they all return <code>String</code> objects!</p>
+<p>Or to split strings by their own sub-strings, I can do this:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">let</span> subStr <span class="token operator">=</span> startingString<span class="token punctuation">.</span><span class="token function">sub</span><span class="token punctuation">(</span>from<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">"abc"</span></span><span class="token punctuation">)</span>
+
+<span class="token keyword">let</span> subStr <span class="token operator">=</span> startingString<span class="token punctuation">.</span><span class="token function">sub</span><span class="token punctuation">(</span>upTo<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">"xyz"</span></span><span class="token punctuation">)</span>
+
+<span class="token keyword">let</span> subStr <span class="token operator">=</span> startingString<span class="token punctuation">.</span><span class="token function">sub</span><span class="token punctuation">(</span>from<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">"abc"</span></span><span class="token punctuation">,</span> upTo<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">"xyz"</span></span><span class="token punctuation">)</span></code></pre>
+<h2>Extras</h2>
+<p>Once I had created a string helper library, I started thinking about all the other string utilities that would be useful. So I started adding all sorts of facilities:</p>
+<ul>
+<li>Computed properties:
+<ul>
+<li>length (why should the length of a string be called count - that makes no sense)</li>
+<li>words</li>
+<li>lines</li>
+<li>word count</li>
+<li>line count</li>
+<li>title case</li>
+</ul>
+</li>
+<li>Encoding:
+<ul>
+<li>URL encoding &amp; decoding for queries or forms</li>
+<li>base64 encoding &amp; decoding</li>
+</ul>
+</li>
+<li>Trim:
+<ul>
+<li>trim</li>
+<li>trim left</li>
+<li>trim right</li>
+<li>trim using extra characters</li>
+</ul>
+</li>
+<li>Pad:
+<ul>
+<li>pad left</li>
+<li>pad right</li>
+<li>with default space or specified other character</li>
+</ul>
+</li>
+</ul>
+<p>That's as far as I have got so far, but I am hoping for some community involvement that will expand or edit this library to make it more broadly applicable.</p>
+<h2>Open Source</h2>
+<p>I have never created an open source project before and I have rarely contributed to open source. But I have now published this library on GitHub under an MIT license. Please check it out at <a href="https://github.com/trozware/swift-strings-helper" rel="noreferrer nofollow noopener external" target="_blank">https://github.com/trozware/swift-strings-helper</a>. The GitHub repo contains an Xcode project with all the source files, plus the targets to build frameworks for macOS or iOS, and a playground as documentation and to test it all out.</p>
+<p>I would love to get as many stars as possible and it would be fantastic if anyone wanted to log an issue or contribute directly. As someone who finds the whole open source world rather intimidating, I would like to assure everyone that there will be no flaming and no shooting down of ANY ideas. I look forward to hearing from you.</p>
+<p>I am sure there are other Swift libraries out there dedicated to solving the same problems, but I hope that mine can prove useful to some. And if you just want to use it without contributing, feel free. The usage instructions are all in the ReadMe on the GitHub page.</p>
+
+        </article>
+    </section>
+
+    </main>
+    <footer>
+        <div class="footer-content">
+  <nav>
+    <ul class="footer-links">
+      
+        <li>
+          <a href="mailto:info@troz.net">
+            <img src="/images/links/envelope.svg" alt="Email" title="Email" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://mastodon.social/@troz" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/mastodon.png" alt="Mastodon" title="Mastodon" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://linktr.ee/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/tree.svg" alt="Linktree" title="Linktree" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://github.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/github.svg" alt="GitHub" title="GitHub" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://stackoverflow.com/users/1082632" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/stack-overflow.svg" alt="Stack Overflow" title="Stack Overflow" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://dev.to/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/dev-badge.svg" alt="Dev To" title="Dev To" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/index.xml">
+            <img src="/images/links/rss.svg" alt="RSS Feed" title="RSS Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/atom.xml">
+            <img src="/images/links/atom.svg" alt="Atom Feed" title="Atom Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/feed.json">
+            <img src="/images/links/json.png" alt="JSON Feed" title="JSON Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://ko-fi.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/kofi1.png.webp" alt="Buy Me a Coffee" title="Buy Me a Coffee" height="30px" >
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+
+        <div class="copyright">
+            <p>Copyright &copy; 2025 Sarah Reichelt, TrozWare</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            let searchElement = document.getElementById('search');
+            if (searchElement) {
+                new PagefindUI({ element: searchElement, showSubResults: true });
+            }
+        });
+    </script>
+    <script src="/js/theme_switcher.js"></script>
+    <script src="/js/clipboard.js"></script>
+    <script src="/js/menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icon Builder 5</title>
+    
+    <link href="/styles/style.css" rel="stylesheet" >
+
+
+    <link href="/styles/prism.css" rel="stylesheet" >
+
+
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+<style>
+@media (prefers-color-scheme: dark) {
+    :root {
+    --pagefind-ui-primary: #eeeeee;
+    --pagefind-ui-text: #eeeeee;
+    --pagefind-ui-background: #152028;
+    --pagefind-ui-border: #152028;
+    --pagefind-ui-tag: #152028;
+    }
+}
+</style>
+    
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<meta property="og:site_name" content="TrozWare" >
+<meta property="og:title" content="Icon Builder 5 - TrozWare" >
+<meta property="og:type" content="website" >
+<meta property="og:url" content="https://troz.net/post/2018/icon-builder-5/" >
+<meta name="keywords" content="Mac app development, Apple Mac, Xcode, Swift, SwiftUI, Apple macOS, books, articles, blog, apps, developer, author, Sarah Reichelt">
+
+
+
+
+  <meta name="description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+  <meta property="og:description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+
+
+
+<link rel="alternate" type="application/rss+xml" href="/index.xml" title="TrozWare">
+<link rel="alternate" type="application/atom+xml" href="/atom.xml" title="TrozWare">
+<link rel="alternate" type="application/json" href="/feed.json" title="TrozWare">
+
+
+<link rel="icon" type="image/png" href="/images/favicon.png">
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+
+<body>
+    <header>
+  <nav class="container">
+    <div class="nav-brand">
+      <a href="/" class="site-title">TrozWare</a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+
+    <ul class="nav-links">
+      
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+      
+        <li>
+          <a href="/books/" class="nav-link">Books</a>
+        </li>
+      
+        <li>
+          <a href="/apps/" class="nav-link">Apps</a>
+        </li>
+      
+        <li>
+          <a href="/archives/" class="nav-link">Archives</a>
+        </li>
+      
+        <li>
+          <a href="/tags/" class="nav-link">Tags</a>
+        </li>
+      
+        <li>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </li>
+      
+
+      <li>
+        <button           class="theme-toggle"
+          type="button"
+          title="Toggle theme"
+          aria-label="Toggle theme"
+          onclick="toggleTheme()"
+        >
+          <svg             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            width="1em"
+            height="1em"
+            class="theme-toggle__dark-side"
+            fill="currentColor"
+            viewBox="0 0 32 32"
+          >
+            <path d="M16 .5C7.4.5.5 7.4.5 16S7.4 31.5 16 31.5 31.5 24.6 31.5 16 24.6.5 16 .5zm0 28.1V3.4C23 3.4 28.6 9 28.6 16S23 28.6 16 28.6z" ></path>
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+    
+	<main>
+        
+    <section class="post">
+        <h1 data-pagefind-meta="title">Icon Builder 5</h1>
+
+        <p>
+            18th February 2018 • 1,065 words • 6 minutes  reading time.
+        </p>
+
+        <div class="tag-list">
+            
+                <a href="/tags/#apple-watch" class="tag-button">#Apple Watch</a>
+            
+                <a href="/tags/#icons" class="tag-button">#Icons</a>
+            
+                <a href="/tags/#ios" class="tag-button">#iOS</a>
+            
+                <a href="/tags/#macos" class="tag-button">#macOS</a>
+            
+        </div>
+
+        <article data-pagefind-body>
+            <p><a href="/icon-builder/">Icon Builder 5.0</a> is now available from the <a href="http://itunes.apple.com/app/icon-builder/id552293482" rel="noreferrer nofollow noopener external" target="_blank">Mac App Store</a>. This is a complete re-write for better compatibility with Apple's latest icon requirements. Read on to see what I have fixed and how...</p>
+
+<hr>
+<h2>Problems</h2>
+<p>When I came to create a new iOS app recently, I found out that Icon Builder had fallen behind Apple's requirements in three ways:</p>
+<ol>
+<li>The 1024 x 1024 marketing icon is now supposed to be inside the app's icon set.</li>
+<li>Icon files must have their color profile set to sRGB (P3 is also valid for iOS apps).</li>
+<li>iOS icon files must have no transparent pixels and the alpha channel must be removed from the files.</li>
+</ol>
+<p>When I set to work fixing these problems I soon ran into issues with the existing version of Icon Builder which was created 6 years ago.</p>
+<ul>
+<li>It was written in Objective-C which I am increasingly finding difficult and un-safe to write.</li>
+<li>The app was written when I was very much a beginner in Mac apps and this is obvious from the code...</li>
+<li>There was a lot of legacy code left over from previous changes and extensions.</li>
+</ul>
+<p>So I decided that the most interesting thing to do would be to start almost from scratch and re-write the app in Swift using better techniques.</p>
+<h2>The Re-write</h2>
+<p>Now instead of the Massive View Controller, I have a larger set of small files, each with their own responsibility. Enums and structs dictate the various requirements for the different devices or app types. Other structs deal with creating the images, the folder management and writing out the files. An NSImage extension handles the resizing and reformatting of the images. This is now an app that I would not be ashamed to show anyone, except perhaps for the need to add more unit tests.</p>
+<h2>Adding a color profile</h2>
+<p>But then we get to the new features needed. Adding the 1024x1024 icon to the app icon set was easy, especially after the re-factoring. But what about the color profile?</p>
+<p>This was not as easy as I expected - there is no built in command to apply a profile but here is the solution that I finally found:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token class-name">NSImage</span> <span class="token punctuation">{</span>
+
+  <span class="token keyword">func</span> <span class="token function-definition function">convertImageTo_sRGB</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token operator">-></span> <span class="token class-name">Data</span> <span class="token punctuation">{</span>
+      <span class="token keyword">guard</span> <span class="token keyword">let</span> colorSpace <span class="token operator">=</span> <span class="token class-name">CGColorSpace</span><span class="token punctuation">(</span>name<span class="token punctuation">:</span> <span class="token class-name">CGColorSpace</span><span class="token punctuation">.</span>sRGB<span class="token punctuation">)</span><span class="token punctuation">,</span>
+          <span class="token keyword">let</span> cgi <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">.</span><span class="token function">cgImage</span><span class="token punctuation">(</span>forProposedRect<span class="token punctuation">:</span> <span class="token nil constant">nil</span><span class="token punctuation">,</span>
+                                 context<span class="token punctuation">:</span> <span class="token nil constant">nil</span><span class="token punctuation">,</span>
+                                 hints<span class="token punctuation">:</span> <span class="token nil constant">nil</span><span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                                  <span class="token keyword">throw</span> <span class="token class-name">ImageError</span><span class="token punctuation">.</span>cantMakeCgImage
+      <span class="token punctuation">}</span>
+
+      <span class="token keyword">let</span> ci <span class="token operator">=</span> <span class="token class-name">CIImage</span><span class="token punctuation">(</span>cgImage<span class="token punctuation">:</span> cgi<span class="token punctuation">)</span>
+
+      <span class="token keyword">guard</span> <span class="token keyword">let</span> pngData <span class="token operator">=</span> <span class="token class-name">CIContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">pngRepresentation</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> ci<span class="token punctuation">,</span>
+                                                        format<span class="token punctuation">:</span> kCIFormatRGBA8<span class="token punctuation">,</span>
+                                                        colorSpace<span class="token punctuation">:</span> colorSpace<span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+          <span class="token keyword">throw</span> <span class="token class-name">ImageError</span><span class="token punctuation">.</span>cantConvertToPng
+      <span class="token punctuation">}</span>
+      <span class="token keyword">return</span> pngData
+  <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span></code></pre>
+<ul>
+<li>This takes the NSImage and converts it to a CGImage, first checking that the appropriate color space exists.</li>
+<li>Then it uses the Core Graphics CGImage to create a Core Image CIImage.</li>
+<li>There is a new API in macOS 10.13 to extract the png data from a CIImage while assigning a color profile.</li>
+<li>This Data can then be written directly to a file and there you have a PNG with an attached color profile.</li>
+</ul>
+<h2>Transparency</h2>
+<p>Now problems 1 &amp; 2 have been solved. Problem 3 was the most difficult. It turned out to be a two-part problem because an image file can have no transparent pixels but still have an alpha channel in the file data.</p>
+<p>At first, I thought maybe I could just circumvent the whole problem by converting the images to JPEGs which have no transparency or alpha channel. Using the code above, I just changed it to getting the <code>jpegRepresentation</code> instead and saving with a .jpg file extension.</p>
+<p>While this solved the alpha channel problem, the transparent parts of the icon just went black which was a not a good look.</p>
+<p><img src="/images/2018/Transparent-Jpeg.png" alt="Transparent image converted to JPEG"></p>
+<p><em>For anyone horrified at my use of force-unwrapping, I never do this in a production app but in a playground, it makes the code shorter and it doesn't really matter if I get a crash there.</em></p>
+<h3>Converting transparent pixels to white</h3>
+<p>So the first step must be to set the transparent parts of the image to another color. Searching for solutions online, most of the ones I came up with were very slow (processing each pixel) or so complicated that I didn't understand them, and I hate just copy-pasting code that I don't understand at all.</p>
+<p>But eventually I found something that I morphed into this:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token class-name">NSImage</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">func</span> <span class="token function-definition function">makeAlphaWhite</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token class-name">NSImage</span> <span class="token punctuation">{</span>
+        <span class="token keyword">guard</span> <span class="token keyword">let</span> imageData <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">.</span>tiffRepresentation<span class="token punctuation">,</span>
+            <span class="token keyword">let</span> imageRep <span class="token operator">=</span> <span class="token class-name">NSBitmapImageRep</span><span class="token punctuation">(</span>data<span class="token punctuation">:</span> imageData<span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token keyword">let</span> jpegData <span class="token operator">=</span> imageRep<span class="token punctuation">.</span><span class="token function">representation</span><span class="token punctuation">(</span>using<span class="token punctuation">:</span> <span class="token punctuation">.</span>jpeg<span class="token punctuation">,</span> properties<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+                <span class="token class-name">NSBitmapImageRep</span><span class="token punctuation">.</span><span class="token class-name">PropertyKey</span><span class="token punctuation">.</span>compressionFactor<span class="token punctuation">:</span> <span class="token class-name">NSNumber</span><span class="token punctuation">(</span>value<span class="token punctuation">:</span> <span class="token number">1.0</span><span class="token punctuation">)</span>
+                <span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token keyword">let</span> jpegImage <span class="token operator">=</span> <span class="token class-name">NSImage</span><span class="token punctuation">(</span>data<span class="token punctuation">:</span> jpegData<span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> image
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> jpegImage
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span></code></pre>
+<p>It used basically the same trick of converting the image into a JPEG but doing it this way via <code>NSBitmapImageRep</code> turned the transparent pixels white instead of black. And as you can see, this gave a much better looking image:</p>
+<p><img src="/images/2018/MakeAlphaWhite.png" alt="Transparent portions converted to white"></p>
+<p>Now I was able to continue with my plans to have JPEGs rule the world! This worked really well in my early tests but then I came to try a Stickers app and the icons didn’t work. I couldn't even drag them in manually! Back to the Apple docs and I see that icons must be PNGs.</p>
+<p>When I changed the transparent pixels to white, added the color space and then saved the PNG data, I got an image that looked correct but the file still contained an alpha channel. So I had to come up with a method that re-wrote the PNG data in such a way that it never contained any alpha data at all.</p>
+<h3>Removing the alpha channel</h3>
+<p>Graphics experts are probably groaning aloud by now, but I did eventually arrive at a solution, however hacky:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token class-name">NSImage</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">func</span> <span class="token function-definition function">convertImageTo_sRGB_noAlpha</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token operator">-></span> <span class="token class-name">Data</span> <span class="token punctuation">{</span>
+        <span class="token keyword">guard</span> <span class="token keyword">let</span> colorSpace <span class="token operator">=</span> <span class="token class-name">CGColorSpace</span><span class="token punctuation">(</span>name<span class="token punctuation">:</span> <span class="token class-name">CGColorSpace</span><span class="token punctuation">.</span>sRGB<span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token keyword">let</span> cgi <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">.</span><span class="token function">cgImage</span><span class="token punctuation">(</span>forProposedRect<span class="token punctuation">:</span> <span class="token nil constant">nil</span><span class="token punctuation">,</span>
+                                   context<span class="token punctuation">:</span> <span class="token nil constant">nil</span><span class="token punctuation">,</span>
+                                   hints<span class="token punctuation">:</span> <span class="token nil constant">nil</span><span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                                    <span class="token keyword">throw</span> <span class="token class-name">ImageError</span><span class="token punctuation">.</span>cantMakeCgImage
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">let</span> ci <span class="token operator">=</span> <span class="token class-name">CIImage</span><span class="token punctuation">(</span>cgImage<span class="token punctuation">:</span> cgi<span class="token punctuation">)</span>
+        <span class="token keyword">guard</span> <span class="token keyword">let</span> jpgData <span class="token operator">=</span> <span class="token class-name">CIContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">jpegRepresentation</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> ci<span class="token punctuation">,</span>
+                                                           colorSpace<span class="token punctuation">:</span> colorSpace<span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token class-name">ImageError</span><span class="token punctuation">.</span>cantConvertToJpg
+        <span class="token punctuation">}</span>
+        <span class="token keyword">guard</span> <span class="token keyword">let</span> jpegImage <span class="token operator">=</span> <span class="token class-name">NSImage</span><span class="token punctuation">(</span>data<span class="token punctuation">:</span> jpgData<span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token class-name">ImageError</span><span class="token punctuation">.</span>cantConvertToJpgImage
+        <span class="token punctuation">}</span>
+        <span class="token keyword">let</span> pngData <span class="token operator">=</span> <span class="token keyword">try</span> jpegImage<span class="token punctuation">.</span><span class="token function">convertImageTo_sRGB</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> pngData
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span></code></pre>
+<ul>
+<li>Take the image <strong>after</strong> changing the transparent pixels to white.</li>
+<li>Convert it to JPEG data with the required color space.</li>
+<li>Convert the JPEG data back to an image - this will contain <strong>NO</strong> alpha data.</li>
+<li>Use the original routine to convert this JPEG into PNG data with the correct color space.</li>
+</ul>
+<p>Running this in the playground looks like this:
+<img src="/images/2018/TransparentPng.png" alt="Creating non-transparent PNG in playground"></p>
+<p>And as you can see from the file info, it results in a file with the correctly assigned color profile and no alpha channel:</p>
+<p><img src="/images/2018/FileInfo.png" alt="Final result file info"></p>
+<p>The double shuffle sounds time-consuming and in-efficient but it really doesn't take long. In my tests, by far the longest part of creating an icon set is opening the file dialog.</p>
+<h2>Future plans</h2>
+<ul>
+<li>Add more unit tests.</li>
+<li>Work out how to replace the transparent pixels with a selected color.</li>
+<li>Offer better cropping and image positioning options.</li>
+</ul>
+<h2>References</h2>
+<p>For resizing and cropping images, I use <a href="https://mattgemmell.com/imagecrop-source-code/" rel="noreferrer nofollow noopener external" target="_blank">Matt Gemmell's NSImage+MGCropExtensions</a> and for further reading, I recommend Apple's Human Interface Guidelines concerning app icons for <a href="https://developer.apple.com/ios/human-interface-guidelines/icons-and-images/app-icon/" rel="noreferrer nofollow noopener external" target="_blank">iOS</a> and <a href="https://developer.apple.com/macos/human-interface-guidelines/icons-and-images/app-icon/" rel="noreferrer nofollow noopener external" target="_blank">macOS</a>.</p>
+<blockquote>
+<p>Note: here is Australia we use the spelling <strong>colour</strong> but for consistency with the code samples, I have used <strong>color</strong> throughout the text.</p>
+</blockquote>
+
+        </article>
+    </section>
+
+    </main>
+    <footer>
+        <div class="footer-content">
+  <nav>
+    <ul class="footer-links">
+      
+        <li>
+          <a href="mailto:info@troz.net">
+            <img src="/images/links/envelope.svg" alt="Email" title="Email" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://mastodon.social/@troz" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/mastodon.png" alt="Mastodon" title="Mastodon" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://linktr.ee/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/tree.svg" alt="Linktree" title="Linktree" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://github.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/github.svg" alt="GitHub" title="GitHub" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://stackoverflow.com/users/1082632" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/stack-overflow.svg" alt="Stack Overflow" title="Stack Overflow" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://dev.to/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/dev-badge.svg" alt="Dev To" title="Dev To" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/index.xml">
+            <img src="/images/links/rss.svg" alt="RSS Feed" title="RSS Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/atom.xml">
+            <img src="/images/links/atom.svg" alt="Atom Feed" title="Atom Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/feed.json">
+            <img src="/images/links/json.png" alt="JSON Feed" title="JSON Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://ko-fi.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/kofi1.png.webp" alt="Buy Me a Coffee" title="Buy Me a Coffee" height="30px" >
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+
+        <div class="copyright">
+            <p>Copyright &copy; 2025 Sarah Reichelt, TrozWare</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            let searchElement = document.getElementById('search');
+            if (searchElement) {
+                new PagefindUI({ element: searchElement, showSubResults: true });
+            }
+        });
+    </script>
+    <script src="/js/theme_switcher.js"></script>
+    <script src="/js/clipboard.js"></script>
+    <script src="/js/menu.js"></script>
+</body>
+</html>

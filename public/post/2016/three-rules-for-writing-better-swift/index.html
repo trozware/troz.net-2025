@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three Rules for Writing Better Swift</title>
+    
+    <link href="/styles/style.css" rel="stylesheet" >
+
+
+    <link href="/styles/prism.css" rel="stylesheet" >
+
+
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+<style>
+@media (prefers-color-scheme: dark) {
+    :root {
+    --pagefind-ui-primary: #eeeeee;
+    --pagefind-ui-text: #eeeeee;
+    --pagefind-ui-background: #152028;
+    --pagefind-ui-border: #152028;
+    --pagefind-ui-tag: #152028;
+    }
+}
+</style>
+    
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<meta property="og:site_name" content="TrozWare" >
+<meta property="og:title" content="Three Rules for Writing Better Swift - TrozWare" >
+<meta property="og:type" content="website" >
+<meta property="og:url" content="https://troz.net/post/2016/three-rules-for-writing-better-swift/" >
+<meta name="keywords" content="Mac app development, Apple Mac, Xcode, Swift, SwiftUI, Apple macOS, books, articles, blog, apps, developer, author, Sarah Reichelt">
+
+
+
+
+  <meta name="description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+  <meta property="og:description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+
+
+
+<link rel="alternate" type="application/rss+xml" href="/index.xml" title="TrozWare">
+<link rel="alternate" type="application/atom+xml" href="/atom.xml" title="TrozWare">
+<link rel="alternate" type="application/json" href="/feed.json" title="TrozWare">
+
+
+<link rel="icon" type="image/png" href="/images/favicon.png">
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+
+<body>
+    <header>
+  <nav class="container">
+    <div class="nav-brand">
+      <a href="/" class="site-title">TrozWare</a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+
+    <ul class="nav-links">
+      
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+      
+        <li>
+          <a href="/books/" class="nav-link">Books</a>
+        </li>
+      
+        <li>
+          <a href="/apps/" class="nav-link">Apps</a>
+        </li>
+      
+        <li>
+          <a href="/archives/" class="nav-link">Archives</a>
+        </li>
+      
+        <li>
+          <a href="/tags/" class="nav-link">Tags</a>
+        </li>
+      
+        <li>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </li>
+      
+
+      <li>
+        <button           class="theme-toggle"
+          type="button"
+          title="Toggle theme"
+          aria-label="Toggle theme"
+          onclick="toggleTheme()"
+        >
+          <svg             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            width="1em"
+            height="1em"
+            class="theme-toggle__dark-side"
+            fill="currentColor"
+            viewBox="0 0 32 32"
+          >
+            <path d="M16 .5C7.4.5.5 7.4.5 16S7.4 31.5 16 31.5 31.5 24.6 31.5 16 24.6.5 16 .5zm0 28.1V3.4C23 3.4 28.6 9 28.6 16S23 28.6 16 28.6z" ></path>
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+    
+	<main>
+        
+    <section class="post">
+        <h1 data-pagefind-meta="title">Three Rules for Writing Better Swift</h1>
+
+        <p>
+            24th February 2016 • 668 words • 3 minutes  reading time.
+        </p>
+
+        <div class="tag-list">
+            
+                <a href="/tags/#learning-swift" class="tag-button">#Learning Swift</a>
+            
+                <a href="/tags/#swift" class="tag-button">#Swift</a>
+            
+        </div>
+
+        <article data-pagefind-body>
+            <ol>
+<li>Do not use !.</li>
+<li>Use let, not var.</li>
+<li>Allow the compiler to infer types.</li>
+</ol>
+<p>Read on for more details...</p>
+  
+<h2>1. Do not use !</h2>
+<p>Swift uses optionals for values that can be nil. To use an optional value, you
+need to &quot;un-wrap&quot; it first, which means getting the actual value out, assuming
+that the value exists and the optional is not actually nil.</p>
+<p><a href="/post/2016-02-12-learning-swift-optionals/">Optionals</a> are the subject of a complete post by themselves, but for now, I
+will just say this: When you use ! you are <strong>promising</strong> the compiler that you
+will make sure there is a real value in that optional by the time it is needed.</p>
+<p>If this is not the case, your app will crash as shown in this playground:</p>
+<p><img src="/images/2016/Playground2.png" alt="Playground crash"></p>
+<p>Instead of using ! you should use optional chaining with ? or check the value
+with <code>guard</code> or <code>if let</code> before use.</p>
+<p>One trap to beware of is with Xcode's attempts to be helpful and suggest fixes
+to problems. If you use an optional where it cannot work, Xcode will warn you
+that it is incorrect, but the suggested fix will be to insert !</p>
+<p><img src="/images/2016/optional_fix.png" alt="Optional fix"></p>
+<p>When you see this, do not accept the suggested fix, but use it as a warning to
+show that you need to fix the problem properly.</p>
+<hr>
+<h2>2. Use let, not var</h2>
+<p>Using constants in C-based languages is a pain. I could never remember the
+Objective-C syntax for declaring a static constant, so used to fall back to
+using <code>#define</code> for global constants. Inside my objects, all instance properties
+were variables, not constants. Inside functions, it was the same.</p>
+<p>It doesn't take much imagination to work out that your apps will perform better
+and more securely if values that do not need to change are allocated as
+constants instead of variables.</p>
+<p>With Swift, this is easy as you just declare a constant using the <code>let</code> keyword
+and declare variables using <code>var</code>. The Swift compiler will now warn you if you
+have used <code>var</code> where <code>let</code> would do, but I prefer to declare everything using
+<code>let</code> and only change to <code>var</code> when this causes an error as shown in this
+playground example:</p>
+<p><img src="/images/2016/Playground3.png" alt="Playground let error"></p>
+<hr>
+<h2>3. Allow the compiler to infer types</h2>
+<p>With Objective-C and many other languages, you have to tell the compiler exactly
+what each variable is going to be: a string, an integer, an object of a certain
+type.</p>
+<p>With Swift, the compiler is clever enough to work this out for you, which can
+make your code much cleaner looking and easy to read.</p>
+<p>There are a few exceptions to this rule which are shown in the playground below:</p>
+<p>Lines 3 - 6 are allowing the Swift compiler to decide what the type is and it is
+choosing valid types: Int, Double, String and UIView.</p>
+<p>Line 8 is a case where we do not want the default type, which would be Double so
+we need to tell the compiler that this one really should be a CGFloat.</p>
+<p>Lines 10 &amp; 11 both deal with an array of Ints. In line 10, the values are
+supplied so the type of the array can be inferred. In the second case, the array
+is initially empty, so the type needs to be specified in the declaration.</p>
+<p>Lines 13 and 14 are the same but with dictionaries instead of arrays.</p>
+<p>In each case, it would have been valid Swift to specify the type but why bother?
+The more text you enter , the more change of mistake and it leaves your code
+looking cluttered.</p>
+<p>If you ever need to check what type has been assigned to a constant or variable,
+Option-click on it in Xcode and you willl get a popup telling you what it is.</p>
+<p><img src="/images/2016/Playground4.png" alt="Playground types"></p>
+<hr>
+<p>This was going to be five rules, but then I got a bit too verbose so will add
+more rules in a separate post.</p>
+
+        </article>
+    </section>
+
+    </main>
+    <footer>
+        <div class="footer-content">
+  <nav>
+    <ul class="footer-links">
+      
+        <li>
+          <a href="mailto:info@troz.net">
+            <img src="/images/links/envelope.svg" alt="Email" title="Email" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://mastodon.social/@troz" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/mastodon.png" alt="Mastodon" title="Mastodon" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://linktr.ee/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/tree.svg" alt="Linktree" title="Linktree" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://github.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/github.svg" alt="GitHub" title="GitHub" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://stackoverflow.com/users/1082632" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/stack-overflow.svg" alt="Stack Overflow" title="Stack Overflow" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://dev.to/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/dev-badge.svg" alt="Dev To" title="Dev To" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/index.xml">
+            <img src="/images/links/rss.svg" alt="RSS Feed" title="RSS Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/atom.xml">
+            <img src="/images/links/atom.svg" alt="Atom Feed" title="Atom Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/feed.json">
+            <img src="/images/links/json.png" alt="JSON Feed" title="JSON Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://ko-fi.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/kofi1.png.webp" alt="Buy Me a Coffee" title="Buy Me a Coffee" height="30px" >
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+
+        <div class="copyright">
+            <p>Copyright &copy; 2025 Sarah Reichelt, TrozWare</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            let searchElement = document.getElementById('search');
+            if (searchElement) {
+                new PagefindUI({ element: searchElement, showSubResults: true });
+            }
+        });
+    </script>
+    <script src="/js/theme_switcher.js"></script>
+    <script src="/js/clipboard.js"></script>
+    <script src="/js/menu.js"></script>
+</body>
+</html>

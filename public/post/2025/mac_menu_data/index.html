@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Mac Menubar and SwiftUI</title>
+    
+    <link href="/styles/style.css" rel="stylesheet" >
+
+
+    <link href="/styles/prism.css" rel="stylesheet" >
+
+
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+<style>
+@media (prefers-color-scheme: dark) {
+    :root {
+    --pagefind-ui-primary: #eeeeee;
+    --pagefind-ui-text: #eeeeee;
+    --pagefind-ui-background: #152028;
+    --pagefind-ui-border: #152028;
+    --pagefind-ui-tag: #152028;
+    }
+}
+</style>
+    
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<meta property="og:site_name" content="TrozWare" >
+<meta property="og:title" content="The Mac Menubar and SwiftUI - TrozWare" >
+<meta property="og:type" content="website" >
+<meta property="og:url" content="https://troz.net/post/2025/mac_menu_data/" >
+<meta name="keywords" content="Mac app development, Apple Mac, Xcode, Swift, SwiftUI, Apple macOS, books, articles, blog, apps, developer, author, Sarah Reichelt">
+
+
+
+
+  <meta name="description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+  <meta property="og:description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+
+
+
+<link rel="alternate" type="application/rss+xml" href="/index.xml" title="TrozWare">
+<link rel="alternate" type="application/atom+xml" href="/atom.xml" title="TrozWare">
+<link rel="alternate" type="application/json" href="/feed.json" title="TrozWare">
+
+
+<link rel="icon" type="image/png" href="/images/favicon.png">
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+
+<body>
+    <header>
+  <nav class="container">
+    <div class="nav-brand">
+      <a href="/" class="site-title">TrozWare</a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+
+    <ul class="nav-links">
+      
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+      
+        <li>
+          <a href="/books/" class="nav-link">Books</a>
+        </li>
+      
+        <li>
+          <a href="/apps/" class="nav-link">Apps</a>
+        </li>
+      
+        <li>
+          <a href="/archives/" class="nav-link">Archives</a>
+        </li>
+      
+        <li>
+          <a href="/tags/" class="nav-link">Tags</a>
+        </li>
+      
+        <li>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </li>
+      
+
+      <li>
+        <button           class="theme-toggle"
+          type="button"
+          title="Toggle theme"
+          aria-label="Toggle theme"
+          onclick="toggleTheme()"
+        >
+          <svg             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            width="1em"
+            height="1em"
+            class="theme-toggle__dark-side"
+            fill="currentColor"
+            viewBox="0 0 32 32"
+          >
+            <path d="M16 .5C7.4.5.5 7.4.5 16S7.4 31.5 16 31.5 31.5 24.6 31.5 16 24.6.5 16 .5zm0 28.1V3.4C23 3.4 28.6 9 28.6 16S23 28.6 16 28.6z" ></path>
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+    
+	<main>
+        
+    <section class="post">
+        <h1 data-pagefind-meta="title">The Mac Menubar and SwiftUI</h1>
+
+        <p>
+            17th February 2025 • 1,396 words • 8 minutes  reading time.
+        </p>
+
+        <div class="tag-list">
+            
+                <a href="/tags/#menu-bar" class="tag-button">#Menu Bar</a>
+            
+                <a href="/tags/#swift" class="tag-button">#Swift</a>
+            
+                <a href="/tags/#swiftui" class="tag-button">#SwiftUI</a>
+            
+                <a href="/tags/#macos" class="tag-button">#macOS</a>
+            
+        </div>
+
+        <article data-pagefind-body>
+            <p>When you create a Mac app using SwiftUI, you get the standard Mac menubar by default. The <code>commands</code> modifier lets you customize the menu bar, either by adding, replacing or removing items and menus. You can even add some presets which give a consistent way to add groups of common items.</p>
+<p>The problem comes when you want to communicate back to the SwiftUI views from the menubar. How can you direct your menubar commands to the correct destination? AppKit uses the responder chain, so it effectively broadcasts any menubar message until something handles it. This might be an edit field, a view, a window or even the app itself. SwiftUI doesn't work like this, but I've explored multiple possibilities for passing messages from the menubar to the active window.</p>
+
+<p>My usual approach is to use <code>NotificationCenter</code> to send messages. This takes a few steps to set up.</p>
+<h2>NotificationCenter</h2>
+<p>Start by defining a name for your custom notification, like this:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token class-name">Notification</span><span class="token punctuation">.</span><span class="token class-name">Name</span> <span class="token punctuation">{</span>
+  <span class="token keyword">static</span> <span class="token keyword">let</span> menuSelected <span class="token operator">=</span> <span class="token class-name">Notification</span><span class="token punctuation">.</span><span class="token class-name">Name</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"menuSelected"</span></span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Then, in your menu item's action, <code>post</code> the notification like this:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token class-name">NotificationCenter</span><span class="token punctuation">.</span><span class="token keyword">default</span><span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span>name<span class="token punctuation">:</span> <span class="token punctuation">.</span>menuSelected<span class="token punctuation">,</span> object<span class="token punctuation">:</span> <span class="token nil constant">nil</span><span class="token punctuation">)</span></code></pre>
+<p>Add an object if you want the notification to be more specific. This allows you to combine several menu items into a single notification name.</p>
+<p>Now, you need to add a listener as a property of your SwiftUI view, receiving it on the main run loop so that UI updates are handled correctly:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">let</span> menuSelectedNotification <span class="token operator">=</span> <span class="token class-name">NotificationCenter</span><span class="token punctuation">.</span><span class="token keyword">default</span>
+  <span class="token punctuation">.</span><span class="token function">publisher</span><span class="token punctuation">(</span><span class="token keyword">for</span><span class="token punctuation">:</span> <span class="token punctuation">.</span>menuSelected<span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">receive</span><span class="token punctuation">(</span>on<span class="token punctuation">:</span> <span class="token class-name">RunLoop</span><span class="token punctuation">.</span>main<span class="token punctuation">)</span></code></pre>
+<p>Finally, add an <code>onReceive</code> modifier to your view, with a closure to process the notification:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token punctuation">.</span><span class="token function">onReceive</span><span class="token punctuation">(</span>menuSelectedNotification<span class="token punctuation">)</span> <span class="token punctuation">{</span> notification <span class="token keyword">in</span>
+  <span class="token comment">// process the notification, checking for the object if you added one</span>
+  <span class="token keyword">if</span> <span class="token keyword">let</span> stringObject <span class="token operator">=</span> notification<span class="token punctuation">.</span>object <span class="token keyword">as</span><span class="token operator">?</span> <span class="token class-name">String</span> <span class="token punctuation">{</span>
+    <span class="token comment">// do something with the string</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token comment">// do something else</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>The main issue with this is that it broadcasts the message to all instances of the view, so if you have multiple windows open and displaying this view, they'll all receive and process the notification. There are cases where this will be valid - maybe changing the theme of the complete app or setting something else which effects every open window. But mostly, you only want to send the message to the active window.</p>
+<p>You can improve this by using the <code>appearsActive</code> environment value to see if the current view is active. Truncated for ease of reading, <code>ContentView</code> now looks like this:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">ContentView</span><span class="token punctuation">:</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+  <span class="token attribute atrule">@Environment</span><span class="token punctuation">(</span><span class="token punctuation">\</span><span class="token punctuation">.</span>appearsActive<span class="token punctuation">)</span> <span class="token keyword">private</span> <span class="token keyword">var</span> appearsActive
+
+  <span class="token keyword">let</span> menuSelectedNotification <span class="token operator">=</span> <span class="token class-name">NotificationCenter</span><span class="token punctuation">.</span><span class="token keyword">default</span>
+    <span class="token punctuation">.</span><span class="token function">publisher</span><span class="token punctuation">(</span><span class="token keyword">for</span><span class="token punctuation">:</span> <span class="token punctuation">.</span>menuSelected<span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">receive</span><span class="token punctuation">(</span>on<span class="token punctuation">:</span> <span class="token class-name">RunLoop</span><span class="token punctuation">.</span>main<span class="token punctuation">)</span>
+
+  <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+    <span class="token comment">// UI defined here</span>
+
+    <span class="token punctuation">.</span><span class="token function">onReceive</span><span class="token punctuation">(</span>menuSelectedNotification<span class="token punctuation">)</span> <span class="token punctuation">{</span> notification <span class="token keyword">in</span>
+      <span class="token keyword">guard</span> appearsActive <span class="token keyword">else</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token punctuation">}</span>
+      
+      <span class="token keyword">if</span> <span class="token keyword">let</span> stringObject <span class="token operator">=</span> notification<span class="token punctuation">.</span>object <span class="token keyword">as</span><span class="token operator">?</span> <span class="token class-name">String</span> <span class="token punctuation">{</span>
+        <span class="token comment">// process the new string</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>The <code>onReceive</code> closure starts with a <code>guard</code> to check that the view is active. If it's not, the closure returns immediately.</p>
+<p><strong>Note</strong>: You may have used <code>controlActiveState</code> for this in the past, but it has been deprecated in favor of <code>appearsActive</code> which is easier to use as it's a Boolean instead of an enum.</p>
+<p>This looks like exactly what we need, but there's a problem. If you merge multiple windows into tabs, the <code>appearsActive</code> property will be the same for all the tabs in the window.</p>
+<p>So basically, this only works if you disallow tabbing for your windows, so it's not a complete solution.</p>
+<h2>Failed Attempts</h2>
+<p>My next attempt was to step into AppKit and have <code>NSApp</code> send a selector through the responder chain. This looked like it should work, but I could never get it to, and it looked clunky</p>
+<p>Looking though an Apple tutorial, it appears that they prefer to use <code>@FocusedBinding</code> and <code>focusedValue</code>. This worked in their sample app, but there was something different about my data structure that meant it never worked for me, even after extracting my data into a separate data type.</p>
+<p>Then I came across <code>focusedSceneObject</code>. This required me to create an <code>@ObservableObject</code> data type, but then it worked perfectly, even in tabbed windows. But this is not viable going forward, as I have switched to using <code>Observation</code>. However the docs did point me in the right direction.</p>
+<h2>Success at Last</h2>
+<p>After a bit of research and a <em>lot</em> of testing, I finally came up with a complete solution, using <code>@FocusedBinding</code> and <code>focusedSceneValue</code>.</p>
+<p>First, you need a data object to handle your menu messages. This can be a <code>struct</code> or an observable <code>class</code>. My sample app has both in <strong>Symbol.swift</strong> with one commented out, so you can test this. The data model has properties for an icon and a color and you can also have it choose a random icon and color. For convenience, it has two static arrays to provide the names and colors for the menus and pickers.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">Symbol</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> name <span class="token operator">=</span> <span class="token string-literal"><span class="token string">"globe"</span></span>
+  <span class="token keyword">var</span> color <span class="token operator">=</span> <span class="token class-name">Color</span><span class="token punctuation">.</span>blue
+
+  <span class="token keyword">mutating</span> <span class="token keyword">func</span> <span class="token function-definition function">chooseRandomSymbolAndColor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// choose random values</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Or as a class:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token attribute atrule">@Observable</span>
+<span class="token keyword">class</span> <span class="token class-name">Symbol</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> name <span class="token operator">=</span> <span class="token string-literal"><span class="token string">"globe"</span></span>
+  <span class="token keyword">var</span> color <span class="token operator">=</span> <span class="token class-name">Color</span><span class="token punctuation">.</span>blue
+
+  <span class="token keyword">func</span> <span class="token function-definition function">chooseRandomSymbolAndColor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// choose random values</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Next, you need to extend <code>FocusedValues</code> so it has a key to your data type. This has become a lot less verbose with the new <code>@Entry</code> macro. The binding must be to an optional:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token class-name">FocusedValues</span> <span class="token punctuation">{</span>
+  <span class="token attribute atrule">@Entry</span> <span class="token keyword">var</span> selectedSymbol<span class="token punctuation">:</span> <span class="token class-name">Binding</span><span class="token operator">&lt;</span><span class="token class-name">Symbol</span><span class="token operator">>?</span>
+<span class="token punctuation">}</span></code></pre>
+<p>In your <code>ContentView</code> (or wherever you're using this property), set the data property as the <code>focusedSceneValue</code> for this key:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token class-name">ContentView</span><span class="token punctuation">:</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+  <span class="token attribute atrule">@State</span> <span class="token keyword">private</span> <span class="token keyword">var</span> symbol <span class="token operator">=</span> <span class="token class-name">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+  <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">View</span> <span class="token punctuation">{</span>
+    <span class="token class-name">VStack</span> <span class="token punctuation">{</span>
+      <span class="token comment">// UI defined here</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span><span class="token function">focusedSceneValue</span><span class="token punctuation">(</span><span class="token punctuation">\</span><span class="token punctuation">.</span>selectedSymbol<span class="token punctuation">,</span> $symbol<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>The last step is to use this in the menu (again, truncated for brevity):</p>
+<pre class="language-swift"><code class="language-swift"><span class="token attribute atrule">@main</span>
+<span class="token keyword">struct</span> <span class="token class-name">MenuDataApp</span><span class="token punctuation">:</span> <span class="token class-name">App</span> <span class="token punctuation">{</span>
+  <span class="token attribute atrule">@FocusedBinding</span><span class="token punctuation">(</span><span class="token punctuation">\</span><span class="token punctuation">.</span>selectedSymbol<span class="token punctuation">)</span> <span class="token keyword">var</span> selectedSymbol
+
+  <span class="token keyword">var</span> body<span class="token punctuation">:</span> <span class="token keyword">some</span> <span class="token class-name">Scene</span> <span class="token punctuation">{</span>
+    <span class="token class-name">WindowGroup</span> <span class="token punctuation">{</span>
+      <span class="token class-name">ContentView</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span>commands <span class="token punctuation">{</span>
+      <span class="token class-name">CommandMenu</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Symbol"</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Menu</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Symbol"</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token class-name">ForEach</span><span class="token punctuation">(</span><span class="token class-name">Symbol</span><span class="token punctuation">.</span>names<span class="token punctuation">,</span> id<span class="token punctuation">:</span> <span class="token punctuation">\</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> name <span class="token keyword">in</span>
+            <span class="token class-name">Button</span><span class="token punctuation">(</span>name <span class="token operator">==</span> selectedSymbol<span class="token operator">?</span><span class="token punctuation">.</span>name <span class="token operator">?</span> <span class="token string-literal"><span class="token string">"✔︎ </span><span class="token interpolation-punctuation punctuation">\(</span><span class="token interpolation">name</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string">"</span></span> <span class="token punctuation">:</span> name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+              selectedSymbol<span class="token operator">?</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token punctuation">.</span><span class="token function">disabled</span><span class="token punctuation">(</span>selectedSymbol <span class="token operator">==</span> <span class="token nil constant">nil</span><span class="token punctuation">)</span>
+
+        <span class="token class-name">Button</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Random"</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          selectedSymbol<span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">chooseRandomSymbolAndColor</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        <span class="token punctuation">.</span><span class="token function">keyboardShortcut</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"r"</span></span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">disabled</span><span class="token punctuation">(</span>selectedSymbol <span class="token operator">==</span> <span class="token nil constant">nil</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>The important features here are the <code>@FocusedBinding</code> property at the top and the fact that the menu items use optional chaining to access this property if it exists. If you have no open windows, this will be nil, otherwise it will point to the instance of the data property in the active window.</p>
+<p>To improve the user experience, I added a <code>disabled</code> modifier to the menus and the button so that the menus are not active unless there's a valid <code>selectedSymbol</code>. Unfortunately, you can't disable an entire <code>CommandMenu</code>.</p>
+<p>The wonderful part of this is that it works with windows and tabbed windows. Hurray!</p>
+<h3>Showing the Current Selections in the Menu</h3>
+<p>The ugly part is that the menu item indicating the current choice is set to show a check mark manually, instead of using the standard menu checkmark. But you can't bind a <code>@FocusedBinding</code> property to a <code>Picker</code> as it's selection.</p>
+<p><s>My solution was to use a <code>Picker</code> with a local state property. Then I track for changes to the <code>@FocusedBinding</code> property and to the local property. When either changes, the other is set to match, remembering that the <code>@FocusedBinding</code> property may be nil:
+It was important to add the <code>onChange</code> modifiers to the <code>ContentView</code>. I tried them on the <code>Picker</code> first, but they only got updated as the menu opened.</s></p>
+<p>I've updated the project, thanks to <a href="https://github.com/malhal" rel="noreferrer nofollow noopener external" target="_blank">Malcolm Hall</a> who added this comment:</p>
+<blockquote>
+<p>onChange is just for external actions. For linking states its Binding and it has an init that handles conversion from optional, that allows you to access the keypath binding to the symbol's colour and name you were missing.</p>
+</blockquote>
+<p>Now, the picker code looks like this (I omitted the color picker to make for a shorter and more readable code block):</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">if</span> <span class="token keyword">let</span> selectedSymbol <span class="token operator">=</span> <span class="token class-name">Binding</span><span class="token punctuation">(</span>$selectedSymbol<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token class-name">Picker</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Symbol"</span></span><span class="token punctuation">,</span> selection<span class="token punctuation">:</span> selectedSymbol<span class="token punctuation">.</span>name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">ForEach</span><span class="token punctuation">(</span><span class="token class-name">Symbol</span><span class="token punctuation">.</span>names<span class="token punctuation">,</span> id<span class="token punctuation">:</span> <span class="token punctuation">\</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> name <span class="token keyword">in</span>
+      <span class="token class-name">Text</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">tag</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+  <span class="token punctuation">.</span><span class="token function">pickerStyle</span><span class="token punctuation">(</span><span class="token punctuation">.</span>inline<span class="token punctuation">)</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+  <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Symbol"</span></span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>I also made the pickers inline for better visibility. With this version, I really like the way the menus use a <code>Text</code> view to display the header with no possible selections, when there's no <code>selectedSymbol</code>.</p>
+<p><img src="/images/2025/mac_menu_data.png" alt="Final app"></p>
+<p>So this is my new technique for communications between the menubar and SwiftUI. It takes a bit of setting up, but then it works really well. For a more complex app, I might need more bindings, or I could merge the relevant data objects in a larger struct or class.</p>
+<p>Going back to Apple's example which used <code>@FocusedBinding</code> and <code>focusedValue</code>, I think this worked because they had a <code>NavigationSplitView</code> and the focused value was the selected item, so there was an object to focus on. From the Apple's docs for <code>focusedSceneValue</code>:</p>
+<blockquote>
+<p>Use this method instead of focusedValue(<em>:</em>:) for values that must be visible regardless of where focus is located in the active scene.</p>
+</blockquote>
+<p>This is what solved it for me because there was no real focus element in my view. I was able to go back to the Apple sample app and get it working using  <code>focusedSceneValue</code> instead of <code>focusedValue</code>, so I think this is a solid technique.</p>
+<p>I'm sure there are other ways to do this, so if you have an alternative method or can suggest any improvements to my technique, I'd love to hear about it.</p>
+<h2>The Code</h2>
+<p>The sample project is available <a href="https://github.com/trozware/MacMenuComms" rel="noreferrer nofollow noopener external" target="_blank">on GitHub</a>. Check out the <code>main</code> branch for the final version of the code, but explore the other branches to see my experiments along the way.</p>
+<p>Here they are, in order of progress:</p>
+<ul>
+<li><strong>basic_ui</strong>: The starter version of the app with the UI set up for selecting an icon and a color.</li>
+<li><strong>menu</strong>: Menus added but not working.</li>
+<li><strong>notifications</strong>: Using <code>NotificationCenter</code> to send menu messages.</li>
+<li><strong>focusedSceneObject</strong>: Works but only with <code>@ObservableObject</code> data types.</li>
+<li><strong>main</strong>: The technique I've settled on with <code>@FocusedBinding</code> and <code>focusedSceneValue</code></li>
+</ul>
+<p>You can contact me using one of the links below or through the <a href="/contact/">Contact</a> page. And if you found this article useful, please <a href="https://ko-fi.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">buy me a coffee</a>.</p>
+
+        </article>
+    </section>
+
+    </main>
+    <footer>
+        <div class="footer-content">
+  <nav>
+    <ul class="footer-links">
+      
+        <li>
+          <a href="mailto:info@troz.net">
+            <img src="/images/links/envelope.svg" alt="Email" title="Email" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://mastodon.social/@troz" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/mastodon.png" alt="Mastodon" title="Mastodon" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://linktr.ee/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/tree.svg" alt="Linktree" title="Linktree" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://github.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/github.svg" alt="GitHub" title="GitHub" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://stackoverflow.com/users/1082632" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/stack-overflow.svg" alt="Stack Overflow" title="Stack Overflow" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://dev.to/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/dev-badge.svg" alt="Dev To" title="Dev To" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/index.xml">
+            <img src="/images/links/rss.svg" alt="RSS Feed" title="RSS Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/atom.xml">
+            <img src="/images/links/atom.svg" alt="Atom Feed" title="Atom Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/feed.json">
+            <img src="/images/links/json.png" alt="JSON Feed" title="JSON Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://ko-fi.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/kofi1.png.webp" alt="Buy Me a Coffee" title="Buy Me a Coffee" height="30px" >
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+
+        <div class="copyright">
+            <p>Copyright &copy; 2025 Sarah Reichelt, TrozWare</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            let searchElement = document.getElementById('search');
+            if (searchElement) {
+                new PagefindUI({ element: searchElement, showSubResults: true });
+            }
+        });
+    </script>
+    <script src="/js/theme_switcher.js"></script>
+    <script src="/js/clipboard.js"></script>
+    <script src="/js/menu.js"></script>
+</body>
+</html>

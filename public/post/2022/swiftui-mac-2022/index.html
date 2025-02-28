@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftUI for Mac 2022</title>
+    
+    <link href="/styles/style.css" rel="stylesheet" >
+
+
+    <link href="/styles/prism.css" rel="stylesheet" >
+
+
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+<style>
+@media (prefers-color-scheme: dark) {
+    :root {
+    --pagefind-ui-primary: #eeeeee;
+    --pagefind-ui-text: #eeeeee;
+    --pagefind-ui-background: #152028;
+    --pagefind-ui-border: #152028;
+    --pagefind-ui-tag: #152028;
+    }
+}
+</style>
+    
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<meta property="og:site_name" content="TrozWare" >
+<meta property="og:title" content="SwiftUI for Mac 2022 - TrozWare" >
+<meta property="og:type" content="website" >
+<meta property="og:url" content="https://troz.net/post/2022/swiftui-mac-2022/" >
+<meta name="keywords" content="Mac app development, Apple Mac, Xcode, Swift, SwiftUI, Apple macOS, books, articles, blog, apps, developer, author, Sarah Reichelt">
+
+
+
+
+  <meta name="description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+  <meta property="og:description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+
+
+
+<link rel="alternate" type="application/rss+xml" href="/index.xml" title="TrozWare">
+<link rel="alternate" type="application/atom+xml" href="/atom.xml" title="TrozWare">
+<link rel="alternate" type="application/json" href="/feed.json" title="TrozWare">
+
+
+<link rel="icon" type="image/png" href="/images/favicon.png">
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+
+<body>
+    <header>
+  <nav class="container">
+    <div class="nav-brand">
+      <a href="/" class="site-title">TrozWare</a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+
+    <ul class="nav-links">
+      
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+      
+        <li>
+          <a href="/books/" class="nav-link">Books</a>
+        </li>
+      
+        <li>
+          <a href="/apps/" class="nav-link">Apps</a>
+        </li>
+      
+        <li>
+          <a href="/archives/" class="nav-link">Archives</a>
+        </li>
+      
+        <li>
+          <a href="/tags/" class="nav-link">Tags</a>
+        </li>
+      
+        <li>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </li>
+      
+
+      <li>
+        <button           class="theme-toggle"
+          type="button"
+          title="Toggle theme"
+          aria-label="Toggle theme"
+          onclick="toggleTheme()"
+        >
+          <svg             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            width="1em"
+            height="1em"
+            class="theme-toggle__dark-side"
+            fill="currentColor"
+            viewBox="0 0 32 32"
+          >
+            <path d="M16 .5C7.4.5.5 7.4.5 16S7.4 31.5 16 31.5 31.5 24.6 31.5 16 24.6.5 16 .5zm0 28.1V3.4C23 3.4 28.6 9 28.6 16S23 28.6 16 28.6z" ></path>
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+    
+	<main>
+        
+    <section class="post">
+        <h1 data-pagefind-meta="title">SwiftUI for Mac 2022</h1>
+
+        <p>
+            17th June 2022 • 2,712 words • 14 minutes  reading time.
+        </p>
+
+        <div class="tag-list">
+            
+                <a href="/tags/#swift" class="tag-button">#Swift</a>
+            
+                <a href="/tags/#swiftui" class="tag-button">#SwiftUI</a>
+            
+                <a href="/tags/#macos" class="tag-button">#macOS</a>
+            
+        </div>
+
+        <article data-pagefind-body>
+            <p>In December 2019, I wrote a <a href="/post/2019/swiftui-for-mac-1/">series of articles about using SwiftUI to build a Mac app</a>. And in July 2020, I <a href="/post/2020/swiftui_mac_big_sur/">re-visited the sample app</a> to apply the new SwiftUI features made available in macOS BigSur. Now that macOS Ventura and Xcode 14 are in beta, it's time to build the app again while learning how to incorporate the new APIs.</p>
+
+<p>Right now, it's June 2022 and I'm using macOS Ventura 13 beta 2 (22A5286j) with Xcode 14 beta 2 (14A5229c). There will undoubtedly be changes before release, but I'll try to update this article or add notes to point out any major differences.</p>
+<p>I don't intend to cover features that haven't changed much, but here are the new APIs that I am interested in:</p>
+<ul>
+<li><a href="#navigation">Navigation</a></li>
+<li><a href="#detecting-the-active-window">Detecting the Active Window</a></li>
+<li><a href="#opening-new-windows">Opening New Windows</a></li>
+<li><a href="#charts">Charts</a></li>
+<li><a href="#image-rendering">Image Rendering</a></li>
+<li><a href="#forms">Forms</a></li>
+<li><a href="#menu-bar-apps">Menu Bar Apps</a></li>
+</ul>
+<p><strong>Note</strong>: In Xcode 14 beta 2, the SwiftUI Previews are crashing unless I go to Project &gt; Target &gt; Signing &amp; Capabilities and select my developer team and set Signing Certificate to Development. So if you can't see the Previews, make these changes, or run the app directly.</p>
+<h3>Navigation</h3>
+<p>The <a href="https://github.com/trozware/swiftui-mac" rel="noreferrer nofollow noopener external" target="_blank">first version of this app</a> used a two pane layout with a sectioned list in the sidebar leading to a detail view in the main area. With the <a href="https://github.com/trozware/swiftui-mac-11" rel="noreferrer nofollow noopener external" target="_blank">Big Sur version</a>, I switched to a three pane layout because the sections were not displaying neatly. This time, I've reverted to two panes with sections. As before, I'm using <a href="https://http.cat" rel="noreferrer nofollow noopener external" target="_blank">HTTP Cats</a> which is a site that serves up a cat image to match almost every HTTP status code.</p>
+<p>Previous versions used <code>NavigationLinks</code> inside a <code>NavigationView</code>. <code>NavigationView</code> is now deprecated and we should use either <code>NavigationStackView</code> or <code>NavigationSplitView</code>. <code>NavigationStackView</code> is better suited to a small screen where each view is pushed on to a stack and can be popped off to navigate back. I am going to use <code>NavigationSplitView</code> which works well for bigger displays with all the panes visible at once.</p>
+<p>My data model is exactly the same as I developed originally and consists of an array of <code>HttpSections</code>, each containing an array of <code>HttpStatuses</code>.
+So I was able to render my navigation like this:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token class-name">NavigationSplitView</span> <span class="token punctuation">{</span>
+  <span class="token class-name">List</span><span class="token punctuation">(</span>httpSections<span class="token punctuation">,</span> selection<span class="token punctuation">:</span> $selectedStatus<span class="token punctuation">)</span> <span class="token punctuation">{</span> section <span class="token keyword">in</span>
+    <span class="token class-name">Section</span><span class="token punctuation">(</span>header<span class="token punctuation">:</span> <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"</span><span class="token interpolation-punctuation punctuation">\(</span><span class="token interpolation">section<span class="token punctuation">.</span>headerCode</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string"> - </span><span class="token interpolation-punctuation punctuation">\(</span><span class="token interpolation">section<span class="token punctuation">.</span>headerText</span><span class="token interpolation-punctuation punctuation">)</span><span class="token string">"</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token class-name">ForEach</span><span class="token punctuation">(</span>section<span class="token punctuation">.</span>statuses<span class="token punctuation">)</span> <span class="token punctuation">{</span> status <span class="token keyword">in</span>
+        <span class="token class-name">SidebarRowView</span><span class="token punctuation">(</span>code<span class="token punctuation">:</span> status<span class="token punctuation">.</span>code<span class="token punctuation">,</span> title<span class="token punctuation">:</span> status<span class="token punctuation">.</span>title<span class="token punctuation">)</span>
+          <span class="token punctuation">.</span><span class="token function">tag</span><span class="token punctuation">(</span>status<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span><span class="token function">font</span><span class="token punctuation">(</span><span class="token punctuation">.</span>headline<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token punctuation">.</span><span class="token function">frame</span><span class="token punctuation">(</span>minWidth<span class="token punctuation">:</span> <span class="token number">250</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span> detail<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+  <span class="token class-name">DetailView</span><span class="token punctuation">(</span>sectionTitle<span class="token punctuation">:</span> sectionHeader<span class="token punctuation">,</span> httpStatus<span class="token punctuation">:</span> selectedStatus<span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>The <code>NavigationSplitView</code> takes various parameters, depending on the result you want. In this case, the first parameter lays out the sidebar, which is a <code>List</code>. The detail parameter contains the detail view. For the <code>List</code>, I loop through the sections, adding a section header for each one and a custom <code>SidebarRowView</code> to display the individual status entries. The <code>List</code> selection is bound to an optional <code>HttpStatus</code>. The key here is to give each row a <code>tag</code> that maps to the status displayed in that row. If you omit the tag, the sidebar draws but none of the entries are selectable.</p>
+<p>Interestingly, when you create a navigation setup like this, Xcode automatically adds a toolbar with a button to toggle the sidebar. This has always been essential as there is a long-standing bug where a hidden sidebar cannot be dragged back into view. But adding it manually meant digging into AppKit to find a method to call.</p>
+<p>Not so interestingly, the sidebar is often hidden on app launch. I tried giving <code>NavigationStackView</code> its optional <code>columnVisibility</code> parameter, but no setting made it appear consistently.</p>
+<p>With the detail, right now there is a bug where you cannot unwrap a conditional and show a view based on that. One workaround is to wrap the entire detail in a <code>ZStack</code>, but in the interest of keeping my <code>ContentView</code> code simple and as short as possible, I added an intermediary view. <code>DetailView</code> takes optional parameters and it decides whether to show the <code>StatusView</code> or a placeholder. Note: the bug may have gone in beta 2, but as I want to display other UI elements in the detail view anyway, this is still a neater approach.</p>
+<p>There is nothing much new in either of these views, except where <code>StatusView</code> downloads the selected cat image. I tried using <code>AsyncImage</code> which worked really well except for one problem. When I selected a new status, the old image stayed in place until the new one arrived. I was unable to work out how to clear or reset an <code>AsyncImage</code> so it would show its placeholder again.</p>
+<p><strong>Update</strong>: Thanks to <a href="https://twitter.com/ramzesenok" rel="noreferrer nofollow noopener external" target="_blank">@ramzesenok</a> who pointed out that this is another case where I could use an <code>id</code> to force a refresh. So now, the app uses <code>AsyncImage</code> which makes for a lot less code.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token class-name">AsyncImage</span><span class="token punctuation">(</span>url<span class="token punctuation">:</span> httpStatus<span class="token punctuation">.</span>imageUrl<span class="token punctuation">)</span> <span class="token punctuation">{</span> img <span class="token keyword">in</span>
+  <span class="token class-name">CatImageView</span><span class="token punctuation">(</span>catImage<span class="token punctuation">:</span> img<span class="token punctuation">,</span> statusCode<span class="token punctuation">:</span> httpStatus<span class="token punctuation">.</span>code<span class="token punctuation">)</span>
+<span class="token punctuation">}</span> placeholder<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+  <span class="token class-name">ProgressView</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">.</span><span class="token function">id</span><span class="token punctuation">(</span>httpStatus<span class="token punctuation">)</span>   <span class="token comment">// this resets the AsyncImage whenever httpStatus changes</span></code></pre>
+<p>If anyone is still interested in the <code>async/await</code> version, check out this <a href="https://github.com/trozware/swiftui-mac-2022/tree/55dc61b57f50379e4a4b0c247014af521d866c5d" rel="noreferrer nofollow noopener external" target="_blank">earlier commit on GitHub</a>. It does appear to have better/faster caching, but a beta is not the right place to make speed assessments.</p>
+<p><s>However I did switch to using <code>async/await</code> to download the image.</s></p>
+<p><s>Updating this was also slightly complicated. I downloaded the first selected image using a <code>task</code> modifier and downloaded subsequent selections using an <code>onChange</code> modifier. Both of these were required to show the image every time.</s></p>
+<p><s>Thanks to <a href="https://twitter.com/davbeck" rel="noreferrer nofollow noopener external" target="_blank">@davbeck</a>, <a href="https://twitter.com/malhal" rel="noreferrer nofollow noopener external" target="_blank">@malhal</a> and <a href="https://twitter.com/chriseidhof" rel="noreferrer nofollow noopener external" target="_blank">@chriseidhof</a> for pointing out that if I gave the <code>task</code> an <code>id</code>, it would be called whenever the <code>id</code> property changed.</s></p>
+<p>false</p>
+<p><s>The previous image is first set to <code>nil</code>, so that the progress indicator appears.</s></p>
+<p>With all this in place, I had the basis of the app and the navigation was complete:</p>
+<p><img src="/images/2022/navigation_2022.jpg" alt="Navigation"></p>
+<h3>Detecting the Active Window</h3>
+<p>macOS apps can have multiple windows open at once, and in previous iterations of SwiftUI, it has been difficult to detect the active one. Last year, we got <code>@FocusedBinding</code> but it didn't really work. This year it works, but we also have a new <code>EnvironmentValue</code> called <code>controlActiveState</code>.</p>
+<p>As I did last time, I set up some menus by adding a <code>commands</code> modifier to my <code>WindowGroup</code> in the main _App.swift file. First, I added the pre-built <code>SidebarCommands()</code> which added a menu item and keyboard shortcut for toggling the sidebar. Next, I added a menu item for flipping the image:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token class-name">CommandGroup</span><span class="token punctuation">(</span>after<span class="token punctuation">:</span> <span class="token punctuation">.</span>textEditing<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token class-name">Button</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Flip Image"</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">NotificationCenter</span><span class="token punctuation">.</span><span class="token keyword">default</span><span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span>name<span class="token punctuation">:</span> <span class="token punctuation">.</span>flipImage<span class="token punctuation">,</span> object<span class="token punctuation">:</span> <span class="token nil constant">nil</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token punctuation">.</span><span class="token function">keyboardShortcut</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"f"</span></span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>This new item appears in the Edit menu, after the standard items. It has a shortcut of Command-F. The Command key is the default shortcut modifier, so if you only specify a letter, it automatically uses Command. All this menu item does is to broadcast a notification.</p>
+<p>The image is shown in a subview called <code>CatImageView</code> which now includes the following properties:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token attribute atrule">@Environment</span><span class="token punctuation">(</span><span class="token punctuation">\</span><span class="token punctuation">.</span>controlActiveState<span class="token punctuation">)</span> <span class="token keyword">private</span> <span class="token keyword">var</span> controlActiveState
+
+<span class="token keyword">private</span> <span class="token keyword">let</span> flipImageMenuItemSelected <span class="token operator">=</span> <span class="token class-name">NotificationCenter</span><span class="token punctuation">.</span><span class="token keyword">default</span>
+  <span class="token punctuation">.</span><span class="token function">publisher</span><span class="token punctuation">(</span><span class="token keyword">for</span><span class="token punctuation">:</span> <span class="token punctuation">.</span>flipImage<span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">receive</span><span class="token punctuation">(</span>on<span class="token punctuation">:</span> <span class="token class-name">RunLoop</span><span class="token punctuation">.</span>main<span class="token punctuation">)</span>
+
+<span class="token attribute atrule">@State</span> <span class="token keyword">private</span> <span class="token keyword">var</span> imageIsFlipped <span class="token operator">=</span> <span class="token boolean">false</span></code></pre>
+<p>The image has a <code>rotation3Deffect</code> modifier with the angle set to either 0 degrees, or 180 degrees, depending on the value of <code>imageIsFlipped</code>.</p>
+<p>The view subscribes to the <code>flipImage</code> notification and receives it like this:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token punctuation">.</span><span class="token function">onReceive</span><span class="token punctuation">(</span>flipImageMenuItemSelected<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token omit keyword">_</span> <span class="token keyword">in</span>
+  <span class="token keyword">if</span> controlActiveState <span class="token operator">==</span> <span class="token punctuation">.</span>key <span class="token operator">||</span> controlActiveState <span class="token operator">==</span> <span class="token punctuation">.</span>active <span class="token punctuation">{</span>
+    imageIsFlipped<span class="token punctuation">.</span><span class="token function">toggle</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>When the notification arrives, the code checks the value of <code>controlActiveState</code>. In my tests, this was always either <code>key</code> or <code>inactive</code>, but I saw that <code>active</code> was an option and added it too, in case it becomes relevant later. If the <code>CatImageView</code> is in the active window, it flips the image and if not, this notification is ignored.</p>
+<p><img src="/images/2022/target_active_window.jpg" alt="Target Active Window"></p>
+<p>As you can see from the text in the images, only the front window image is flipped.</p>
+<h3>Opening New Windows</h3>
+<p>In early versions of SwiftUI, opening a secondary window was a very complex process. Read <a href="https://troz.net/post/2019/swiftui-for-mac-2/">part 2 of the original series</a> to see how I struggled with this. Later, we got an easy way to open a Preferences window, using a <code>Settings</code> scene. Preferences are now called Settings, which makes this nomenclature more logical.</p>
+<p>Last year, we got the ability to use a <code>NavigationLink</code> as a SwiftUI menu item and this will open the destination view in a new window.</p>
+<p>This year, we have a new method that uses another new <code>EnvironmentValue</code> called <code>openWindow</code>. First, in the _App.swift file, I added another new scene to the body - this time a second <code>WindowGroup</code>. A <code>WindowGroup</code> can be passed an <code>id</code>, a data object of a specific type, or both. In this case, I didn't want to pass any data, so I gave it an <code>id</code>:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token class-name">WindowGroup</span><span class="token punctuation">(</span>id<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">"ui_samples"</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token class-name">SamplesView</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>I want to display a window with a view demonstrating some UI elements. The view is called <code>SamplesView</code>, so I set this as the content of the <code>WindowGroup</code>.</p>
+<p>To use it, I added a property to <code>DetailView</code>:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token attribute atrule">@Environment</span><span class="token punctuation">(</span><span class="token punctuation">\</span><span class="token punctuation">.</span>openWindow<span class="token punctuation">)</span> <span class="token keyword">private</span> <span class="token keyword">var</span> openWindow</code></pre>
+<p>And inserted a <code>Button</code> to call it:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token class-name">Button</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Show UI Samples"</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">openWindow</span><span class="token punctuation">(</span>id<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">"ui_samples"</span></span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>This opens a new window with the appropriate <code>id</code>. This can open multiple copies of the same window. If I had passed a data object to the window, it would have brought the window containing that data object to the front instead of opening a new window. To test this behavior, I changed the <code>WindowGroup</code> to this:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token class-name">WindowGroup</span><span class="token punctuation">(</span><span class="token keyword">for</span><span class="token punctuation">:</span> <span class="token class-name">String</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token omit keyword">_</span> <span class="token keyword">in</span>
+  <span class="token class-name">SamplesView</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>And changed the <code>Button</code> to:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token class-name">Button</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Show UI Samples"</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">openWindow</span><span class="token punctuation">(</span>value<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">"samples"</span></span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Now the <code>WindowGroup</code> expects a <code>String</code>. When you pass a <code>String</code> that has already been attached to a window, that window is brought to the front. If you pass a different <code>String</code>, you get a new window.</p>
+<p>After that, I realized that there was another scene type I could use. If you create a <code>Window</code> scene instead of a <code>WindowGroup</code>, not only does this become a single presentation window, but you get a menu item for it in the Window menu without any extra work. You can add a keyboard shortcut to the <code>Window</code> scene too. Supposedly, you can add default sizing and positioning, but they don't appear to work yet.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token class-name">Window</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Samples"</span></span><span class="token punctuation">,</span> id<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">"ui_samples"</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token class-name">SamplesView</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">.</span><span class="token function">keyboardShortcut</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"u"</span></span><span class="token punctuation">)</span>
+<span class="token punctuation">.</span><span class="token function">defaultPosition</span><span class="token punctuation">(</span><span class="token punctuation">.</span>topLeading<span class="token punctuation">)</span>  <span class="token comment">// doesn't work yet</span>
+<span class="token punctuation">.</span><span class="token function">defaultSize</span><span class="token punctuation">(</span>width<span class="token punctuation">:</span> <span class="token number">600</span><span class="token punctuation">,</span> height<span class="token punctuation">:</span> <span class="token number">600</span><span class="token punctuation">)</span>  <span class="token comment">// doesn't work yet</span></code></pre>
+<h3>Charts</h3>
+<p>One of the signature features of SwiftUI at WWDC 2022 was the new Charts API. I have struggled with charts in the past, so this was very interesting. I need to learn more, but I added a simple bar chart to the samples window:</p>
+<p><img src="/images/2022/bar_chart.jpg" alt="Bar chart"></p>
+<p>This charts the number of entries in each category of HTTP status. I drew a line across at the 8 value because drawing a marker line is a feature I have often needed in charts.</p>
+<p>Creating the chart was smooth:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token class-name">Chart</span> <span class="token punctuation">{</span>
+  <span class="token class-name">ForEach</span><span class="token punctuation">(</span>chartData<span class="token punctuation">.</span>keys<span class="token punctuation">.</span><span class="token function">sorted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> id<span class="token punctuation">:</span> <span class="token punctuation">\</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> key <span class="token keyword">in</span>
+    <span class="token class-name">BarMark</span><span class="token punctuation">(</span>
+      x<span class="token punctuation">:</span> <span class="token punctuation">.</span><span class="token function">value</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Category"</span></span><span class="token punctuation">,</span> key<span class="token punctuation">)</span><span class="token punctuation">,</span>
+      y<span class="token punctuation">:</span> <span class="token punctuation">.</span><span class="token function">value</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Count"</span></span><span class="token punctuation">,</span> chartData<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">??</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">foregroundStyle</span><span class="token punctuation">(</span>by<span class="token punctuation">:</span> <span class="token punctuation">.</span><span class="token function">value</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Color"</span></span><span class="token punctuation">,</span> key<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token class-name">RuleMark</span><span class="token punctuation">(</span>y<span class="token punctuation">:</span> <span class="token punctuation">.</span><span class="token function">value</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Threshold"</span></span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">foregroundStyle</span><span class="token punctuation">(</span><span class="token punctuation">.</span>gray<span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Having assembled a dictionary of category codes and counts, I looped through the keys, setting an <code>x</code> and <code>y</code> value for each in its own <code>BarMark</code>. The line used a <code>RuleMark</code>.</p>
+<p>To get the different colors, I added this modifier to the <code>Chart</code>:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token punctuation">.</span><span class="token function">chartForegroundStyleScale</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+  <span class="token string-literal"><span class="token string">"1xx"</span></span><span class="token punctuation">:</span> <span class="token punctuation">.</span>green<span class="token punctuation">,</span>
+  <span class="token string-literal"><span class="token string">"2xx"</span></span><span class="token punctuation">:</span> <span class="token punctuation">.</span>purple<span class="token punctuation">,</span>
+  <span class="token string-literal"><span class="token string">"3xx"</span></span><span class="token punctuation">:</span> <span class="token punctuation">.</span>blue<span class="token punctuation">,</span>
+  <span class="token string-literal"><span class="token string">"4xx"</span></span><span class="token punctuation">:</span> <span class="token punctuation">.</span>yellow<span class="token punctuation">,</span>
+  <span class="token string-literal"><span class="token string">"5xx"</span></span><span class="token punctuation">:</span> <span class="token punctuation">.</span>red
+<span class="token punctuation">]</span><span class="token punctuation">)</span></code></pre>
+<p>which was used by <code>foregroundStyle</code> to assign a different color to each of the categories.</p>
+<p>Next, I wanted to add the ability to switch between vertical and horizontal bars. This requires swapping the <code>x</code> and <code>y</code> data so that <code>y</code> has the category and <code>x</code> has the count. After testing this manually, I added a Boolean to specify the orientation, and a method for returning the appropriate <code>BarMark</code>:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">func</span> <span class="token function-definition function">barMark</span><span class="token punctuation">(</span><span class="token keyword">for</span> key<span class="token punctuation">:</span> <span class="token class-name">String</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token class-name">BarMark</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> drawHorizontal <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token class-name">BarMark</span><span class="token punctuation">(</span>
+      x<span class="token punctuation">:</span> <span class="token punctuation">.</span><span class="token function">value</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Count"</span></span><span class="token punctuation">,</span> chartData<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">??</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      y<span class="token punctuation">:</span> <span class="token punctuation">.</span><span class="token function">value</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Category"</span></span><span class="token punctuation">,</span> key<span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token class-name">BarMark</span><span class="token punctuation">(</span>
+      x<span class="token punctuation">:</span> <span class="token punctuation">.</span><span class="token function">value</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Category"</span></span><span class="token punctuation">,</span> key<span class="token punctuation">)</span><span class="token punctuation">,</span>
+      y<span class="token punctuation">:</span> <span class="token punctuation">.</span><span class="token function">value</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Count"</span></span><span class="token punctuation">,</span> chartData<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">??</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>A similar method provided the <code>RuleMark</code> as either a vertical or horizontal line.</p>
+<p>A segmented picker switches between the two and the only thing now was to animate the change. There is an <code>animation</code> modifier added last year that allows you to connect an animation to a property, so that when the property changes, the animation is triggered.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token punctuation">.</span><span class="token function">animation</span><span class="token punctuation">(</span><span class="token punctuation">.</span>easeInOut<span class="token punctuation">,</span> value<span class="token punctuation">:</span> drawHorizontal<span class="token punctuation">)</span></code></pre>
+<p><img src="/images/2022/chart_animation.mp4" alt="Animated chart"></p>
+<p>I added <code>Text</code> views for the title of the chart and for the axes, inside a  <code>VStack</code> and an <code>HStack</code>, rotating the text for vertical axis. Maybe there is a chart setting that I'm missing for adding these labels automatically using the Chart library.</p>
+<h3>Image Rendering</h3>
+<p>While investigating charts, I experimented with another new SwiftUI feature: <code>ImageRenderer</code>. When I have made charts, I've often wanted to export them as images for upload. <code>ImageRenderer</code> allows us to convert a SwiftUI view into an image: on macOS, either <code>NSImage</code> or <code>CGImage</code>.</p>
+<p>The first step was to convert the chart view plus its labels, into a variable (modifiers and RuleMark omitted from this code snippet for brevity):</p>
+<pre class="language-swift"><code class="language-swift"><span class="token keyword">let</span> chartView <span class="token operator">=</span> <span class="token class-name">Group</span> <span class="token punctuation">{</span>
+  <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Status codes by category"</span></span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">font</span><span class="token punctuation">(</span><span class="token punctuation">.</span>title3<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">bold</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">padding</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+  <span class="token class-name">HStack</span> <span class="token punctuation">{</span>
+    <span class="token class-name">Text</span><span class="token punctuation">(</span>drawHorizontal <span class="token operator">?</span> <span class="token string-literal"><span class="token string">"Category"</span></span> <span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">"Count"</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">bold</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">rotationEffect</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token function">degrees</span><span class="token punctuation">(</span><span class="token number">270</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    <span class="token class-name">Chart</span> <span class="token punctuation">{</span>
+      <span class="token class-name">ForEach</span><span class="token punctuation">(</span>chartData<span class="token punctuation">.</span>keys<span class="token punctuation">.</span><span class="token function">sorted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> id<span class="token punctuation">:</span> <span class="token punctuation">\</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> key <span class="token keyword">in</span>
+        <span class="token function">barMark</span><span class="token punctuation">(</span><span class="token keyword">for</span><span class="token punctuation">:</span> key<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token class-name">Text</span><span class="token punctuation">(</span>drawHorizontal <span class="token operator">?</span> <span class="token string-literal"><span class="token string">"Count"</span></span> <span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">"Category"</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">bold</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Then I displayed the view using the variable:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token class-name">VStack</span> <span class="token punctuation">{</span>
+  chartView
+
+  <span class="token comment">// Picker &amp; Button</span>
+<span class="token punctuation">}</span></code></pre>
+<p>This left the display unchanged, but allowed me to use this variable to create a view for rendering, omitting the controls that should not be part of the image:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token class-name">Button</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Save Chart as Image"</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> view <span class="token operator">=</span> chartView
+    <span class="token punctuation">.</span><span class="token function">padding</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">frame</span><span class="token punctuation">(</span>width<span class="token punctuation">:</span> <span class="token number">1200</span><span class="token punctuation">,</span> height<span class="token punctuation">:</span> <span class="token number">800</span><span class="token punctuation">)</span>
+
+  <span class="token keyword">let</span> renderer <span class="token operator">=</span> <span class="token class-name">ImageRenderer</span><span class="token punctuation">(</span>content<span class="token punctuation">:</span> view<span class="token punctuation">)</span>
+  <span class="token keyword">if</span> <span class="token keyword">let</span> exportImage <span class="token operator">=</span> renderer<span class="token punctuation">.</span>nsImage <span class="token punctuation">{</span>
+    <span class="token function">saveImage</span><span class="token punctuation">(</span>exportImage<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>I added <code>padding</code> and <code>frame</code> modifiers to the view variable as it came out very small without this. Then I created an <code>ImageRenderer</code> using this view and converted it into an <code>NSImage</code>.
+The <code>saveImage</code> method uses an <code>NSSavePanel</code> to get a URL and then convert the NSImage to JPG data before writing it out. I used the same technique in <a href="https://troz.net/post/2019/swiftui-for-mac-3/">part 3 of the original series</a> but that only exported the downloaded image. This creates an image from a complete SwiftUI view.</p>
+<p>I would be interested to try the SwiftUI <code>fileExporter</code>, but that's for another day.</p>
+<p>I also tried to use the new <code>ShareLink</code> to share this image, but couldn't get that to work. The <code>ImageRenderer</code> seems to work asynchronously so that didn't work well with <code>ShareLink</code>. Again, that's for another day.</p>
+<h3>Forms</h3>
+<p>SwiftUI has always had a <code>Form</code> object, but the new System Settings app (previously System Preferences) has taken this to a new level. So I added some UI elements to a second tab in the UI Samples window.</p>
+<p><img src="/images/2022/form.jpg" alt="Form"></p>
+<p>There are a few interesting things here. Firstly, I achieved something I was unable to do last time and that is to make the text edit field have focus when the view opens. This was a three part operation:</p>
+<p>Firstly, I added this property to the view:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token attribute atrule">@FocusState</span> <span class="token keyword">private</span> <span class="token keyword">var</span> emailFieldHasFocus<span class="token punctuation">:</span> <span class="token class-name">Bool</span></code></pre>
+<p>Then, I added this modifier to the edit field:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token class-name">TextField</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"Enter your email address"</span></span><span class="token punctuation">,</span> text<span class="token punctuation">:</span> $email<span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">focused</span><span class="token punctuation">(</span>$emailFieldHasFocus<span class="token punctuation">)</span></code></pre>
+<p>And finally, I set the Boolean property in the <code>onAppear</code> modifier:</p>
+<pre class="language-swift"><code class="language-swift"><span class="token punctuation">.</span>onAppear <span class="token punctuation">{</span>
+  emailFieldHasFocus <span class="token operator">=</span> <span class="token boolean">true</span>
+<span class="token punctuation">}</span></code></pre>
+<p>With this in place, the email text entry field had the focus whenever this view appeared.</p>
+<p>The date picker is slightly confused. It can't seem to decide whether it's a graphical picker or a numeric picker, but it works. I haven't tried the new date range picker yet.</p>
+<p>With the check marks, I was trying to emulate the toggles in System Settings, where they are very small switches. I set the <code>toggleStyle</code> to <code>switch</code> which gave the right shape but it was big, like on an iPhone or iPad. The outermost form is set to use the <code>columns</code> <code>formStyle</code>. This lines up the labels and controls very neatly. But when I put the <code>Toggles</code> and <code>Picker</code> into an inner form with a style of <code>grouped</code>, I got the exact System Settings look I was going for.</p>
+<p>As an aside, I love the way you can now apply control-specific modifiers to a container view and every appropriate view inside the container will use that setting. For example, I added <code>.toggleStyle(.switch)</code> to the <code>Form</code> view and it was applied to every <code>Toggle</code> inside it.</p>
+<p>The final item in the form is a color picker. It opens up the standard macOS color picker and uses the selected color to fill the capsule beside it. The interesting thing is that the color has a <code>gradient</code> modifier. So you can see the faint gradient that is automatically applied to the shape.</p>
+<h3>Menu Bar Apps</h3>
+<p>Writing a menu bar app has previously required using AppKit to create a <code>NSStatusItem</code>. Now, we can add a <code>MenuBarExtra</code> scene to the app body to create a menu bar app component.</p>
+<pre class="language-swift"><code class="language-swift"><span class="token class-name">MenuBarExtra</span><span class="token punctuation">(</span><span class="token string-literal"><span class="token string">"HTTP Status Code"</span></span><span class="token punctuation">,</span> systemImage<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">"number.circle"</span></span><span class="token punctuation">,</span> isInserted<span class="token punctuation">:</span> $showMenuBar<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token class-name">MenuBarView</span><span class="token punctuation">(</span>httpSections<span class="token punctuation">:</span> $httpSections<span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Setting the title without a <code>systemImage</code> shows the text as the menu bar title. when you specify a <code>systemImage</code>, the text is not displayed and the menu bar only shows the image.</p>
+<p><code>MenuBarExtra</code> takes an <code>isInserted</code> parameter, so you can turn it off and on. I added this to the app's settings and stored it using <code>@AppStorage</code>.</p>
+<p>I set up a new SwiftUI view that looped through the HTTP Status data and created a submenu for each category and set this as the <code>MenuBarExtra</code> view. This works and my menu bar component was functional. Selecting a status uses <code>NSWorkspace</code> to open the relevant documentation page at MDN.</p>
+<p><img src="/images/2022/menu_bar_extra.jpg" alt="MenuBarExtra"></p>
+<h3>Conclusion</h3>
+<p>2022 is an exciting year to be a SwiftUI programmer. Apple has made it very clear that this is the way forward and as early adopters, we have the ability to influence how the framework develops, so keep filing those feedback reports! There have been some great new features this year: navigation is better than ever, the platforms are unifying and macOS is not getting left behind.</p>
+<p>The project from this article is available on <a href="https://github.com/trozware/swiftui-mac-2022" rel="noreferrer nofollow noopener external" target="_blank">GitHub</a>. And as usual, I'd be thrilled to hear any suggestions, corrections or improvements. Please contact me using one of the links below or through the <a href="/contact/">Contact</a> page. And if you found this article useful, I'd love you to <a href="https://ko-fi.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">buy me a coffee</a>.</p>
+
+        </article>
+    </section>
+
+    </main>
+    <footer>
+        <div class="footer-content">
+  <nav>
+    <ul class="footer-links">
+      
+        <li>
+          <a href="mailto:info@troz.net">
+            <img src="/images/links/envelope.svg" alt="Email" title="Email" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://mastodon.social/@troz" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/mastodon.png" alt="Mastodon" title="Mastodon" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://linktr.ee/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/tree.svg" alt="Linktree" title="Linktree" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://github.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/github.svg" alt="GitHub" title="GitHub" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://stackoverflow.com/users/1082632" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/stack-overflow.svg" alt="Stack Overflow" title="Stack Overflow" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://dev.to/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/dev-badge.svg" alt="Dev To" title="Dev To" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/index.xml">
+            <img src="/images/links/rss.svg" alt="RSS Feed" title="RSS Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/atom.xml">
+            <img src="/images/links/atom.svg" alt="Atom Feed" title="Atom Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/feed.json">
+            <img src="/images/links/json.png" alt="JSON Feed" title="JSON Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://ko-fi.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/kofi1.png.webp" alt="Buy Me a Coffee" title="Buy Me a Coffee" height="30px" >
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+
+        <div class="copyright">
+            <p>Copyright &copy; 2025 Sarah Reichelt, TrozWare</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            let searchElement = document.getElementById('search');
+            if (searchElement) {
+                new PagefindUI({ element: searchElement, showSubResults: true });
+            }
+        });
+    </script>
+    <script src="/js/theme_switcher.js"></script>
+    <script src="/js/clipboard.js"></script>
+    <script src="/js/menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Possible issues with Icon Builder &amp; Watch icons</title>
+    
+    <link href="/styles/style.css" rel="stylesheet" >
+
+
+    <link href="/styles/prism.css" rel="stylesheet" >
+
+
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+<style>
+@media (prefers-color-scheme: dark) {
+    :root {
+    --pagefind-ui-primary: #eeeeee;
+    --pagefind-ui-text: #eeeeee;
+    --pagefind-ui-background: #152028;
+    --pagefind-ui-border: #152028;
+    --pagefind-ui-tag: #152028;
+    }
+}
+</style>
+    
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<meta property="og:site_name" content="TrozWare" >
+<meta property="og:title" content="Possible issues with Icon Builder &amp; Watch icons - TrozWare" >
+<meta property="og:type" content="website" >
+<meta property="og:url" content="https://troz.net/post/2016/possible-issues-with-iconbuilder/" >
+<meta name="keywords" content="Mac app development, Apple Mac, Xcode, Swift, SwiftUI, Apple macOS, books, articles, blog, apps, developer, author, Sarah Reichelt">
+
+
+
+
+  <meta name="description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+  <meta property="og:description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+
+
+
+<link rel="alternate" type="application/rss+xml" href="/index.xml" title="TrozWare">
+<link rel="alternate" type="application/atom+xml" href="/atom.xml" title="TrozWare">
+<link rel="alternate" type="application/json" href="/feed.json" title="TrozWare">
+
+
+<link rel="icon" type="image/png" href="/images/favicon.png">
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+
+<body>
+    <header>
+  <nav class="container">
+    <div class="nav-brand">
+      <a href="/" class="site-title">TrozWare</a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+
+    <ul class="nav-links">
+      
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+      
+        <li>
+          <a href="/books/" class="nav-link">Books</a>
+        </li>
+      
+        <li>
+          <a href="/apps/" class="nav-link">Apps</a>
+        </li>
+      
+        <li>
+          <a href="/archives/" class="nav-link">Archives</a>
+        </li>
+      
+        <li>
+          <a href="/tags/" class="nav-link">Tags</a>
+        </li>
+      
+        <li>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </li>
+      
+
+      <li>
+        <button           class="theme-toggle"
+          type="button"
+          title="Toggle theme"
+          aria-label="Toggle theme"
+          onclick="toggleTheme()"
+        >
+          <svg             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            width="1em"
+            height="1em"
+            class="theme-toggle__dark-side"
+            fill="currentColor"
+            viewBox="0 0 32 32"
+          >
+            <path d="M16 .5C7.4.5.5 7.4.5 16S7.4 31.5 16 31.5 31.5 24.6 31.5 16 24.6.5 16 .5zm0 28.1V3.4C23 3.4 28.6 9 28.6 16S23 28.6 16 28.6z" ></path>
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+    
+	<main>
+        
+    <section class="post">
+        <h1 data-pagefind-meta="title">Possible issues with Icon Builder &amp; Watch icons</h1>
+
+        <p>
+            6th February 2016 • 514 words • 3 minutes  reading time.
+        </p>
+
+        <div class="tag-list">
+            
+                <a href="/tags/#apple-watch" class="tag-button">#Apple Watch</a>
+            
+                <a href="/tags/#icons" class="tag-button">#Icons</a>
+            
+                <a href="/tags/#xcode" class="tag-button">#Xcode</a>
+            
+        </div>
+
+        <article data-pagefind-body>
+            <p>It has come to my attention that there are two possible issues with Icon Builder
+3.0.1 when using icons created for an Apple Watch app. Once of them is something
+I can fix and the other appears to be a bug in Xcode 7.2</p>
+<hr>
+<p><strong>Update:</strong> Version 3.2 of Icon Builder is now available in the <a href="http://itunes.apple.com/app/icon-builder/id552293482" rel="noreferrer nofollow noopener external" target="_blank">Mac App
+Store</a>. This removes the alpha channel from icons for a watch app.</p>
+<hr>
+<p>The first problem is that iTines Connect now requires that the icons for an
+Apple Watch app include no alpha channel. This is becoming an increasing trend
+with it first having applied to the large icon file you upload directly to
+iTunes Connect, then to screen shots. I expect it to extend to iOS app icons
+soon, but hopefully Mac app icons can continue to include transparency.</p>
+<p>With Apple Watch icons, you are supposed to create a set of square icons and
+watchOS or iTunesConnect applies the rounding mask. Presumably this is more
+complicated if the icon contains an alpha channel even if there are no
+transparent pixels. If your Watch app icons contain an alpha channel, you will
+see errors like this after uploading your app to iTunes Connect:</p>
+<blockquote>
+<p>Invalid Icon - The watch application 'AppName.app/Watch/AppName WatchKit
+App.app' contains an icon file 'AppName.app/Watch/AppName WatchKit
+App.app/AppIcon-Watch24x24@2x.png' with an alpha channel. Icons should not
+have an alpha channel.</p>
+</blockquote>
+<p>You will probably get this error message for every icon size in the Watch app (8
+in total). Until I release a new version of Icon Builder that allows for this
+this, I suggest you use this <a href="https://www.cocoacontrols.com/controls/alpha-channel-remover" rel="noreferrer nofollow noopener external" target="_blank">Alpha Channel Remover app</a>.</p>
+<p>In your Xcode project, go to WatchKit App Assets.xcassets, select the AppIcon
+set, right-click and choose &quot;Show in Finder&quot;. A folder will open containing
+eight .png files and one .json file. Drag &amp; drop the .png files into the Alpha
+Channel Remover window and click the &quot;Remove Alpha Channel&quot; button. This will
+replace all those image files with new versions without alpha channels. To
+confirm this, select any of the images and press Command-I to get info. In the
+More Info section, you will see &quot;Alpha channel: No&quot;.</p>
+<p>You can now submit your app again, but that only solves one of the issues.</p>
+<hr>
+<p>The other problem is that you will get a warning about the 44x44@2x.png icon
+file.</p>
+<blockquote>
+<p>Invalid Icon Name - The watch application 'AppName.app/Watch/AppName WatchKit
+App.app' contains an invalid icon file name 'AppName.app/Watch/AppName
+WatchKit App.app/AppIcon-Watch44x44@2x.png'. Make sure that icon file names
+follow the pattern<br> &quot;<code>*&lt;dimension&gt;@&lt;scale&gt;x.png</code>&quot; and they match the
+required dimensions. Please visit https://developer.apple.com/watchkit/ for
+more information.</p>
+</blockquote>
+<p>As you can see in the error message, the icon name (which is set by Xcode) does
+conform to the required pattern, and the image is the correct size. This appears
+to be a <a href="http://www.openradar.me/23801324" rel="noreferrer nofollow noopener external" target="_blank">bug in Xcode 7.2</a> but does not stop you from submitting your app as
+it is only a warning and not an error. Presumably this will be fixed in later
+version of Xcode. I am running Xcode 7.2.1 and still see this warning.</p>
+
+        </article>
+    </section>
+
+    </main>
+    <footer>
+        <div class="footer-content">
+  <nav>
+    <ul class="footer-links">
+      
+        <li>
+          <a href="mailto:info@troz.net">
+            <img src="/images/links/envelope.svg" alt="Email" title="Email" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://mastodon.social/@troz" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/mastodon.png" alt="Mastodon" title="Mastodon" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://linktr.ee/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/tree.svg" alt="Linktree" title="Linktree" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://github.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/github.svg" alt="GitHub" title="GitHub" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://stackoverflow.com/users/1082632" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/stack-overflow.svg" alt="Stack Overflow" title="Stack Overflow" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://dev.to/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/dev-badge.svg" alt="Dev To" title="Dev To" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/index.xml">
+            <img src="/images/links/rss.svg" alt="RSS Feed" title="RSS Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/atom.xml">
+            <img src="/images/links/atom.svg" alt="Atom Feed" title="Atom Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/feed.json">
+            <img src="/images/links/json.png" alt="JSON Feed" title="JSON Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://ko-fi.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/kofi1.png.webp" alt="Buy Me a Coffee" title="Buy Me a Coffee" height="30px" >
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+
+        <div class="copyright">
+            <p>Copyright &copy; 2025 Sarah Reichelt, TrozWare</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            let searchElement = document.getElementById('search');
+            if (searchElement) {
+                new PagefindUI({ element: searchElement, showSubResults: true });
+            }
+        });
+    </script>
+    <script src="/js/theme_switcher.js"></script>
+    <script src="/js/clipboard.js"></script>
+    <script src="/js/menu.js"></script>
+</body>
+</html>

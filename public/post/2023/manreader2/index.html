@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Man Reader 2</title>
+    
+    <link href="/styles/style.css" rel="stylesheet" >
+
+
+    <link href="/styles/prism.css" rel="stylesheet" >
+
+
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+<style>
+@media (prefers-color-scheme: dark) {
+    :root {
+    --pagefind-ui-primary: #eeeeee;
+    --pagefind-ui-text: #eeeeee;
+    --pagefind-ui-background: #152028;
+    --pagefind-ui-border: #152028;
+    --pagefind-ui-tag: #152028;
+    }
+}
+</style>
+    
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<meta property="og:site_name" content="TrozWare" >
+<meta property="og:title" content="Man Reader 2 - TrozWare" >
+<meta property="og:type" content="website" >
+<meta property="og:url" content="https://troz.net/post/2023/manreader2/" >
+<meta name="keywords" content="Mac app development, Apple Mac, Xcode, Swift, SwiftUI, Apple macOS, books, articles, blog, apps, developer, author, Sarah Reichelt">
+
+
+
+
+  <meta name="description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+  <meta property="og:description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+
+
+
+<link rel="alternate" type="application/rss+xml" href="/index.xml" title="TrozWare">
+<link rel="alternate" type="application/atom+xml" href="/atom.xml" title="TrozWare">
+<link rel="alternate" type="application/json" href="/feed.json" title="TrozWare">
+
+
+<link rel="icon" type="image/png" href="/images/favicon.png">
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+
+<body>
+    <header>
+  <nav class="container">
+    <div class="nav-brand">
+      <a href="/" class="site-title">TrozWare</a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+
+    <ul class="nav-links">
+      
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+      
+        <li>
+          <a href="/books/" class="nav-link">Books</a>
+        </li>
+      
+        <li>
+          <a href="/apps/" class="nav-link">Apps</a>
+        </li>
+      
+        <li>
+          <a href="/archives/" class="nav-link">Archives</a>
+        </li>
+      
+        <li>
+          <a href="/tags/" class="nav-link">Tags</a>
+        </li>
+      
+        <li>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </li>
+      
+
+      <li>
+        <button           class="theme-toggle"
+          type="button"
+          title="Toggle theme"
+          aria-label="Toggle theme"
+          onclick="toggleTheme()"
+        >
+          <svg             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            width="1em"
+            height="1em"
+            class="theme-toggle__dark-side"
+            fill="currentColor"
+            viewBox="0 0 32 32"
+          >
+            <path d="M16 .5C7.4.5.5 7.4.5 16S7.4 31.5 16 31.5 31.5 24.6 31.5 16 24.6.5 16 .5zm0 28.1V3.4C23 3.4 28.6 9 28.6 16S23 28.6 16 28.6z" ></path>
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+    
+	<main>
+        
+    <section class="post">
+        <h1 data-pagefind-meta="title">Man Reader 2</h1>
+
+        <p>
+            13th October 2023 • 692 words • 3 minutes  reading time.
+        </p>
+
+        <div class="tag-list">
+            
+                <a href="/tags/#man-reader" class="tag-button">#Man Reader</a>
+            
+                <a href="/tags/#macos" class="tag-button">#macOS</a>
+            
+        </div>
+
+        <article data-pagefind-body>
+            <p>Several years after I started planning it, Man Reader version 2 is now available.
+This is a major update with a completely new, modern, user interface and it’s available from the <a href="http://itunes.apple.com/app/man-reader/id522583774?mt=12" rel="noreferrer nofollow noopener external" target="_blank">Mac App Store</a>.</p>
+<p>Man Reader is a utility app for reading macOS's <strong>man</strong> pages. Man Reader allows
+quick, convenient and easy access to the man pages on your system, useful for
+programmers, system administrators and tweakers.</p>
+
+<p><a href="http://itunes.apple.com/app/man-reader/id522583774?mt=12" rel="noreferrer nofollow noopener external" target="_blank"><img src="/icons/ManReader128.png" alt="Buy Man Reader from the Mac App Store"></a></p>
+<ul>
+<li>Complete re-write for modern versions of macOS.</li>
+<li>Only runs on macOS Sonoma 14.0 or later.</li>
+<li>Support for tabs and multiple windows.</li>
+</ul>
+<p><img src="/images/2023/ManReader2.png" alt="Man Reader 2">
+<img src="/images/2023/ManReader2_dark.png" alt="Man Reader 2 dark mode"></p>
+<p>Read all the details at the <a href="/manreader/">Man Reader support page</a>.</p>
+<hr>
+<h2>Development Notes</h2>
+<p>Version 1.0 of Man Reader was released in 2012. It was written in Objective-C
+and it suffered from the MVC - Massive View Controller - problem, but it kept going.</p>
+<p>Over the years, I added new features and fixed bugs, but as macOS evolved, it started looking its age.</p>
+<p>I've been planning a major update for a long time, but I've been busy with other things so in 2021
+I released an interim update to keep the app working and readable on the latest macOS.</p>
+<p>This year, I finally got a decent break in my usual schedule and I was able to get to work.</p>
+<p>The new version was always going to be in Swift. After writing Swift for years now, I am
+very comfortable with it and I write better and safer code in Swift than I can in Objective-C.</p>
+<p>The difficult question was whether to use SwiftUI or AppKit as the basis for the app, understanding that
+whichever way I went, I could add in components from the other framework. This required
+several iterations to find the best solution.</p>
+<p>I prefer working in SwiftUI so I started there first, but as I have written elsewhere,
+SwiftUI Lists, especially on macOS, do not handle large numbers of rows. This has improved a lot
+in macOS Sonoma but it's still not great. On my system, I have
+more than 10,000 man pages and that rises to over 25,000 if I include all of Xcode's commands.
+I tried a number of different approaches to make a SwiftUI List work, but then decided I'd have to use
+AppKit as the starting point for the app.</p>
+<p>This solved the performance issue but caused others. I've got so used to SwiftUI's reactive
+data flow that I found it difficult to work with pure AppKit. There were also things that SwiftUI is
+just better at, like support for multiple windows.</p>
+<p>So I went back to a SwiftUI base and embedded an AppKit <code>NSTableView</code> to handle the long list in the sidebar.
+This was interesting because I dislike creating an <code>NSTableView</code> via code - there are just too many components
+and settings that storyboards make simple. So for the first time, I embedded a Storyboard view into a SwiftUI
+view. I did this by adding an <code>NSViewController</code> with a <strong>xib</strong> file and then using that in an
+<code>NSViewControllerRepresentable</code> struct. This worked well and the published app has a SwiftUI base and an AppKit sidebar.</p>
+<p>One feature that I was very keen to maximise was keyboard support. To a large extent, you can operate
+Man Reader without the mouse. The menus show most of the available shortcuts, but you can also
+press Tab or Shift-Tab to get to the two search fields. The sidebar is a table so you can use the arrow keys
+to navigate but you can also use type-select if there is no active cursor. Start typing to select
+the first page with a name starting with those characters.</p>
+<p>One other design decision was to support the latest version of macOS only. The old version of Man Reader is
+still available for anyone on older systems, but I wanted to learn and use all the latest features of
+Swift and SwiftUI.</p>
+<p>If you have any ideas for future versions or
+encounter any bugs, please <a href="mailto:sarah@troz.net?subject=Man%20Reader%202">email me</a> or get in touch through the <a href="/contact/">Contact</a> page.</p>
+
+        </article>
+    </section>
+
+    </main>
+    <footer>
+        <div class="footer-content">
+  <nav>
+    <ul class="footer-links">
+      
+        <li>
+          <a href="mailto:info@troz.net">
+            <img src="/images/links/envelope.svg" alt="Email" title="Email" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://mastodon.social/@troz" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/mastodon.png" alt="Mastodon" title="Mastodon" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://linktr.ee/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/tree.svg" alt="Linktree" title="Linktree" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://github.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/github.svg" alt="GitHub" title="GitHub" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://stackoverflow.com/users/1082632" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/stack-overflow.svg" alt="Stack Overflow" title="Stack Overflow" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://dev.to/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/dev-badge.svg" alt="Dev To" title="Dev To" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/index.xml">
+            <img src="/images/links/rss.svg" alt="RSS Feed" title="RSS Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/atom.xml">
+            <img src="/images/links/atom.svg" alt="Atom Feed" title="Atom Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/feed.json">
+            <img src="/images/links/json.png" alt="JSON Feed" title="JSON Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://ko-fi.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/kofi1.png.webp" alt="Buy Me a Coffee" title="Buy Me a Coffee" height="30px" >
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+
+        <div class="copyright">
+            <p>Copyright &copy; 2025 Sarah Reichelt, TrozWare</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            let searchElement = document.getElementById('search');
+            if (searchElement) {
+                new PagefindUI({ element: searchElement, showSubResults: true });
+            }
+        });
+    </script>
+    <script src="/js/theme_switcher.js"></script>
+    <script src="/js/clipboard.js"></script>
+    <script src="/js/menu.js"></script>
+</body>
+</html>

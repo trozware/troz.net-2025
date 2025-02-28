@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workflow for writing a post</title>
+    
+    <link href="/styles/style.css" rel="stylesheet" >
+
+
+    <link href="/styles/prism.css" rel="stylesheet" >
+
+
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+<style>
+@media (prefers-color-scheme: dark) {
+    :root {
+    --pagefind-ui-primary: #eeeeee;
+    --pagefind-ui-text: #eeeeee;
+    --pagefind-ui-background: #152028;
+    --pagefind-ui-border: #152028;
+    --pagefind-ui-tag: #152028;
+    }
+}
+</style>
+    
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<meta property="og:site_name" content="TrozWare" >
+<meta property="og:title" content="Workflow for writing a post - TrozWare" >
+<meta property="og:type" content="website" >
+<meta property="og:url" content="https://troz.net/post/2015/workflow-for-writing-a-post/" >
+<meta name="keywords" content="Mac app development, Apple Mac, Xcode, Swift, SwiftUI, Apple macOS, books, articles, blog, apps, developer, author, Sarah Reichelt">
+
+
+
+
+  <meta name="description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+  <meta property="og:description" content="Crazy Mac lady. Mac author &amp; developer. Lover of Apple computers and devices. Swift &amp; SwiftUI enthusiast. Unofficial Mac app dev evangelist" >
+
+
+
+<link rel="alternate" type="application/rss+xml" href="/index.xml" title="TrozWare">
+<link rel="alternate" type="application/atom+xml" href="/atom.xml" title="TrozWare">
+<link rel="alternate" type="application/json" href="/feed.json" title="TrozWare">
+
+
+<link rel="icon" type="image/png" href="/images/favicon.png">
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+
+<body>
+    <header>
+  <nav class="container">
+    <div class="nav-brand">
+      <a href="/" class="site-title">TrozWare</a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+
+    <ul class="nav-links">
+      
+        <li>
+          <a href="/" class="nav-link">Home</a>
+        </li>
+      
+        <li>
+          <a href="/books/" class="nav-link">Books</a>
+        </li>
+      
+        <li>
+          <a href="/apps/" class="nav-link">Apps</a>
+        </li>
+      
+        <li>
+          <a href="/archives/" class="nav-link">Archives</a>
+        </li>
+      
+        <li>
+          <a href="/tags/" class="nav-link">Tags</a>
+        </li>
+      
+        <li>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </li>
+      
+
+      <li>
+        <button           class="theme-toggle"
+          type="button"
+          title="Toggle theme"
+          aria-label="Toggle theme"
+          onclick="toggleTheme()"
+        >
+          <svg             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            width="1em"
+            height="1em"
+            class="theme-toggle__dark-side"
+            fill="currentColor"
+            viewBox="0 0 32 32"
+          >
+            <path d="M16 .5C7.4.5.5 7.4.5 16S7.4 31.5 16 31.5 31.5 24.6 31.5 16 24.6.5 16 .5zm0 28.1V3.4C23 3.4 28.6 9 28.6 16S23 28.6 16 28.6z" ></path>
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+    
+	<main>
+        
+    <section class="post">
+        <h1 data-pagefind-meta="title">Workflow for writing a post</h1>
+
+        <p>
+            10th March 2015 • 787 words • 4 minutes  reading time.
+        </p>
+
+        <div class="tag-list">
+            
+                <a href="/tags/#blog" class="tag-button">#Blog</a>
+            
+                <a href="/tags/#jekyll" class="tag-button">#Jekyll</a>
+            
+                <a href="/tags/#markdown" class="tag-button">#Markdown</a>
+            
+                <a href="/tags/#web" class="tag-button">#Web</a>
+            
+        </div>
+
+        <article data-pagefind-body>
+            <p>So here is where I need to get used to Jekyll and how things are done. I will
+end up automating this when I am sure of the process, but for now, I am just
+going to work my way through it.</p>
+<ol>
+<li>
+<p><strong>Start up the local Jekyll server:</strong></p>
+<ul>
+<li>I opened Terminal and used <code>cd</code> to get to the folder containing my site.</li>
+<li>Next I started the Jekyll server locally using <code>jekyll serve</code>.</li>
+<li>This gave me the address of the local server - in my case
+<code>http://127.0.0.1:4000/</code> - so I went there in my browser to see the default
+page.</li>
+</ul>
+</li>
+<li>
+<p><strong>My goal is to write a new blog post (this one in fact).</strong></p>
+<ul>
+<li>For advice on creating a new post, I went to the <a href="http://jekyllrb.com/docs/posts/" rel="noreferrer nofollow noopener external" target="_blank">Jekyll docs</a>.</li>
+<li>Jekyll needs the file name to be a specific format which includes the date
+and title.</li>
+<li>Looking in the <code>_posts</code> folder of the site folder, I see the previous post
+file is titled <code>2015-03-08-new-site-for-trozware.md</code>.</li>
+<li>As it is now 10th March 2015, I am saving this file as:
+<code>2015-03-10-workflow-for-writing-a-post.md</code>.</li>
+<li>Saving at this point shows a Jekyll error in the Terminal, but the next
+stage will fix that.</li>
+</ul>
+</li>
+<li>
+<p><strong>Front matter:</strong></p>
+<ul>
+<li>Jekyll specifies that each file must have a <a href="http://jekyllrb.com/docs/frontmatter/" rel="noreferrer nofollow noopener external" target="_blank">front matter block</a> in a
+certain format.</li>
+<li>The header has certain essential parameters and then more optional ones.</li>
+<li>My site was imported from WordPress, so the older posts contain several
+header parameters that may not be necessary any more.</li>
+<li>Look at the screen shot below to see what I have in this post file:</li>
+<li>After saving, I see this entry in my Terminal:</li>
+<li><code>Regenerating: 1 file(s) changed at 2015-03-10 13:50:40 ...done in 0.421789 seconds.</code></li>
+<li>Now I can see the title and the start of the post on my first page and when
+clicking on it, I can see all the text.</li>
+</ul>
+</li>
+<li>
+<p><strong>Adding an image:</strong></p>
+<ul>
+<li>This is not really necessary for this post, but I wanted to document it as
+part of the workflow.</li>
+<li>I wanted to show the front matter and start of this post, so I took a
+screen shot of the top of my editor window.</li>
+<li>Then I renamed the image file and moved it into the <code>images</code> folder of my
+site.</li>
+<li>Now to embed the image using this Markdown: <code>![Post header][2]</code></li>
+<li>As you can see, I prefer to group all links (images &amp; URLs) at the end of
+the document and keep the body of the text as clean as possible.</li>
+<li><img src="/images/2015/post_header.png" alt="Post header"></li>
+</ul>
+</li>
+<li>
+<p><strong>Proofing:</strong></p>
+<ul>
+<li>Now that I have the text of my post, I need to proof-read it from the local
+Jekyll server.</li>
+<li>The <code>jekyll serve</code> command running in Terminal keeps the pages up-to-date
+as you edit, but you will need to refresh your page in the browser manually
+to check your changes.</li>
+<li>And I have found that if you make a major change to the site e.g. a CSS
+file or a config file, then it is best to stop the Jekyll server and start
+it again to make it re-build all the files.</li>
+<li>To be completely sure, stop the server and run <code>jekyll build</code> in Terminal
+although this may only do what <code>jekyll serve</code> does on startup anyway.</li>
+</ul>
+</li>
+<li>
+<p><strong>Publishing:</strong></p>
+<ul>
+<li>Now it is time to publish.</li>
+<li>As I am using GitHub Pages to host, the site files are all part of a single
+Git repository.</li>
+<li>And as I understand it, the data <strong>must</strong> be in the <code>master</code> branch.</li>
+<li>Opening up the GitHub client, I see that my repository has a bunch of
+changes: - the file I am working on - the image I inserted - feed.xml -
+index.html files for each page</li>
+<li>This is as expected, since all pages are pre-generated when using Jekyll,
+so pages of posts must be re-rendered when a new post is added to the top.</li>
+<li>Note that several of the files appear twice: once from where they are
+edited and once from the _site folder which serves them.</li>
+<li>Just two simple steps now, using the GitHub client: 1. Commit 2. Sync</li>
+<li>And that's it. My new post is online and ready for reading.</li>
+</ul>
+</li>
+<li>
+<p><strong>Summary:</strong></p>
+<ul>
+<li>This was my first post after the one I wrote when setting up, so the first
+real post.</li>
+<li>While there appear to be a lot of steps, none of them are difficult.</li>
+<li>But I do have 4 apps running to do it: 1. TextWrangler for editing 1.
+Terminal to run the local Jekyll server 1. Safari to check the finished
+post 1. GitHub to commit and upload</li>
+<li>Automating this is an obvious next step, so stay tuned...</li>
+</ul>
+</li>
+</ol>
+
+        </article>
+    </section>
+
+    </main>
+    <footer>
+        <div class="footer-content">
+  <nav>
+    <ul class="footer-links">
+      
+        <li>
+          <a href="mailto:info@troz.net">
+            <img src="/images/links/envelope.svg" alt="Email" title="Email" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://mastodon.social/@troz" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/mastodon.png" alt="Mastodon" title="Mastodon" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://linktr.ee/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/tree.svg" alt="Linktree" title="Linktree" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://github.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/github.svg" alt="GitHub" title="GitHub" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://stackoverflow.com/users/1082632" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/stack-overflow.svg" alt="Stack Overflow" title="Stack Overflow" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://dev.to/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/dev-badge.svg" alt="Dev To" title="Dev To" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/index.xml">
+            <img src="/images/links/rss.svg" alt="RSS Feed" title="RSS Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/atom.xml">
+            <img src="/images/links/atom.svg" alt="Atom Feed" title="Atom Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="/feed.json">
+            <img src="/images/links/json.png" alt="JSON Feed" title="JSON Feed" height="30px" >
+          </a>
+        </li>
+      
+        <li>
+          <a href="https://ko-fi.com/trozware" rel="noreferrer nofollow noopener external" target="_blank">
+            <img src="/images/links/kofi1.png.webp" alt="Buy Me a Coffee" title="Buy Me a Coffee" height="30px" >
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+
+        <div class="copyright">
+            <p>Copyright &copy; 2025 Sarah Reichelt, TrozWare</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            let searchElement = document.getElementById('search');
+            if (searchElement) {
+                new PagefindUI({ element: searchElement, showSubResults: true });
+            }
+        });
+    </script>
+    <script src="/js/theme_switcher.js"></script>
+    <script src="/js/clipboard.js"></script>
+    <script src="/js/menu.js"></script>
+</body>
+</html>
