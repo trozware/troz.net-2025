@@ -8,7 +8,7 @@ Thumbs.db
 .sass-cache
 .env
 .cache
-.specstory
+.specstory/
 
 # Node modules & output
 node_modules
