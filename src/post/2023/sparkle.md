@@ -25,20 +25,21 @@ This guide deals with those requirements only.
 
 ### Table of Contents
 
-- [Installation](#installation)
-- [Adding a Public Key to your App](#adding-a-public-key-to-your-app)
-  - [Checking for a Existing Key](#checking-for-a-existing-key)
-  - [Creating a New Key](#creating-a-new-key)
-  - [Installing the Public Key](#installing-the-public-key)
-- [Sandboxing](#sandboxing)
-- [Locating the Updates](#locating-the-updates)
-- [Coding the Update Check](#coding-the-update-check)
-- [Exporting the App](#exporting-the-app)
-- [Making a Disk Image](#making-a-disk-image)
-- [Generating the appcast.xml](#generating-the-appcast-xml)
-- [Testing](#testing)
-- [Summary](#summary)
+- • [Installation](#installation)
+- • [Adding a Public Key to your App](#adding-a-public-key-to-your-app)
+  - • [Checking for a Existing Key](#checking-for-a-existing-key)
+  - • [Creating a New Key](#creating-a-new-key)
+  - • [Installing the Public Key](#installing-the-public-key)
+- • [Sandboxing](#sandboxing)
+- • [Locating the Updates](#locating-the-updates)
+- • [Coding the Update Check](#coding-the-update-check)
+- • [Exporting the App](#exporting-the-app)
+- • [Making a Disk Image](#making-a-disk-image)
+- • [Generating the appcast.xml](#generating-the-appcast-xml)
+- • [Testing](#testing)
+- • [Summary](#summary)
 
+<a id="installation"></a>
 ### Installation
 
 Open your app in Xcode and select the project at the top of the project navigator. Click on the project itself in the next sidebar and then choose **Package Dependencies** from the tabs across the top.
@@ -53,10 +54,12 @@ https://github.com/sparkle-project/Sparkle
 
 Xcode will download the package and then show another dialog with the Sparkle library checked. Click **Add Package** again to attach it to your project.
 
+<a id="adding-a-public-key-to-your-app"></a>
 ### Adding a Public Key to your App
 
 The next step depends on whether you've used Sparkle before. You need to create a private and public key pair for security reasons, but you can then use the same keys for all of your apps (I think).
 
+<a id="checking-for-a-existing-key"></a>
 #### Checking for a Existing Key
 
 To check if you already have a key, open the **Keychain Access** app from Applications/Utilities. Search for **sparkle** and if you have a key, you'll see it listed. If you don't find anything, skip ahead to the [next section](#creating-a-new-key) to create a new one.
@@ -67,6 +70,7 @@ Double-click the key to show its details which conveniently includes the public 
 
 Select and copy the public key, then jump to [Installing the Public Key](#installing-the-public-key).
 
+<a id="creating-a-new-key"></a>
 #### Creating a New Key
 
 If you don't already have a key pair, you'll use one of Sparkle's tools to create it.
@@ -87,6 +91,7 @@ Then enter and run this command:
 
 This generates the keys, saves them to your keychain and displays the public key. Copy the public key for use in the next section.
 
+<a id="installing-the-public-key"></a>
 #### Installing the Public Key
 
 To insert the key into your app, go back to Xcode and select the project and target. Choose **Info** from the tabs at the top. Click the **+** blob that appears beside the last entry when you mouse over it, and type in the key name:
@@ -99,6 +104,7 @@ The type is String (which should be the default) and the value is the public key
 
 ![Adding the Sparkle public key][i4]
 
+<a id="sandboxing"></a>
 ### Sandboxing
 
 Mac apps are sandboxed by default, which quarantines their data into their own container and protects the rest of your system. Adding Sparkle to a sandboxed app requires some more steps, but if your app is not sandboxed, [move on to the next section](#locating-the-updates).
@@ -129,6 +135,7 @@ Just before the last `</dict>`, add a new line and insert:
 
 Now the app is configured to allow Sparkle to work with the Mac sandbox.
 
+<a id="locating-the-updates"></a>
 ### Locating the Updates
 
 You need to have an online location for the app and its update information. Since my To-Day app is on GitHub, I decided to use GitHub for distribution too, but I could have used this web site, AWS or any other online service. It's best if it's coming from an **https** server.
@@ -145,6 +152,7 @@ This gives you the last piece of data that your app needs. Add another setting t
 
 If you're using GitHub, upload a fake file so you can get the URL, remembering to get the URL for the raw file, not its GitHub page.
 
+<a id="coding-the-update-check"></a>
 ### Coding the Update Check
 
 You've done all the setup work now, but there's nothing to trigger a check in the app. I copied and pasted most of the suggested code from the [Sparkle docs][5].
@@ -208,6 +216,7 @@ To trigger the update checker, I added `CheckForUpdatesView` as one of the views
 CheckForUpdatesView(updater: updaterController.updater)
 ```
 
+<a id="exporting-the-app"></a>
 ### Exporting the App
 
 Now that the app is coded, you need to export it from Xcode, signing it with your Developer ID and getting it notarised by Apple. This assumes that you have an Apple Developer account.
@@ -224,6 +233,7 @@ Assuming all went well, click **Export Notarised App** and save it somewhere con
 
 If you don't have an Apple Developer account, select **Copy App** from the distribution dialog and save a folder containing the app. If a user has the default Gatekeeper settings on their Mac, they'll need to right-click the app and select **Open** to run it, after getting past a couple of warnings.
 
+<a id="making-a-disk-image"></a>
 ### Making a Disk Image
 
 The next step is to create the disk image for distribution. You can use a zip file or a disk image, but I prefer a disk image because it gives you a way to guide users to install the app in their Applications folder.
@@ -251,6 +261,7 @@ Now that the disk image is configured, eject it. Back in Disk Utility, select **
 
 Open the read-only image and check that it's set up the way your want. I have found that sometimes the background image doesn't stick. If this happens to you, eject and trash the read-only image. Mount the read-write image again, confirm its settings and re-convert.
 
+<a id="generating-the-appcast-xml"></a>
 ### Generating the appcast.xml
 
 Now to create the file that Sparkle uses to see if there is an update.
@@ -266,6 +277,7 @@ Press Return and wait while Sparkle generates the **appcast.xml** file.
 
 And finally, you're ready to release. Upload your Releases folder to wherever you decided to put it, making sure that the URL for the appcast.xml file is the same as in your app's info.
 
+<a id="testing"></a>
 ### Testing
 
 Move the notarised app into your applications folder and run it. If all has worked, you should be able to check for updates and see that you have the latest version.
@@ -286,6 +298,7 @@ If it doesn't work, check the Console app and see if you can see any errors ther
 
 This can be a frustrating process, but once you have it all set up correctly, it works very well. I added a ReadMe to my project listing the steps I need to follow when publishing an update, so that I don't have to remember them every time. I recommend this or something similar.
 
+<a id="summary"></a>
 ### Summary
 
 Sparkle is a great tool and once you have everything configured, it works really well. Configuring it can be tricky, especially as their docs cover so many different use cases.

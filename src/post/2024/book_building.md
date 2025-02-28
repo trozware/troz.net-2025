@@ -27,15 +27,16 @@ When writing for Kodeco, all I had to do was write the text and the accompanying
 
 ### Table of Contents
 
-- [Introduction](#introduction)
-- [Project Structure](#project-structure)
-- [Formatting](#formatting)
-  - [HTML](#html)
-  - [PDF](#pdf)
-  - [ePub](#epub)
-- [Writing Tools](#writing-tools)
-- [Conclusion](#conclusion)
+- • [Introduction](#introduction)
+- • [Project Structure](#project-structure)
+- • [Formatting](#formatting)
+  - • [HTML](#html)
+  - • [PDF](#pdf)
+  - • [ePub](#epub)
+- • [Writing Tools](#writing-tools)
+- • [Conclusion](#conclusion)
 
+<a id="introduction"></a>
 ### Introduction
 
 Since I always used Markdown when writing for Kodeco, that's where I started. I wanted to produce the book as an ePub and a PDF, so I needed to convert the Markdown to those formats. I also wanted to produce a web version, so that required a Markdown to HTML conversion. After some research, I started off with [pandoc][7]. This is a command-line tool that can convert between many different formats, so it seemed like a good choice.
@@ -44,6 +45,7 @@ I found it very difficult to use and to configure to give the results I wanted. 
 
 AsciiDoc is a markup language very similar to Markdown. This quick reference guide shows the syntax: [AsciiDoc Syntax Quick Reference][3]. The secret sauce was using AsciiDoctor to convert AsciiDoc files into HTML, ePub and PDF. This was much easier to use than pandoc but it took a bit of tweaking to get the results I wanted for each format.
 
+<a id="project-structure"></a>
 ## Project Structure
 
 I started by copying the file and folder structure used for Pro Git. I've since modified it to suit my needs but the basic structure is much the same. In the root folder, I have the following:
@@ -96,6 +98,7 @@ Finally, I had all the files in the right places and in the correct formats. Now
 
 This involved using Ruby to run the various AsciiDoctor commands. My Mac had Ruby installed but only an old version, so I used Homebrew to update to Ruby 3.3. I'm not familiar with Ruby, so I had to learn how to install and update the required gems. With them in place, I used the commands in the Rakefile to create the various formats.
 
+<a id="formatting"></a>
 ## Formatting
 
 The Pro Git Rakefile started by defining some parameters that could be passed to the AsciiDoctor commands for all the formats.
@@ -113,6 +116,7 @@ syntax_params = "--attribute source-highlighter=pygments --attribute pygments-st
 
 Then I had to work out how to style each format.
 
+<a id="html"></a>
 ### HTML
 
 Pro Git uses this command for generating the HTML, which gave me my starting point:
@@ -136,6 +140,7 @@ I generated an HTML file using the default styling, then copied the default CSS 
 
 One refinement for the HTML version was to add a copy button on the code blocks. I used [clipboard.js][8] for this and tweaked the style and position of the copy button to match my style. I also added JavaScript to make the copy operation ignore the numbered comment lines that are used to mark explanation points throughout the code.
 
+<a id="pdf"></a>
 ### PDF
 
 The PDF was the most difficult to format as it doesn't use CSS but includes some other formatting options in a YML file, perhaps based on Postscript? I used AsciiDoctor to export the default PDF theme so I could see the format. Then I created my own PDF theme file, extending the default theme. This involved quite a bit of trial and error as I had to work out what the various styles were called and how to override them. I also wanted to create a dark mode version of the PDF, so I made a second theme file for that.
@@ -163,10 +168,12 @@ As you can see, the **-theme.yml** part of the file name is not included in the 
 
 For the PDF versions, I also added a header to every page with the book title and the chapter title using the YML files.
 
+<a id="epub"></a>
 ### ePub
 
 Finally, the ePub version. To my surprise, an ePub is actually a zip file. The contents are XHTML files, images and styles. The secret here was again to have files with the correct name in the correct location. In this case, I needed **epub3.scss** and **epub3-css3-only.css** in the **theme** folder. I left **epub3.scss** empty, but it still had to be there. The **epub3-css3-only.css** file had styles for where I wanted to override the defaults. It wasn't always easy to know what classes to apply the styles to, but I opened one of the XHTML files in my browser and used the web inspector to find them.
 
+<a id="writing-tools"></a>
 ## Writing Tools
 
 The editor I used was [Visual Studio Code][9]. While it's not a native Mac app, it's a very powerful editor and has a fantastic array of extensions. I installed the [AsciiDoc extension][10] which allowed me to preview the AsciiDoc files in the editor.
@@ -183,6 +190,7 @@ Screenshots are taken with [CleanShot X][16] and edited in Preview, which usuall
 
 For hardware, my main computer is a 24" M3 iMac, my keyboard is an [Ergodox Moonlander][12] and my mouse is a [Logitech MX Vertical][13]. I also have a 13" M1 MacBook Pro for when I need to work in a different location.
 
+<a id="conclusion"></a>
 ## Conclusion
 
 AsciiDoc is just as easy to write as Markdown, but makes creating books vastly easier.

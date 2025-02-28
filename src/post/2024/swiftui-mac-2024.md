@@ -22,14 +22,15 @@ Download the project from [GitHub][9] and, if you're running the correct version
 
 Here are the areas that I'm going to discuss:
 
-- [Xcode](#xcode)
-- [Previews](#previews)
-- [Windows](#windows)
-- [Tabs](#tabs)
-- [Charts](#charts)
-- [Colors and gradients](#colors-and-gradients)
-- [SF Symbols](#sf-symbols)
+- • [Xcode](#xcode)
+- • [Previews](#previews)
+- • [Windows](#windows)
+- • [Tabs](#tabs)
+- • [Charts](#charts)
+- • [Colors and gradients](#colors-and-gradients)
+- • [SF Symbols](#sf-symbols)
 
+<a id="xcode"></a>
 ### Xcode
 
 When you create a new project in Xcode 16.1, the second item in the project navigator is now a folder instead of a group. This sounds trivial, since it really is a folder in Finder but I find it really annoying because it doesn't allow me to arrange my other files and folders as I want them. To fix this, right-click on the folder and select **Convert to Group**. The icon switches from blue to gray and you can once again drag files and folders to re-order them.
@@ -70,6 +71,7 @@ This is a great time-saver and will really encourage me to keep my code well-str
 
 In minor Xcode updates over the last two years, my favorite feature is using **Control-M** to split long lines of code over multiple lines.
 
+<a id="previews"></a>
 ### Previews
 
 Last year, we got the `#Preview` macro which made SwiftUI previews a lot neater. We went from:
@@ -107,6 +109,7 @@ SidebarView(httpSections: HttpSection.localData, selectedStatus: $selectedStatus
 
 I expected to be able to supply an actual `HttpStatus` here and have it start as the selected item in the list, but although it compiled fine, it didn't show up as selected in the preview initially. But I am now able to change the selection in the preview.
 
+<a id="windows"></a>
 ### Windows
 
 The first window feature I want to address is not new, but I've been asked about it a few times. How do you make a single window app and get SwiftUI to remove the **File -> New Window** menu item?
@@ -295,6 +298,7 @@ One final tweak would be to show an appropriate cursor when the window is being 
 }
 ```
 
+<a id="tabs"></a>
 ### Tabs
 
 The syntax for defining tabs got what appears to be quite a minor upgrade, but it feels so much better. Here's the old syntax:
@@ -331,6 +335,7 @@ Ok, the image _can_ appear in a conventional Mac window if you style the tab vie
 
 In the sample app, open **SamplesView.swift** and test the different tab styles to see what you think. I've added the two non-standard options there commented out so you can try them in the preview.
 
+<a id="charts"></a>
 ### Charts
 
 Last year, Swift Charts got a pie or donut option. This year, the charts team added vector and function plotting. In **ChartSamplesView.swift**, I have three different charts: a bar chart as before, a pie chart and a line chart that plots various sine waves. My understanding is that the various plot types are great for functions or for large data sets but for more comprehensive information, check out the WWDC presentation: [Swift Charts: Vectorized and function plots][2].
@@ -339,6 +344,7 @@ Last year, Swift Charts got a pie or donut option. This year, the charts team ad
 
 In my samples, I have a separate computed property for each of the three chart types, with a `@ViewBuilder` property to return the correct chart. I've also updated the chart image export to use SwiftUI's `fileExporter` instead of the AppKit's `NSSave`. I had a slight issue with `fileExporter`. I started off by including the image content type when configuring the exporter. This gave **generic error** when I tried to save - not the most helpful of messages. I removed the content type and it worked fine. I'm not sure if this is a bug or a feature.
 
+<a id="colors-and-gradients"></a>
 ### Colors and gradients
 
 When you specify a `Color` in SwiftUI, you have the ability to add a standard gradient:
@@ -371,6 +377,7 @@ In my example, I set most of the colors to white but changed the top left, middl
 
 If you want to know more about mesh gradients, I highly recommend Stewart Lynch's video: [MeshGradients in iOS 18 and Xcode 15][4]. Although the title says iOS 18, it's all valid for macOS 15 too.
 
+<a id="sf-symbols"></a>
 ### SF Symbols
 
 My final topic is the ability to add animated effects to [SF Symbols][7]. You can test this in the **FormSamplesView.swift** preview, which only works because I used `@Previewable` to add the menu selection to the preview. Before that, the preview worked but ignored any menu changes. The demo is a bit strange because it will often show the previous animation before using the new one, but this is not the way I would use these effects in an app and it does allow you to see what's happening. Just keep clicking **Show Effect** to see your selected animation.

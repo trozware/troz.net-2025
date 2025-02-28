@@ -19,25 +19,26 @@ Updated 10th July 2023 to cover changes in version 3 of all the betas.
 
 ### Table of Contents
 
-- [Observation](#observation)
-- [Sample app](#sample-app)
-- [Property](#property)
-- [@State](#state)
-- [@Binding](#binding)
-- [@Binding for a Structure](#binding-for-a-structure)
-- [@Observable and @Bindable](#observable-and-bindable)
-- [@Observable and @Bindable List](#observable-and-bindable-list)
-- [@Environment](#environment)
-- [Wrapping Up](#wrapping-up)
+- • [Observation](#observation)
+- • [Sample app](#sample-app)
+- • [Property](#property)
+- • [@State](#state)
+- • [@Binding](#binding)
+- • [@Binding for a Structure](#binding-for-a-structure)
+- • [@Observable and @Bindable](#observable-and-bindable)
+- • [@Observable and @Bindable List](#observable-and-bindable-list)
+- • [@Environment](#environment)
+- • [Wrapping Up](#wrapping-up)
 
 With the release of all the version 3 betas, I have added these sections:
 
-- [Old code still works](#update-1)
-- [Observed properties no longer require initial values](#update-2)
-- [`@Environment` properties cannot be used for bindings.](#update-3)
+- • [Old code still works](#update-1)
+- • [Observed properties no longer require initial values](#update-2)
+- • [`@Environment` properties cannot be used for bindings.](#update-3)
 
 ---
 
+<a id="observation"></a>
 ### Observation
 
 In the WWDC talk on [Discover Observation in SwiftUI][3], Apple showed the following flow chart:
@@ -62,6 +63,7 @@ The new macros system removes this protocol and property wrappers:
 
 That's a lot of typing we don't have to do any more!
 
+<a id="update-1"></a>
 #### UPDATE 1:
 
 I didn't make it clear originally, but all these property wrappers still work, and you can still use `@Binding` for classes, so you can adapt to the new Observation code incrementally. The Apple developer site has a very useful article on [migrating from ObservableObject][5].
@@ -70,6 +72,7 @@ I didn't make it clear originally, but all these property wrappers still work, a
 
 ---
 
+<a id="sample-app"></a>
 ### Sample app
 
 My sample app demonstrates the following data flow options:
@@ -88,6 +91,7 @@ In the code snippets below, I include the essentials, but strip out most display
 
 ---
 
+<a id="property"></a>
 ### Property
 
 The first option is using a static property. We get so caught up in property wrappers that it's easy to forget that SwiftUI doesn't always need them. Using static text from a constant may seem like a simplistic and obvious example, but separating it out allows for localization or re-usability as well as making the view body neater and easier to read.
@@ -114,6 +118,7 @@ A parent view may have some dynamic data that it uses to set properties in a sub
 
 ---
 
+<a id="state"></a>
 ### @State
 
 This is where things start to get interesting in the SwiftUI world. SwiftUI views are contained in structs, so are non-mutable. Also, views are re-created every time the data changes, so any properties are re-created then too. By marking a property with the `@State` property wrapper, you are telling SwiftUI that you want it to keep this data in a separate portion of memory, allow it to be mutated, and preserve the current value during view refreshes.
@@ -146,6 +151,7 @@ In this example, the `counter` property uses `@State`. The text view displays it
 
 ---
 
+<a id="binding"></a>
 ### @Binding
 
 The Apple flow chart mentioned `@Bindable` but that only works with observable classes. For connecting structures or primitive data types to subviews, use `@Binding`. Apple does this internally for controls like `Toggle` and `TextField`.
@@ -212,6 +218,7 @@ struct NumberBlock: View {
 
 ---
 
+<a id="binding-for-a-structure"></a>
 ### @Binding for a Structure
 
 The previous example showed how to use `@Binding` for a primitive data type like `Int`, `String` etc. But bindings also work for any value type, including structures, and that's what you can see in **Binding 2**.
@@ -272,6 +279,7 @@ struct PizzaSizePicker: View {
 
 ---
 
+<a id="observable-and-bindable"></a>
 ### @Observable and @Bindable
 
 So far, the examples have been largely the same as before. Now the new property wrappers appear. The first big change is in the model class: `ColorSet`.
@@ -300,6 +308,7 @@ The first thing to notice is the new import: `Observation`. This is the library 
 
 Now the class uses the `@Observable` macro and any property that isn't private, is automatically published. This is only available for classes, not structures.
 
+<a id="update-2"></a> 
 #### UPDATE 2:
 
 ~~The properties must all have an initial value - setting them in an `init` is not sufficient and will not build.~~
@@ -362,6 +371,7 @@ I think this is the same, and it's just as important for the owning view to decl
 
 ---
 
+<a id="observable-and-bindable-list"></a>
 ### @Observable and @Bindable List
 
 In the original post, this was the section that gave me the most trouble - having a list of data objects where each one could be edited and updating the original list to show the edits.
@@ -436,6 +446,7 @@ If I was using a sheet for the editor, it would be even neater as I could tie th
 
 ---
 
+<a id="environment"></a>
 ### @Environment
 
 The last section is `Environment`, which again, has changed a lot. The benefit of using Environment is that the data flow doesn't have to be unbroken. In the sample app, the parent view (NestedViews) uses the Environment property and so does the GrandChildView, but the ChildView in the middle doesn't.
@@ -491,6 +502,7 @@ In the sample app, the various nested views are brightly colored to show which i
 
 > If you have a class that is global to your app, like UserSettings in this example, declare the class with the `@Observable` macro. Inject it into your view hierarchy using `.environment` and then use `@Enviroment` to access it.
 
+<a id="update-3"></a>
 #### UPDATE 3:
 
 There is one aspect of using `@Enviroment` where things get tricky, and that's if you need to use any properties of the environment object as bindings for other controls.
@@ -529,6 +541,7 @@ Thanks to [Stewart Lynch][4] for suggesting I add this. Hopefully it will be fix
 
 ---
 
+<a id="wrapping-up"></a>
 ### Wrapping Up
 
 There are two issues I want to discuss before ending.
