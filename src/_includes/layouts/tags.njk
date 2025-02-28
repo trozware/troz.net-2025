@@ -8,7 +8,7 @@
     <ul class="tag-list">
         {% for tag in collections.categories %}
             <li class="tag-item">
-               <a href="#{{ tag.title | slugify }}" class="tag-button">#{{ tag.title }} ({{ tag.count }})</a>
+               <a href="#{{ tag.title | slugify }}" class="tag-button">{{ tag.title }} ({{ tag.count }})</a>
             </li>
         {% endfor %}
     </ul>
@@ -17,12 +17,12 @@
     <ul class="tag-list">
         {% for tag in collections.categoriesByName %}
             <li class="tag-item">
-               <a href="#{{ tag.title | slugify }}" class="tag-button">#{{ tag.title }} ({{ tag.count }})</a>
+               <a href="#{{ tag.title | slugify }}" class="tag-button">{{ tag.title }} ({{ tag.count }})</a>
             </li>
         {% endfor %}
     </ul>
 
-    <p>This list shows posts from the last 5 years. For older posts, see the <a href="/archives/">archives</a> or use the search above.</p>
+    <p class="tag-description">This list shows posts from the last 5 years. For older posts, see the <a href="/archives/">archives</a> or use the search above.</p>
 
     <ul class="archive-list">
         {% for tag in collections.categories %}
