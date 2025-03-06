@@ -7,7 +7,7 @@
       "description": "If you're an iOS developer who wants to branch out into creating native macOS apps, this is the book for you!",
       "authors": "Sarah Reichelt",
       "edition": "Edition 3.0",
-      "published": "Dec 23 2024",
+      "published": "23rd December 2024",
       "publisher": "Gumroad",
       "purchase_link": "https://sarahreichelt.gumroad.com/l/oximx",
       "requirements": "macOS 15 & Xcode 16"
@@ -18,11 +18,11 @@
       "image": "/images/books/maca_cover.png",
       "description": "If you've always wanted to write your own native macOS apps, this is a great place to start. Learn to build beautiful and functional native apps.",
       "authors": "Sarah Reichelt",
-      "edition": "First Edition",
-      "published": "May 30 2023",
+      "edition": "Second Edition",
+      "published": "5th March 2025",
       "publisher": "Kodeco",
       "purchase_link": "https://www.kodeco.com/books/macos-apprentice",
-      "requirements": "Swift 5.7, macOS 13, Xcode 14.2"
+      "requirements": "Swift 5.9, macOS 15, Xcode 16.2"
     },
     {
       "title": "SwiftUI by Tutorials",
@@ -31,7 +31,7 @@
       "description": "Build fluid and engaging declarative UI for your apps with way less coding with SwiftUI! SwiftUI by Tutorials, the complete guide to building fluid and engaging declarative UI for your apps — using less code — with SwiftUI!",
       "authors": "Antonio Bello, Bill Morefield, Sarah Reichelt & Audrey Tam",
       "edition": "Fifth Edition",
-      "published": "Jun 14 2023",
+      "published": "14th June 2023",
       "publisher": "Kodeco",
       "purchase_link": "https://www.kodeco.com/books/macos-apprentice",
       "requirements": "Swift 5.8, iOS 16, macOS 13, Xcode 14.2"
