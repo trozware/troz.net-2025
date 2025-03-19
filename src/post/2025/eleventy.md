@@ -117,7 +117,7 @@ In Hugo, I could run the command to add a new post and it would fill in the temp
 
 Tags were better handled in Hugo, but I haven't finished exploring different ways to do them in Eleventy.
 
-Hugo has a draft server mode that includes posts marked as draft. My collections exclude draft posts os I need to toggle them when writing, but I expect I can get around this using environment settings.
+Hugo has a draft server mode that includes posts marked as draft. My collections exclude draft posts so I have to toggle this setting when writing, but I expect I can get around this using environment settings.
 
 It was easy to generate a table of contents for a post in Hugo as it automatically made all headers into anchor links. I had to fix this manually for the existing posts with a ToC.
 
@@ -161,7 +161,7 @@ I didn't know what the proper structure was, so I asked the AI to do it.
 
 After that, I spent 3 - 4 hours talking to the AI, tweaking the styles and getting the layout just right. It was fascinating. I felt like a designer leaning over the shoulder of a CSS expert, although a real-life expert would have become quickly exasperated by my demands!
 
-At times, I would ask it to revert the previous change and try something different. Other times i would accept the changes but ask for a modification.
+At times, I would ask it to revert the previous change and try something different. Other times I would accept the changes but ask for a modification.
 
 At one point it got a bit cheeky about my existing code:
 
