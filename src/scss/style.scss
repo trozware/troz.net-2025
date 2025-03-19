@@ -138,6 +138,14 @@ input.pagefind-ui__search-input {
   outline: none;
 }
 
+blockquote {
+  background-color: var(--bg-secondary);
+  border-left: 4px solid var(--accent-color);
+  padding: 0.1rem 1rem;
+  margin: 0.5rem 0;
+  font-style: italic;
+}
+
 nav {
   display: flex;
   justify-content: space-between;
@@ -200,7 +208,6 @@ nav {
   }
 }
 
-li:has(> a),
 li:has(> h1 > a),
 li:has(> h2 > a),
 li:has(> h3 > a),
@@ -212,7 +219,6 @@ li:has(> h6 > a) {
   padding: 0;
 }
 
-li > a,
 li > h1 > a,
 li > h2 > a,
 li > h3 > a,
@@ -299,6 +305,7 @@ h6 > a {
     max-width: 100%;
     height: auto;
     border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
   }
 }
 

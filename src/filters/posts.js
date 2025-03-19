@@ -13,7 +13,7 @@ export const postSummary = (post) => {
             summary += line + '</p>'
             numChars += line.length
 
-          if (numChars > 500) {
+          if (numChars > 600) {
             break
           }
         }

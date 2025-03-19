@@ -32,7 +32,7 @@
     <ul class="app-list">
         {% for app in ios_apps.items %}
             <article class="app-entry">
-                <h3 class="app-title">{{ app.name }}</h3>
+                <h3 class="app-title"><a href="{{ app.link }}">{{ app.name }}</a></h3>
                 <div class="app-content">
                     <div class="app-image">
                         <a href="{{ app.link }}"><img src="{{ app.icon }}" alt="{{ app.name }}" width="200px"></a>
