@@ -13,3 +13,4 @@ Thumbs.db
 # Node modules & output
 node_modules
 public/
+.cursorindexingignore
