@@ -21,9 +21,6 @@ Kodeco agreed to transfer the rights of the macOS by Tutorials book to me, since
 
 Every project in this book has been updated to macOS 15 Sequoia and Xcode 16.
 
-{{< img_border >}}
-{{< img_center >}}
-
 ![Book cover][i1]
 
 This book is split into five sections:
