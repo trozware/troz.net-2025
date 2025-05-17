@@ -17,8 +17,6 @@ Now it is time to explore some more of the features of a Mac app with SwiftUI.
 
 I had already discovered that the menu bar is configured in the Main.storyboard file. As an experiment, I will add new menu items that allows the user to select between dark mode, light mode or the system mode.
 
-{{< img_center >}}
-
 ![Menus][i1]
 
 Looking at the possibilities along the top that I could send the menu command to, the App Delegate looks like the best option, especially since these menus will change the entire app.

@@ -44,8 +44,6 @@ There are 5 ways to specify data in SwiftUI:
 - ObservableObject & @ObservedObject
 - @EnvironmentObject
 
-{{< img_center >}}
-
 ![Content View][2i]
 
 ## Property

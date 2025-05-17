@@ -12,8 +12,6 @@ But SwiftUI works on all Apple's platforms, and as I am primarily a Mac develope
 
 <!--more-->
 
-{{< img_center >}}
-
 ## Setup
 
 I opened up Xcode and created a new project selecting the macOS App template. The project opened at the usual ContentView.swift but there were a few differences in the project structure as well as one in the ContentView struct.

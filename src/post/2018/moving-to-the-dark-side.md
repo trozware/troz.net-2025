@@ -9,8 +9,6 @@ toc: true
 layout: 'layouts/post.njk'
 ---
 
-{{< img_border >}}
-
 With the release of macOS Mojave on 24th September 2018, I have started updating my Mac apps, mainly to enable support for dark mode if appropriate.
 
 And now I have updated this site too. Click the light bulb icon at the top right of the page to toggle between light and dark modes for this site.

@@ -33,9 +33,6 @@ Here is an example from a recent Crosaire:
 
 The word "off" is a hint that this is an anagram, "Users rip" has the right number of letters, so the overall clue must be "revelation". This is not a very long anagram and I think having two words makes it easier, but lets take a look at how I would solve this the old-fashioned way. (And I knew the "I" was the third last letter.)
 
-{{< gif_reset >}}
-{{< img_border-400 >}}
-
 ![Anagram solving manually][i1]
 
 If you watch this gif and then look at it when it stops repeating, hopefully you will be able to see that the answer is "SURPRISE". Refresh the page if you want to start the gif looping again.

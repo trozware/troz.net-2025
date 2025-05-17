@@ -9,8 +9,6 @@ toc: true
 layout: 'layouts/post.njk'
 ---
 
-{{< img_border >}}
-
 I sometimes like to focus on aspects of the Swift language that get less publicity, but that I think are really useful without adding a lot of complexity. This time I am looking at tuples.
 
 There are many different ways of collecting data together in Swift, but for small amounts of transitory data, I find tuples to be an extremely convenient data structure.

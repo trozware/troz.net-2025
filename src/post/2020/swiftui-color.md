@@ -72,8 +72,6 @@ But when you get to this stage, I strongly suggest that you start using color as
 
 Go to Assets.xcassets and click the plus button at the bottom of the list of assets. Select "New Color Set" and you will get a new asset called "Color". You can double-click the name to edit it to something that makes sense to you.
 
-{{< img_border >}}
-
 ![Add Color Set][i2]
 
 While naming it after the color may seem logical, I prefer to think about the use cases for this color and set the name to something like "cardBackground" or "alertText".

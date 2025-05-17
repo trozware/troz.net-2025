@@ -11,8 +11,6 @@ I have just released [Crossfix][1] and [Crossfix Lite][2] for iPhone. They are b
 
 <!--more-->
 
-{{< img_border-400 >}}
-
 ![Anagram solving][i1]
 
 For more details, check out the app page at [https://troz/net/crossfix/][3].
