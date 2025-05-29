@@ -1,13 +1,25 @@
 {
   "items": [
     {
+      "title": "Escape from Tutorial Hell",
+      "link": "/books/escape",
+      "image": "/images/books/escape_cover.png",
+      "description": "Go Beyond Coding: Build, Ship, and Maintain Real Apps.",
+      "authors": "Sarah Reichelt",
+      "edition": "Edition 0.1 - pre-release -",
+      "publisher": "Gumroad",
+      "published": "published 29th May 2025",
+      "purchase_link": "https://sarahreichelt.gumroad.com/l/iqdry",
+      "requirements": "macOS 15 & Xcode 16"
+    },
+    {
       "title": "macOS by Tutorials",
       "link": "/books/macos_tutorials",
       "image": "/images/books/mos_cover.png",
       "description": "If you're an iOS developer who wants to branch out into creating native macOS apps, this is the book for you!",
       "authors": "Sarah Reichelt",
       "edition": "Edition 3.0",
-      "published": "23rd December 2024",
+      "published": "published 23rd December 2024",
       "publisher": "Gumroad",
       "purchase_link": "https://sarahreichelt.gumroad.com/l/oximx",
       "requirements": "macOS 15 & Xcode 16"
@@ -19,7 +31,7 @@
       "description": "If you've always wanted to write your own native macOS apps, this is a great place to start. Learn to build beautiful and functional native apps.",
       "authors": "Sarah Reichelt",
       "edition": "Second Edition",
-      "published": "5th March 2025",
+      "published": "published 5th March 2025",
       "publisher": "Kodeco",
       "purchase_link": "https://www.kodeco.com/books/macos-apprentice",
       "requirements": "Swift 5.9, macOS 15, Xcode 16.2"
@@ -31,7 +43,7 @@
       "description": "Build fluid and engaging declarative UI for your apps with way less coding with SwiftUI! SwiftUI by Tutorials, the complete guide to building fluid and engaging declarative UI for your apps — using less code — with SwiftUI!",
       "authors": "Antonio Bello, Bill Morefield, Sarah Reichelt & Audrey Tam",
       "edition": "Fifth Edition",
-      "published": "14th June 2023",
+      "published": "published 14th June 2023",
       "publisher": "Kodeco",
       "purchase_link": "https://www.kodeco.com/books/macos-apprentice",
       "requirements": "Swift 5.8, iOS 16, macOS 13, Xcode 14.2"
