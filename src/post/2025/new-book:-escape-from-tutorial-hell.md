@@ -11,7 +11,7 @@ I've written a new book, and this one is quite different from my previous books.
 
 I wrote this book for people who have done some tutorials, read books, watched videos, and who know some Swift and SwiftUI but are finding it difficult to make the leap from there to working on their own apps. It's also for more experienced developers who want to learn how to design and structure their projects to make them easier to maintain.
 
-The book is completely written but is still being edited, so I'm offering a pre-release edition at a discount. You'll receive the complete book as a free upgrade when it release in June, if you buy the pre-release.
+The book is completely written but is still being edited, so I'm offering a pre-release edition at a discount. You'll receive the complete book as a free upgrade when it releases in June, if you buy the pre-release.
 
 You can buy the book from [Gumroad][1] and you can read the introduction and first chapter for free at [Escape from Tutorial Hell Sample][2].
 
