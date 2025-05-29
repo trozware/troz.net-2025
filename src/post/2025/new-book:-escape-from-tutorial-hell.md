@@ -2,7 +2,7 @@
 title: "New Book: Escape from Tutorial Hell"
 date: 2025-05-29 11:20:33
 layout: layouts/post.njk
-draft: true
+draft: false
 description: "Go Beyond Coding: Build, Ship, and Maintain Real Apps"
 categories: ['macOS', 'Swift', 'SwiftUI', 'Xcode', 'Book']
 ---
