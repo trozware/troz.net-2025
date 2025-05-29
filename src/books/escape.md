@@ -1,7 +1,7 @@
 ---
 title: 'Escape from Tutorial Hell'
 layout: 'layouts/article.njk'
-draft: true
+draft: false
 ---
 
 ### Go Beyond Coding: Build, Ship, and Maintain Real Apps
