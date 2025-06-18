@@ -42,7 +42,7 @@ struct ContentView: View {
   }
 }
 
-struct RowView: View, Equatable {
+struct RowView: View {
   let index: Int
 
   var body: some View {

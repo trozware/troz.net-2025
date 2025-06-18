@@ -6,9 +6,9 @@
       "image": "/images/books/escape_cover.png",
       "description": "Go Beyond Coding: Build, Ship, and Maintain Real Apps.",
       "authors": "Sarah Reichelt",
-      "edition": "Edition 0.1 - pre-release -",
+      "edition": "Edition 1.0",
       "publisher": "Gumroad",
-      "published": "published 29th May 2025",
+      "published": "published 18th June 2025",
       "purchase_link": "https://sarahreichelt.gumroad.com/l/iqdry",
       "requirements": "macOS 15 & Xcode 16"
     },
