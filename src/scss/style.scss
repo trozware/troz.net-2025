@@ -345,6 +345,17 @@ h6 > a {
 }
 
 /* Books */
+
+.book-promo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.promo-title {
+  margin: 0.5rem 0;
+}
+
 .book-list {
   list-style: none;
   padding: 0;

@@ -1,0 +1,10 @@
+{% block content %}
+    <h3 class="promo-title">My Books</h3>
+    <div class="book-promo">
+        {% for book in books.items.slice(0, 3) %}
+          <div class="book-image">
+              <a href="{{ book.link }}"><img src="{{ book.image }}" alt="{{ book.title }}" title="{{ book.title }}" width="120px"></a>
+          </div>
+        {% endfor %}
+    </div>
+{% endblock %}

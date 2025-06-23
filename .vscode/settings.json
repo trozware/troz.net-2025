@@ -1,5 +1,13 @@
 {
   "cSpell.words": [
     "Siri"
+  ],
+  "liveSassCompile.settings.formats":[
+
+    {
+        "format": "compressed",
+        "extensionName": ".css",
+        "savePath": "src/styles"
+    }
   ]
 }
