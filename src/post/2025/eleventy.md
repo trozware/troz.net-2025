@@ -61,7 +61,7 @@ The key for me was to accept that my first draft was going to be HTML only, with
 
 Here's how my files and folders are organized:
 
-![Folders and files](/images/2025/folders_files.jpeg)
+![Folders and files](/images/2025/folders_files.png)
 
 At the top level, I have these folders and files:
 
