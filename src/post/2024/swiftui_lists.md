@@ -1,8 +1,8 @@
 ---
 title: 'SwiftUI Lists'
-date: 2024-11-01T13:26:26+10:00
+date: 2025-03-07
 draft: true
-description: 'Performance of lists on macOS sequoia has improved, if you set them up right.'
+description: 'Performance of lists on macOS Sequoia has improved, if you set them up right.'
 categories: ['Swift', 'SwiftUI', 'macOS']
 layout: 'layouts/post.njk'
 ---
@@ -42,7 +42,7 @@ struct ContentView: View {
   }
 }
 
-struct RowView: View, Equatable {
+struct RowView: View {
   let index: Int
 
   var body: some View {
