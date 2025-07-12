@@ -12,8 +12,10 @@
                     <div class="book-details">
                         <p>{{ book.description }}</p>
                         <p>Written by {{ book.authors }}.</p>
-                        <p>Available from: <a href="{{ book.purchase_link }}">{{ book.publisher }}</a>.</p>
-                        <p class="book-edition">{{ book.edition }} published {{ book.published }} for {{ book.requirements }}.</p>
+                        {% if book.purchase_link %}
+                            <p>Available from: <a href="{{ book.purchase_link }}">{{ book.publisher }}</a>.</p>
+                        {% endif %}
+                        <p class="book-edition">{{ book.edition }} {{ book.published }} for {{ book.requirements }}.</p>
                     </div>
                 </div>
             </article>

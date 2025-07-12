@@ -122,8 +122,6 @@ enum CodingKeys: String, CodingKey {
 
 When the app ran, I had a sidebar with collapsible sections. I wasn't that happy with the default look of the section headers and the disclosure marker for the first header was positioned beside the text instead of at the right, but I do like the selected item lozenge look. I set a frame height for the section header view and that made the spacing better but the disclosure mark for the first header was still incorrectly positioned.
 
-{{< img_center >}}
-
 ![Initial collapsible sections][i1]
 
 The `Detail` view to be displayed when a status is selected had no major changes, so I dropped in the file from the previous app, without the extra bits to do with notifications and preferences. However since SwiftUI now includes a `ProgressView`, I swapped out my "Loading..." text for a indeterminate progress twirly.

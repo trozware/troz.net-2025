@@ -6,7 +6,9 @@ layout: layouts/article.njk
 
 Several years after I started planning it, Man Reader version 2
 is now available. This is a major update with a completely new,
-modern, user interface and it's available from the Mac App Store.
+modern, user interface and it's available from the [Mac App Store][3].
+
+UPDATE: Version 2.1 is now available. For more details, see the [Man Reader 2.1][4] update post.
 
 [![Buy Man Reader from the Mac App Store][i3]][3]
 
@@ -62,6 +64,13 @@ them using Settings.
 ---
 
 ## Change Log:
+
+#### Man Reader version 2.10 changes (29 Apr 2025):
+
+- Fix for crash when typing fast into the search field.
+- Use **Command-L** to focus on the man page list at any time. **Shift-Tab** will focus on the main search field. **Tab** cycles through everything including the man page itself, so if it looks like nothing has focus, you can use the arrow keys to scroll the page.
+- **Pages with Notes** is a new category in the Sections menus.
+- The full path to the selected man page is displayed in the bottom status bar.
 
 #### Man Reader version 2.0 changes (26 Oct 2022):
 
@@ -170,5 +179,6 @@ encounter any bugs, please [email me][8] or get in touch through the [Contact][c
 [i2]: /images/2023/ManReader2_dark.png
 [i3]: /images/apps/man_reader.png
 [3]: http://itunes.apple.com/app/man-reader/id522583774?mt=12
+[4]: /post/2025/man-reader-2.1/
 [8]: mailto:sarah@troz.net?subject=Man%20Reader%202
 [contact]: /contact/

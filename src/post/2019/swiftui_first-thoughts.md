@@ -9,8 +9,6 @@ toc: true
 layout: 'layouts/post.njk'
 ---
 
-{{< img_center >}}
-
 At WWDC 2019, Apple surprised us all by announcing a completely new declarative UI framework called [SwiftUI][1]. Quoting snippets from the Apple announcements, "SwiftUI is an innovative, exceptionally simple way to build user interfaces across all Apple platforms with the power of Swift" and "SwiftUI uses a declarative syntax so you can simply state what your user interface should do." But what does this mean and should we all adopt it now?
 
 <!--more-->

@@ -11,8 +11,6 @@ I can finally reveal the reason I have not been blogging. I have been busy writi
 
 <!--more-->
 
-{{< img_border >}}
-
 ![Book Cover][i1]
 
 Anyone who reads my posts or tweets will know that I am a passionate advocate for building real native macOS apps. This book is aimed at iOS developers who know some Swift and SwiftUI but don't yet know all the tips and tricks needed to convert that knowledge into a great Mac experience.

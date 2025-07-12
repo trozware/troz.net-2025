@@ -1,14 +1,16 @@
 export function getPosts(collection) {
+  let devMode = process.env.NODE_ENV === "development"
   let posts = collection.getFilteredByGlob("./src/post/*/*.md")
-    .filter((item) => !item.data.draft)
+    .filter((item) => !item.data.draft || devMode)
     .sort((a, b) => new Date(b.date) - new Date(a.date))
 return posts
 }
 
 export function getRecentPosts(collection) {
   let year = new Date().getFullYear()
+  let devMode = process.env.NODE_ENV === "development"
   let posts = collection.getFilteredByGlob("./src/post/*/*.md")
-    .filter((item) => !item.data.draft)
+    .filter((item) => !item.data.draft || devMode)
     .sort((a, b) => new Date(b.date) - new Date(a.date))
     .filter((item) => item.data.date.getFullYear() >= year - 5)
   return posts

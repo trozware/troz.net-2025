@@ -9,8 +9,6 @@ toc: true
 layout: 'layouts/post.njk'
 ---
 
-{{< img_border >}}
-
 Now that most of my Mac apps have been updated to support macOS Mojave's dark mode, it was time to turn my attention to this web site.
 
 <!--more-->

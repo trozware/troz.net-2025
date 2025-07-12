@@ -80,8 +80,6 @@ If anyone is still interested in the `async/await` version, check out this [earl
 
 ~~Thanks to [@davbeck](https://twitter.com/davbeck), [@malhal](https://twitter.com/malhal) and [@chriseidhof](https://twitter.com/chriseidhof) for pointing out that if I gave the `task` an `id`, it would be called whenever the `id` property changed.~~
 
-{{< img_border >}}
-
 ~~The previous image is first set to `nil`, so that the progress indicator appears.~~
 
 With all this in place, I had the basis of the app and the navigation was complete:

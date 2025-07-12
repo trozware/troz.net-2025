@@ -25,6 +25,11 @@ categories: []
 
 <!--more-->
 
+
+If you have any feedback about this article, please contact me using one of the links below or through the [Contact][contact] page. And if you found this useful, please [buy me a coffee][kofi].
+
+[contact]: /contact/
+[kofi]: https://ko-fi.com/trozware
 """
 
 os.makedirs(f"../src/post/{year}", exist_ok=True)

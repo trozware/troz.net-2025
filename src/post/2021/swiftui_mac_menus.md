@@ -122,8 +122,6 @@ Still inside the `commands` contents, start typing `CommandGroup` to see three o
 
 In each case, the first parameter is a `CommandGroupPlacement` that specifies one of a limited range of standard menu items.
 
-{{< img_border >}}
-
 ![CommandGroupPlacement][i1]
 
 The options for the menu items inside a `CommandGroup` are just the same as when creating your own menu.

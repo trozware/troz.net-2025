@@ -15,8 +15,6 @@ First, raywenderlich.com has re-branded to [Kodeco][1]. Still the same great con
 
 If you want to read my macOS by Tutorials book, it's now at [kodeco.com/books/macos-by-tutorials][2].
 
-{{< img_border >}}
-
 ![Book Cover][i1]
 
 As we all know, Twitter is in meltdown and I no longer use it. I'd love it if you came over to Mastodon. People on Mastodon are friendly and sharing. It feels much more like a community.
