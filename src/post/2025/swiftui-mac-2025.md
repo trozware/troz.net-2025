@@ -1,6 +1,6 @@
 ---
 title: "SwiftUI for Mac 2025"
-date: 2025-07-31 16:20:00
+date: 2025-08-08 13:15:00
 layout: layouts/post.njk
 draft: false
 description: 'Mac app development using SwiftUI on macOS 26 Tahoe and Xcode 26'
@@ -14,6 +14,14 @@ Usually, I write an app that downloads images from [HTTP Cats](https://http.cat)
 <!--more-->
 
 Right now, I'm using Beta 4: macOS 26.0 Beta (25A5316i) and Xcode 26.0 beta 4 (17A5285i). And by the way, I love the new year numbering system so that all the operating systems are easily identifiable and even Xcode is in line with everything else.
+
+**UPDATES for Beta 5: 8th August 2025**:
+
+* The new icon format is now fully backwards compatible. I've tested going back to macOS 11 and it still shows the new **Icon Composer** icon, even though I have an old-style icon in **Assets.xcassets**.
+* The `glassProminent` button no longer has a graphical glitch.
+* In the menus and main toolbar, I'm now using buttons with titles and system images instead of labels.
+
+---
 
 Here is a list of the topics I'm going to cover:
 
@@ -47,7 +55,9 @@ Anyway, with my icon composed, I saved it as **Cat.icon** and then dragged it in
 
 ![Icon appearance][i3]
 
-If you want to support older systems and have an AppIcon set in **Assets.xcassets**, set the name of your Icon Composer file to AppIcon and your app will use the new one and fall back to the old one if required.
+~~If you want to support older systems and have an AppIcon set in **Assets.xcassets**, set the name of your Icon Composer file to AppIcon and your app will use the new one and fall back to the old one if required.~~
+
+**UPDATE**: It appears that the new icon format is now fully backwards compatible. I've tested going back to macOS 11 and it still shows the new Icon Composer icon, even though I have an old-style icon in **Assets.xcassets**.
 
 One nice touch is that if you select the icon file in the Xcode Project navigator, you get a button under the preview for opening the file in Icon Composer directly.
 
@@ -80,7 +90,7 @@ I wrapped the `VStack` containing the sample buttons in a `ScrollView` and that 
 
 ![Hidden title bar][i7]
 
-Sometimes, this caused a graphical glitch in the `glassProminent` button, but I expect this is a beta issue.
+~~Sometimes, this caused a graphical glitch in the `glassProminent` button, but I expect this is a beta issue.~~ This is fixed in beta 5.
 
 #### Numbers
 
