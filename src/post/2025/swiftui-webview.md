@@ -2,7 +2,7 @@
 title: "SwiftUI WebView"
 date: 2025-08-15 11:11:18
 layout: layouts/post.njk
-draft: true
+draft: false
 categories: ['Swift', 'SwiftUI', 'WebView']
 ---
 
