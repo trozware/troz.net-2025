@@ -8,7 +8,7 @@ categories: ['Apple']
 
 Over the last few years, Apple Inc. has come in for its fair share of criticism. In my opinion, this boils down to two main problems: politics and software quality.
 
-The company has lost it's way several times over the years but it's always kept going and eventually bounced back. Now it's a massive company with more money than any human can imagine, and it's losing it's way again. What can they do to bounce back this time?
+The company has lost its way several times over the years but it has always kept going and eventually bounced back. Now it's a massive company with more money than any human can imagine, and it's losing its way again. What can they do to bounce back this time?
 
 <!--more-->
 
