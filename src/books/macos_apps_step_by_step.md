@@ -1,25 +1,30 @@
 ---
-title: 'macOS by Tutorials'
+title: 'macOS Apps Step by Step'
 layout: 'layouts/article.njk'
+redirect_from: /books/macos_tutorials/
+draft: false
 ---
 
 If you're an iOS developer who wants to branch out into creating native macOS apps, this is the book for you!
 
-The book is available for sale through Gumroad at [macOS by Tutorials][2].
+The book is available for sale through Gumroad at [macOS Apps Step by Step][2].
 
-If you'd like to check out the start of the book including the table of contents and the first chapter, you can read it online at [macOS by Tutorials Sample][4].
+If you'd like to check out the start of the book including the table of contents and the first chapter, you can read it online at [macOS Apps Step by Step Sample][4].
 
-Version 3.0 - released December 2024 - is fully updated to cover macOS 15 Sequoia & Xcode 16.
+This book was previously titled **macOS by Tutorials** and was released in 2022 by [Kodeco][1]. Since they transferred the rights to me, I have released two updates under the same name, but now it feels like time to move on from the Kodeco naming convention and give it a name that is more part of my brand. After considering several options, I put a [poll on Mastodon][5] and **macOS Apps Step by Step** won.
 
----
+Version 4.0 - released 6th November 2025 - is fully updated to cover macOS 26 Tahoe & Xcode 26.
 
-In April 2022, Kodeco published the first edition of [macOS by Tutorials][1]. Nothing stays the same in the world of Apple development, so I started to plan an update after WWDC 2023. At around that time, Kodceo was going through a transformation from being like a library to being more of an educational institution. Their focus was now on multi-modal courses and not on books. They have since reversed their stance on publishing, so you can expect to see more Kodeco books in the future.
+The major changes in this edition include:
 
-Kodeco agreed to transfer the rights of the macOS by Tutorials book to me, since it was out-of-catalog and since then, I have been working on an update which is almost ready for release. I had hoped to have it out before WWDC 2024, but real-life has a habit of getting in the way, and that was not possible, so version 2 was released in July 2024. In October 2024, Apple released macOS 15 Sequoia and Xcode 16. Version 3 of macOS by Tutorials covers changes made in those version of the operating system and development tool.
+* A new title!
+* All projects updated to include new features introduced in macOS 26 Tahoe and Xcode 26.
+* All projects use *Swift 5 or 6* with *Approachable Concurrency*. Swift 5 is still the default in Xcode but I switched all the projects to Swift 6 and made sure that any required changes are documented in the book.
+* The _On This Day_ app has been re-designed to use a more stable `HSplitView` instead of the problematic `NavigationSplitView`.
+* Icons are created using Apple's Icon Composer app.
+* The _MarkWriter_ app uses SwiftUI's `WebView` to display HTML content and adds the ability to work with and edit selected text.
 
----
-
-Every project in this book has been updated to macOS 15 Sequoia and Xcode 16.
+I hope you enjoy this updated edition of ~~macOS by Tutorials~~ **macOS Apps Step by Step.**
 
 ![Book cover][i1]
 
@@ -45,10 +50,11 @@ Because macOS has its roots in Unix, it provides a vast array of command line to
 
 Once you've written your app, you'll want to distribute it to others so they can benefit from your creativity. On macOS, you have more distribution options than you do on iOS. In this section, you'll explore the pros and cons of those options so you can choose which is best for you.
 
-[i1]: /images/2024/mos_cover_small.png
-[1]: https://www.kodeco.com/books/macos-by-tutorials
+[i1]: /images/2025/mac_apps_cover_small.png
+[1]: https://www.kodeco.com/
 [2]: https://sarahreichelt.gumroad.com/l/oximx
 [3]: mailto:books@troz.net?subject=macOS%20by%20Tutorials%20Discount
-[4]: /books/mos_sample.html
+[4]: /books/mac_apps_sample.html
+[5]: https://mastodon.social/@troz/115365045162246609
 [contact]: /contact/
 [kofi]: https://ko-fi.com/trozware

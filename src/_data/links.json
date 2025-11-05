@@ -37,6 +37,12 @@
 			"alt": "Dev To"
 		},
 		{
+			"text": "LinkedIn",
+			"url": "https://www.linkedin.com/in/sarah-reichelt-b35b3615/",
+			"icon": "/images/links/linkedin.svg",
+			"alt": "LinkedIn"
+		},
+		{
 			"text": "RSS Feed",
 			"url": "/index.xml",
 			"icon": "/images/links/rss.svg",

@@ -1,6 +1,18 @@
 {
   "items": [
     {
+      "title": "macOS Apps Step by Step",
+      "link": "/books/macos_apps_step_by_step",
+      "image": "/images/books/mac_apps_cover.png",
+      "description": "If you're an iOS developer who wants to branch out into creating native macOS apps, this is the book for you!",
+      "authors": "Sarah Reichelt",
+      "edition": "Edition 4.0",
+      "published": "published 6th November 2025",
+      "publisher": "Gumroad",
+      "purchase_link": "https://sarahreichelt.gumroad.com/l/oximx",
+      "requirements": "macOS 26 & Xcode 26"
+    },
+    {
       "title": "Escape from Tutorial Hell",
       "link": "/books/escape",
       "image": "/images/books/escape_cover.png",
@@ -10,18 +22,6 @@
       "publisher": "Gumroad",
       "published": "published 18th June 2025",
       "purchase_link": "https://sarahreichelt.gumroad.com/l/iqdry",
-      "requirements": "macOS 15 & Xcode 16"
-    },
-    {
-      "title": "macOS by Tutorials",
-      "link": "/books/macos_tutorials",
-      "image": "/images/books/mos_cover.png",
-      "description": "If you're an iOS developer who wants to branch out into creating native macOS apps, this is the book for you!",
-      "authors": "Sarah Reichelt",
-      "edition": "Edition 3.0",
-      "published": "published 23rd December 2024",
-      "publisher": "Gumroad",
-      "purchase_link": "https://sarahreichelt.gumroad.com/l/oximx",
       "requirements": "macOS 15 & Xcode 16"
     },
     {
