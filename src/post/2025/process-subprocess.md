@@ -2,7 +2,7 @@
 title: 'Moving from Process to Subprocess'
 date: 2025-11-27T10:12:50+10:00
 layout: layouts/post.njk
-draft: true
+draft: false
 categories: ['macOS', 'Terminal', 'Process', 'Subprocess']
 ---
 
