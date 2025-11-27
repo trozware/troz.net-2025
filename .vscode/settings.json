@@ -1,15 +1,10 @@
 {
-  "cSpell.words": [
-    "Siri",
-    "Troz",
-    "xcassets"
-  ],
-  "liveSassCompile.settings.formats":[
-
+  "cSpell.words": ["Kodeco", "Siri", "Troz", "xcassets"],
+  "liveSassCompile.settings.formats": [
     {
-        "format": "compressed",
-        "extensionName": ".css",
-        "savePath": "src/styles"
+      "format": "compressed",
+      "extensionName": ".css",
+      "savePath": "src/styles"
     }
   ]
 }
