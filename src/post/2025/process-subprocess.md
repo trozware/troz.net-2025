@@ -33,7 +33,7 @@ CollectedResult<StringOutput<UTF8>, DiscardedOutput>(processIdentifier: 14711,
 terminationStatus: exited(0), standardOutput: Optional("sarah\n"), standardError: ())
 ```
 
-There are immediate benefits to using Subprocess. I didn't have to specify the full path to the `whoami` command, and I didn't have to set up a pipe and a file handle to see the result. The type of `result` is a `CollectedResult` which contains the `processIdentifier`, `terminationStatus`, `standardOutput` and `standardError`. A `terminationStatus` of 0 means the command completed successfully.
+There are immediate benefits to using Subprocess. I didn't have to specify the full path to the `whoami` command, and I didn't have to set up a pipe and a file handle to see the result. The type of `output` is a `CollectedResult` which contains the `processIdentifier`, `terminationStatus`, `standardOutput` and `standardError`. A `terminationStatus` of 0 means the command completed successfully.
 
 > **NOTE**: If I had wanted to use a particular version of `whoami`, I could have specified the full path like this:
 >
