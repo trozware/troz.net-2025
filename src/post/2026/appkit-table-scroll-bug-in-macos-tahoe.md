@@ -2,7 +2,7 @@
 title: 'NSTableView scroll bug in macOS Tahoe'
 date: 2026-01-31 09:39:37
 layout: layouts/post.njk
-draft: true
+draft: false
 categories: ['AppKit', 'macOS', 'NSTableView', 'macOS Tahoe']
 ---
 
