@@ -2,13 +2,13 @@
 title: 'Playing in the Mac App Sandbox'
 date: 2026-03-23 14:57:12
 layout: layouts/post.njk
-draft: true
+draft: false
 categories: [macOS, Sandbox]
 ---
 
-Every app running on any Apple device, including a Mac, runs inside a sandbox by default. This system keeps the app's data and settings isolated from other parts of the system so they cannot interfere with each other. As a Mac app developer, this is usually what you want to do, but sometimes the default sandbox settings do not allow your app to operate the way you need. In many cases you can work around this by adjusting the sandbox, but for some apps, you have to turn off sandboxing.
+Every app running on any Apple device, including a Mac, runs inside a sandbox by default. This keeps the app's data and settings isolated from other parts of the system so they cannot interfere with each other. As a Mac app developer, this is usually what you want, but sometimes the default sandbox settings do not allow your app to operate the way you need. In many cases you can work around this by adjusting the sandbox, but for some apps, you have to turn off sandboxing.
 
-In this article, I want to walk through what the sandbox does by default, how you can configure its settings for various tasks, when you need to turn it off and why it's actually a good idea.
+In this article, I want to walk through what the sandbox does by default, how you can configure its settings for various tasks, when you need to turn it off, and why it's actually a good idea.
 
 <!--more-->
 
@@ -39,7 +39,7 @@ func saveTestString() {
 
   let saveString = """
     This is a test.
-    Where do you think it will it save?
+    Where do you think it will save?
     """
 
   try? saveString
@@ -57,13 +57,13 @@ So the question is: where does this file end up? If you were expecting it to be 
 
 Run the app or refresh the SwiftUI Preview and click the button. Now let's go and find the file...
 
-In Finder, hold down **Option** and open the **Go** menu. Select **Library** and when the window opens, locate and open the **Containers** folder. My app is called Sandbox, so in Containers, I see a folder called **Sandbox** that has a single folder called **Data**. And here's where things get interesting.
+In Finder, hold down **Option** and open the **Go** menu. Select **Library** and when the window opens, locate and open the **Containers** folder. My app is called Sandbox, so in Containers, I see a folder called **Sandbox** that has a single folder called **Data**. And here's where things get interesting:
 
 ![Container folder contents][i1]
 
 The folders where the icons have a small black arrow at the bottom left are aliases to your actual Desktop, Downloads etc. The folders with the standard folder icon are specific to this app and they are stored inside the container so that the app can't over-write any other app's data. The default sandbox settings allow your app to read and write any files here.
 
-Your app's settings are stored in the **Library/Preferences** folder inside this Data folder. You should write any app data to these folders.
+You should write any app data to these folders. Your app stores its settings in the **Library/Preferences** folder inside this Data folder.
 
 [Back to top](#top)
 
@@ -97,11 +97,11 @@ I think the one I have highlighted is the relevant one. When I enabled **Outgoin
 
 ### Hardware
 
-The hardware section lets you enable any extra hardware features that your app need access to. The only one I've ever used is **Printing**. The **USB** option does not need to be checked to allow standard peripherals like keyboards and mice to work, but if your app needs to communicate with a USB device directly, then enable this.
+The hardware section lets you enable any extra hardware features that your app needs access to. The only one I've ever used is **Printing**. The **USB** option does not need to be checked to allow standard peripherals like keyboards and mice to work, but if your app needs to communicate with a USB device directly, then enable this.
 
-Similarly, if your app needs to record audio, take photos or connect to any Bluetooth devices directly, you need to enable the relevant options here.
+Similarly, for your app to record audio, take photos or connect to any Bluetooth devices directly, you need to enable the relevant options here.
 
-If you enable any of these, click the **+ Capability** button and search for a new capability for the option that you can use to explain to the user why the app needs this access.
+If you enable any of these, click the **+ Capability** button and search for a new capability for the name that you can use to explain to the user why the app needs this access.
 
 <a id="app-data"></a>
 
@@ -109,17 +109,17 @@ If you enable any of these, click the **+ Capability** button and search for a n
 
 Similar to the hardware settings, if your app needs to access the user's contacts, calendars or location, you need to enable that here.
 
-In an iOS app, this is done using Privacy settings in the **Info.plist** where you have to give a reason for why your app wants access. For a Mac app, you just need to enable the relevant option in the sandbox settings and the system will prompt the user for permission when needed. As with the hardware settings, look for a new capability that can supply this information.
+In an iOS app, this is done using Privacy settings in the **Info.plist** where you have to give a reason for why your app wants access. For a Mac app, you enable the relevant option in the sandbox settings and the system will prompt the user for permission when needed. As with the hardware settings, look for a new capability that can tell the user why you need this access.
 
 <a id="file-access"></a>
 
 ### File Access
 
-Now we get to the really interesting section. Ignoring the first option for now, the other four options give access to specific folders on the users system. You can choose to give your app no access by selecting **None** (the default), **Read Only** access or **Read/Write** access to any of these folders.
+Now we get to the really interesting section. Ignoring the first option for now, the other four options give access to specific folders on the users system. You can choose to give your app no access by selecting **None** (the default), **Read Only** access, or **Read/Write** access to any of these folders.
 
-The top entry is the **User Selected File** option. This lets your app access any files and folders that the user has specifically selected. Again, you can selected **Read Only** or **Read/Write** access. But there are some oddities about this that need more explanation.
+The top entry is the **User Selected File** option. This lets your app access any files and folders that the user has specifically selected using a file dialog. Again, you can select **Read Only** or **Read/Write** access. But there are some oddities about this that need more explanation.
 
-Leaving this at the default of **Read Only**, I'm going to add to my sample app. I added another tab which has its own view - `OpenFilesDemo`. This contains an `AsyncImage` that loads an image from an optional URL and two buttons:
+Leaving this at the default of **Read Only**, I'm going to add to my sample app. I added another tab which has its own view – `OpenFilesDemo`. This contains an `AsyncImage` that loads an image from an optional URL and two buttons:
 
 ![ImageReaderView][i5]
 
@@ -127,7 +127,7 @@ Leaving this at the default of **Read Only**, I'm going to add to my sample app.
 
 #### Using NSOpenPanel
 
-The first button uses AppKit to show a file dialog and use it to populate the image URL. Here's the function that it calls:
+The first button uses AppKit to show a file dialog and uses the result to populate the image URL. Here's the function that it calls:
 
 ```swift
 func selectAppKit() {
@@ -145,7 +145,7 @@ func selectAppKit() {
 }
 ```
 
-This uses AppKit's `NSOpenPanel` to show a file dialog. It's configured to allow only image files to be selected. When the user selects a file, the URL is stored in `imageUrl`. This optional URL is already connected to the `AsyncImage`, so when it is set, the image will load. It's cleared before showing the panel to make sure that the image does a complete refresh, even if there's an error or the same image is selected again. This method works perfectly and the selected image appears.
+This uses AppKit's `NSOpenPanel` configured to allow only image files to be selected. When the user selects a file, the URL is stored in `imageUrl`. This optional URL is already connected to the `AsyncImage`, so when it is set, the image will load. It's cleared before showing the panel to make sure that the image does a complete refresh, even if there's been an error or the same image is selected again. This method works perfectly and the selected image appears.
 
 <a id="using-fileimporter"></a>
 
@@ -177,7 +177,7 @@ As with the `NSOpenPanel`, this restricts the user to selecting image files. The
 
 ![File importer warning][i4]
 
-As with so many Xcode warnings, this doesn't really help but the docs for `fileImporter` are more useful. It turns out that `NSOpenPanel` returns a usable URL but when you use `fileImporter` inside a sandboxed app, it gives you a **security-scoped bookmark** which you cannot use requesting access from the system.
+As with so many Xcode warnings, this doesn't really help but the docs for `fileImporter` are more useful. It turns out that `NSOpenPanel` returns a usable URL but when you use `fileImporter` inside a sandboxed app, it gives you a **security-scoped bookmark** which you cannot use before requesting access from the system.
 
 I updated the `.success` case to this:
 
@@ -199,15 +199,15 @@ Because I'm using an `AsyncImage`, I can't stop the access immediately after set
 }
 ```
 
-Because the `imageUrl` property is cleared every time, this runs whenever a new image appears. It doesn't matter whether the URL is security-scoped or not - this works either way.
+Because the `imageUrl` property is cleared every time, this runs whenever a new image appears. It doesn't matter whether the URL is security-scoped or not – this works either way.
 
 <a id="saving-urls"></a>
 
 #### Saving URLs
 
-Before moving on from this topic, there is one more issue that effects URLs no matter how they are selected and that's if you want to save them for re-use next time the app runs. Lets say we want to store the selected image URL and re-display that image when the app is launched again.
+Before moving on from this topic, there is one more issue that effects URLs no matter how they are selected and that's if you want to save them for re-use next time the app runs. Let's say we want to store the selected image URL and re-display that image when the app is launched again.
 
-In a non-sandboxed app, this is easy - change the `imageURL` property from using `@State` to `@AppStorage` and it _just works_.
+In a non-sandboxed app, this is easy – change the `imageURL` property from using `@State` to `@AppStorage` and it _just works_.
 
 ```swift
 // @State private var imageUrl: URL?
@@ -291,7 +291,7 @@ To call this, I added a modifier to the `VStack`:
 .onAppear(perform: loadImageUrlFromBookmark)
 ```
 
-So now we have a technique that saves and loads URLs in a sandboxed app - hurray!
+So now we have a technique that saves and loads URLs in a sandboxed app – hurray!
 
 If you want to test the `isStale` part, run the app and select an image. Then quit the app and move the image file to a different folder. When you run the app again, it will load the image from the new location which is pretty amazing, in my opinion.
 
@@ -328,11 +328,11 @@ So now we need to add an entitlements file to the project.
 
 Apple has made this more difficult over the years. Previously, Xcode created an entitlements file for every project so it was there to be edited. Now it doesn't exist so you have to create it manually which is a multi-stage process.
 
-First, we have to add a new file to the project. Select the Sandbox folder in the Xcode project navigator - this is the second entry from the top and selecting it ensures your entitlements file will be where it should be. Use **Command-N** to open the file template chooser and search for **property** to find the **Property List** template:
+First, we have to add a new file to the project. Select the Sandbox folder in the Xcode project navigator – this is the second entry from the top and selecting it ensures your entitlements file will be where it should be. Use **Command-N** to open the file template chooser and search for **property** to find the **Property List** template:
 
 ![Property List template][i7]
 
-Click **Next** and change the name of the file to **Sandbox.entitlements** - make sure you change the file extension from the default **.plist** to **.entitlements**. Un-check the target - this file will not be part of the target app bundle, it's used by Xcode when building the app:
+Click **Next** and change the name of the file to **Sandbox.entitlements** – make sure you change the file extension from the default **.plist** to **.entitlements**. Un-check the target – this file will not be part of the target app bundle, it's used by Xcode when building the app:
 
 ![Entitlements file save settings][i8]
 
@@ -342,7 +342,7 @@ In Property List edit mode, it will look like this:
 
 ![Entitlements file in Property List edit mode][i9]
 
-If you want to check it or prefer to edit as text, right-click on the file in the Project navigator and select **Open As > Source Code** to see the XML:
+If you want to check this or prefer to edit as text, right-click on the file in the Project navigator and select **Open As > Source Code** to see the XML:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -360,7 +360,7 @@ If you want to check it or prefer to edit as text, right-click on the file in th
 
 The final stage is to tell Xcode to use this entitlements file. Select the project at the top of the Project navigator, then select the app target and go to **Build Settings**. Select **All** at the top and then search for **entitlements** to find the **Code Signing Entitlements** entry.
 
-Double-click to the right of this entry to popup an edit box and type in **Sandbox/Sandbox.entitlements** - this is the path to the entitlements file that we just created, relative to the project folder:
+Double-click to the right of this entry to popup an edit box and type in **Sandbox/Sandbox.entitlements** – this is the path to the entitlements file that we just created, relative to the project folder:
 
 ![Build settings for entitlements][10]
 
@@ -391,15 +391,15 @@ Your experience will differ but sometimes this is the only way to allow your app
 
 ### Why Use the Sandbox At All?
 
-So after over 2,000 words on how to work around all the sandbox limitations, you're probably wondering if it's worth the effort. Why not just turn it off and make everything easier?
+So after nearly 3,000 words on how to work around all the sandbox limitations, you're probably wondering if it's worth the effort. Why not just turn it off and make everything easier?
 
-There are two main reasons to use the sandbox, even if it causes some extra work.
+There are two main reasons to use the sandbox, even if it causes some extra work:
 
 1. Only sandboxed apps can be distributed through the Mac App Store. This is not a deal-breaker because Mac apps can be distributed outside the App Store, but it's something to consider.
 
-2. Sandboxing is a security feature that protects your app and your users. With your data and settings confined to their own container, there is little chance of any interference between your app, the system and any other apps, including any malware.
+2. Sandboxing is a security feature that protects your app and your users. With your data and settings confined to their own container, there is little chance of any interference between your app, the system, and any other apps, including any malware.
 
-Apple is tightening the restrictions on what apps can be installed and run on a Mac by default. Even if you decide not to sandbox your app, I strongly recommend that you sign it and get Apple to notarize it so that it can be installed and run without the user having to put up with scary warnings and obscure activation steps. This doesn't require sandboxing but you do have need an Apple Developer account and the app's **Signing & Capabilities** settings must include the **Hardened Runtime** capability.
+Apple is tightening the restrictions on what apps can be installed and run on a Mac by default. Even if you decide not to sandbox your app, I strongly recommend that you sign it and get Apple to notarize it, so that your users can install and run it without having to put up with scary warnings and obscure activation steps. This doesn't require sandboxing but does require an Apple Developer account and the app's **Signing & Capabilities** settings must include the **Hardened Runtime** capability.
 
 My recommendation is to start every project with the sandbox enabled and using all the default settings. Enable extra permissions only as you need them. Add entitlements if the settings do not allow what you need. Only turn off sandboxing if there is no other way to make your app work.
 
