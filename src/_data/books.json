@@ -30,11 +30,11 @@
       "image": "/images/books/maca_cover.png",
       "description": "If you've always wanted to write your own native macOS apps, this is a great place to start. Learn to build beautiful and functional native apps.",
       "authors": "Sarah Reichelt",
-      "edition": "Second Edition",
-      "published": "published 5th March 2025",
+      "edition": "Third Edition",
+      "published": "published 24th April 2026",
       "publisher": "Kodeco",
       "purchase_link": "https://www.kodeco.com/books/macos-apprentice",
-      "requirements": "Swift 5.9, macOS 15, Xcode 16.2"
+      "requirements": "Swift 6, macOS 26, Xcode 26"
     },
     {
       "title": "SwiftUI by Tutorials",
