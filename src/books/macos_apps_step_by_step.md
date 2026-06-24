@@ -13,16 +13,17 @@ If you'd like to check out the start of the book including the table of contents
 
 This book was previously titled **macOS by Tutorials** and was released in 2022 by [Kodeco][1]. Since they transferred the rights to me, I have released two updates under the same name, but now it feels like time to move on from the Kodeco naming convention and give it a name that is more part of my brand. After considering several options, I put a [poll on Mastodon][5] and **macOS Apps Step by Step** won.
 
-Version 4.0 - released 6th November 2025 - is fully updated to cover macOS 26 Tahoe & Xcode 26.
+- Version 4.0 - released 6th November 2025 - is fully updated to cover macOS 26 Tahoe & Xcode 26.
+- Version 4.1 - released 24th June 2026 - is a minor update to work with the new structure of the API used in the first app: On This Day.
 
 The major changes in this edition include:
 
-* A new title!
-* All projects updated to include new features introduced in macOS 26 Tahoe and Xcode 26.
-* All projects use *Swift 5 or 6* with *Approachable Concurrency*. Swift 5 is still the default in Xcode but I switched all the projects to Swift 6 and made sure that any required changes are documented in the book.
-* The _On This Day_ app has been re-designed to use a more stable `HSplitView` instead of the problematic `NavigationSplitView`.
-* Icons are created using Apple's Icon Composer app.
-* The _MarkWriter_ app uses SwiftUI's `WebView` to display HTML content and adds the ability to work with and edit selected text.
+- A new title!
+- All projects updated to include new features introduced in macOS 26 Tahoe and Xcode 26.
+- All projects use _Swift 5 or 6_ with _Approachable Concurrency_. Swift 5 is still the default in Xcode but I switched all the projects to Swift 6 and made sure that any required changes are documented in the book.
+- The _On This Day_ app has been re-designed to use a more stable `HSplitView` instead of the problematic `NavigationSplitView`.
+- Icons are created using Apple's Icon Composer app.
+- The _MarkWriter_ app uses SwiftUI's `WebView` to display HTML content and adds the ability to work with and edit selected text.
 
 I hope you enjoy this updated edition of ~~macOS by Tutorials~~ **macOS Apps Step by Step.**
 
@@ -50,7 +51,7 @@ Because macOS has its roots in Unix, it provides a vast array of command line to
 
 Once you've written your app, you'll want to distribute it to others so they can benefit from your creativity. On macOS, you have more distribution options than you do on iOS. In this section, you'll explore the pros and cons of those options so you can choose which is best for you.
 
-[i1]: /images/2025/mac_apps_cover_small.png
+[i1]: /images/books/mac_apps_cover.png
 [1]: https://www.kodeco.com/
 [2]: https://sarahreichelt.gumroad.com/l/oximx
 [3]: mailto:books@troz.net?subject=macOS%20by%20Tutorials%20Discount
